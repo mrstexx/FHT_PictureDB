@@ -35,3 +35,4 @@
 /.teamcity/target
 
 *.class
+/logs/
