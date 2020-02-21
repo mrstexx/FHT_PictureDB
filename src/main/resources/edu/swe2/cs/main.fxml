@@ -1,14 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="edu.swe2.cs.Main"
-            prefHeight="400.0" prefWidth="600.0">
-    <Label>Hello, World!</Label>
+<AnchorPane minHeight="600" minWidth="400" prefHeight="600.0" prefWidth="800.0"
+            xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="edu.swe2.cs.Main">
+    <HBox prefHeight="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <children>
+            <MenuBar HBox.hgrow="ALWAYS">
+                <menus>
+                    <Menu mnemonicParsing="false" text="File">
+                        <items>
+                            <MenuItem mnemonicParsing="false" text="New Picture"/>
+                            <MenuItem mnemonicParsing="false" text="New Photograph"/>
+                            <SeparatorMenuItem/>
+                            <MenuItem mnemonicParsing="false" text="Exit"/>
+                        </items>
+                    </Menu>
+                </menus>
+                <menus>
+                    <Menu mnemonicParsing="false" text="Edit">
+                        <items>
+                            <MenuItem mnemonicParsing="false" text="Edit Photograph"/>
+                        </items>
+                    </Menu>
+                </menus>
+                <menus>
+                    <Menu mnemonicParsing="false" text="Options">
+                        <items>
+                            <MenuItem mnemonicParsing="false" text="Assign Pictures"/>
+                            <MenuItem mnemonicParsing="false" text="Export to PDF"/>
+                        </items>
+                    </Menu>
+                </menus>
+                <menus>
+                    <Menu mnemonicParsing="false" text="Help">
+                        <items>
+                            <MenuItem mnemonicParsing="false" text="How-to Article"/>
+                            <MenuItem mnemonicParsing="false" text="About Us"/>
+                        </items>
+                    </Menu>
+                </menus>
+            </MenuBar>
+        </children>
+    </HBox>
+    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+          AnchorPane.topAnchor="25.0">
+
+    </VBox>
 </AnchorPane>
