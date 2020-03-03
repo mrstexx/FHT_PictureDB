@@ -1,6 +1,6 @@
-package edu.swe2.cs.DAL;
+package edu.swe2.cs.dal;
 
-import edu.swe2.cs.Config.ConfigProperties;
+import edu.swe2.cs.config.ConfigProperties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

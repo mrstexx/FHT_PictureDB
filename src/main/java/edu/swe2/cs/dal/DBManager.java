@@ -1,6 +1,6 @@
-package edu.swe2.cs.DAL;
+package edu.swe2.cs.dal;
 
-import edu.swe2.cs.Config.ConfigProperties;
+import edu.swe2.cs.config.ConfigProperties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -73,9 +73,9 @@ public class DBManager {
     private void initializeBaseTables() {
         try {
             createPhotographerTable();
-            createPictureTable();
             createEXIFTable();
             createIPTCTable();
+            createPictureTable();
         } catch (SQLException e) {
             LOGGER.error("Failed to create base tables");
         }
@@ -101,9 +101,17 @@ public class DBManager {
         stringBuilder.append("\n");
         stringBuilder.append("photographer_id INTEGER,");
         stringBuilder.append("\n");
+        stringBuilder.append("exif_id INTEGER NOT NULL UNIQUE,");
+        stringBuilder.append("\n");
+        stringBuilder.append("iptc_id INTEGER UNIQUE,");
+        stringBuilder.append("\n");
         stringBuilder.append("file_name TEXT NOT NULL,");
         stringBuilder.append("\n");
-        stringBuilder.append("FOREIGN KEY (photographer_id) REFERENCES photographer(id))");
+        stringBuilder.append("FOREIGN KEY (photographer_id) REFERENCES photographer(id),");
+        stringBuilder.append("\n");
+        stringBuilder.append("FOREIGN KEY (exif_id) REFERENCES exif_info(id),");
+        stringBuilder.append("\n");
+        stringBuilder.append("FOREIGN KEY (iptc_id) REFERENCES iptc_info(id))");
         execUpdate(stringBuilder.toString());
     }
 
@@ -112,15 +120,13 @@ public class DBManager {
         stringBuilder.append("\n");
         stringBuilder.append("id SERIAL PRIMARY KEY,");
         stringBuilder.append("\n");
-        stringBuilder.append("picture_id INTEGER NOT NULL,");
-        stringBuilder.append("\n");
         stringBuilder.append("camera TEXT NOT NULL,");
         stringBuilder.append("\n");
         stringBuilder.append("lens TEXT NOT NULL,");
         stringBuilder.append("\n");
-        stringBuilder.append("date TIMESTAMP NOT NULL,");
+        stringBuilder.append("date TIMESTAMP NOT NULL");
         stringBuilder.append("\n");
-        stringBuilder.append("FOREIGN KEY (picture_id) REFERENCES picture(id))");
+        stringBuilder.append(")");
         execUpdate(stringBuilder.toString());
     }
 
@@ -129,15 +135,13 @@ public class DBManager {
         stringBuilder.append("\n");
         stringBuilder.append("id SERIAL PRIMARY KEY,");
         stringBuilder.append("\n");
-        stringBuilder.append("picture_id INTEGER NOT NULL,");
+        stringBuilder.append("title TEXT,");
         stringBuilder.append("\n");
-        stringBuilder.append("title TEXT NOT NULL,");
+        stringBuilder.append("caption TEXT,");
         stringBuilder.append("\n");
-        stringBuilder.append("caption TEXT NOT NULL,");
+        stringBuilder.append("city TEXT");
         stringBuilder.append("\n");
-        stringBuilder.append("city TEXT NOT NULL,");
-        stringBuilder.append("\n");
-        stringBuilder.append("FOREIGN KEY (picture_id) REFERENCES picture(id))");
+        stringBuilder.append(")");
         execUpdate(stringBuilder.toString());
     }
 }

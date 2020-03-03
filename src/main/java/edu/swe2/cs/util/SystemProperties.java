@@ -1,4 +1,4 @@
-package edu.swe2.cs.Util;
+package edu.swe2.cs.util;
 
 public class SystemProperties {
 

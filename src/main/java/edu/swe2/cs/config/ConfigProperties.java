@@ -1,9 +1,11 @@
-package edu.swe2.cs.Config;
+package edu.swe2.cs.config;
 
-import edu.swe2.cs.DAL.DALFactory;
-import edu.swe2.cs.DAL.DBManager;
-import edu.swe2.cs.DAL.IDAL;
-import edu.swe2.cs.Util.URLBuilder;
+import edu.swe2.cs.dal.DALFactory;
+import edu.swe2.cs.dal.DBManager;
+import edu.swe2.cs.dal.IDAL;
+import edu.swe2.cs.model.Photographer;
+import edu.swe2.cs.model.Picture;
+import edu.swe2.cs.util.URLBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,6 +15,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 
 public class ConfigProperties {
@@ -73,11 +77,15 @@ public class ConfigProperties {
     public static void main(String[] args) {
         try {
             IDAL dal = DALFactory.getDAL();
-            dal.initialize();
             Connection con = DBManager.getInstance().getConnection();
+            Picture picture = dal.getPicture(con, 2);
+            List<Photographer> photographers = dal.getPhotographers(con);
+            List<Picture> pictures = dal.getPictures(con);
             DBManager.closeConnection();
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
             LOGGER.error("Failed to load DAL");
+        } catch (SQLException e) {
+            LOGGER.error("Failed to load picture from db");
         }
     }
 
