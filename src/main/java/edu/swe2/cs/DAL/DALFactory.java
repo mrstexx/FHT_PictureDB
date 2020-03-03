@@ -9,15 +9,11 @@ import java.lang.reflect.InvocationTargetException;
 public class DALFactory {
 
     private final static Logger LOGGER = LogManager.getLogger(DALFactory.class.getName());
-    private static ConfigProperties properties = null;
-
-    public DALFactory(ConfigProperties properties) {
-        this.properties = properties;
-    }
 
     public static IDAL getDAL() throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        if (properties != null) {
-            return (IDAL) Class.forName(properties.getProperty("DALClass")).getDeclaredConstructor().newInstance();
+        String dalClass = ConfigProperties.getProperty("DALClass");
+        if (dalClass != null) {
+            return (IDAL) Class.forName(dalClass).getDeclaredConstructor().newInstance();
         }
         LOGGER.info("Database Name unknown");
         return null;

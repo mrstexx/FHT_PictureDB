@@ -13,44 +13,51 @@ import java.sql.SQLException;
 public class DBManager {
 
     private final static Logger LOGGER = LogManager.getLogger(DBManager.class.getName());
-    private String driver = null;
-    private ConfigProperties properties = null;
-    private String url = null;
-    private String user = null;
-    private String password = null;
-    private Connection connection = null;
+    private static String driver = null;
+    private static String url = null;
+    private static String user = null;
+    private static String password = null;
+    private static Connection connection = null;
+    private static DBManager dbManager = null;
 
-    public DBManager(ConfigProperties properties) {
-        this.properties = properties;
+    private DBManager() {
         initialize();
     }
 
     private void initialize() {
-        this.driver = properties.getProperty("driver");
-        this.url = properties.getProperty("url");
-        this.user = properties.getProperty("user");
-        this.password = properties.getProperty("password");
+        this.driver = ConfigProperties.getProperty("driver");
+        this.url = ConfigProperties.getProperty("url");
+        this.user = ConfigProperties.getProperty("user");
+        this.password = ConfigProperties.getProperty("password");
         this.connection = getConnection();
         initializeBaseTables();
     }
 
-    public Connection getConnection() {
-        Connection con = null;
-        try {
-            Class.forName(driver);
-            con = DriverManager.getConnection(url, user, password);
-            LOGGER.info("Establishing db connection..");
-        } catch (SQLException e) {
-            LOGGER.warn("Unable to establish a connection to Database");
-        } catch (ClassNotFoundException e) {
-            LOGGER.warn("Failed to load driver class " + driver);
+    public static DBManager getInstance() {
+        if (dbManager == null) {
+            dbManager = new DBManager();
         }
-        return con;
+        return dbManager;
     }
 
-    public void closeConnection(Connection con) {
+    public Connection getConnection() {
+        if (connection == null) {
+            try {
+                Class.forName(driver);
+                connection = DriverManager.getConnection(url, user, password);
+                LOGGER.info("Establishing db connection..");
+            } catch (SQLException e) {
+                LOGGER.warn("Unable to establish a connection to Database");
+            } catch (ClassNotFoundException e) {
+                LOGGER.warn("Failed to load driver class " + driver);
+            }
+        }
+        return connection;
+    }
+
+    public static void closeConnection() {
         try {
-            con.close();
+            connection.close();
             LOGGER.info("Closing db connection..");
         } catch (SQLException e) {
             LOGGER.error("Unable to close connection to database");
@@ -67,6 +74,8 @@ public class DBManager {
         try {
             createPhotographerTable();
             createPictureTable();
+            createEXIFTable();
+            createIPTCTable();
         } catch (SQLException e) {
             LOGGER.error("Failed to create base tables");
         }
@@ -87,6 +96,48 @@ public class DBManager {
 
     private void createPictureTable() throws SQLException {
         StringBuilder stringBuilder = new StringBuilder("CREATE TABLE IF NOT EXISTS picture(");
+        stringBuilder.append("\n");
+        stringBuilder.append("id SERIAL PRIMARY KEY,");
+        stringBuilder.append("\n");
+        stringBuilder.append("photographer_id INTEGER,");
+        stringBuilder.append("\n");
+        stringBuilder.append("file_name TEXT NOT NULL,");
+        stringBuilder.append("\n");
+        stringBuilder.append("FOREIGN KEY (photographer_id) REFERENCES photographer(id))");
+        execUpdate(stringBuilder.toString());
+    }
+
+    private void createEXIFTable() throws SQLException {
+        StringBuilder stringBuilder = new StringBuilder("CREATE TABLE IF NOT EXISTS exif_info(");
+        stringBuilder.append("\n");
+        stringBuilder.append("id SERIAL PRIMARY KEY,");
+        stringBuilder.append("\n");
+        stringBuilder.append("picture_id INTEGER NOT NULL,");
+        stringBuilder.append("\n");
+        stringBuilder.append("camera TEXT NOT NULL,");
+        stringBuilder.append("\n");
+        stringBuilder.append("lens TEXT NOT NULL,");
+        stringBuilder.append("\n");
+        stringBuilder.append("date TIMESTAMP NOT NULL,");
+        stringBuilder.append("\n");
+        stringBuilder.append("FOREIGN KEY (picture_id) REFERENCES picture(id))");
+        execUpdate(stringBuilder.toString());
+    }
+
+    private void createIPTCTable() throws SQLException {
+        StringBuilder stringBuilder = new StringBuilder("CREATE TABLE IF NOT EXISTS iptc_info(");
+        stringBuilder.append("\n");
+        stringBuilder.append("id SERIAL PRIMARY KEY,");
+        stringBuilder.append("\n");
+        stringBuilder.append("picture_id INTEGER NOT NULL,");
+        stringBuilder.append("\n");
+        stringBuilder.append("title TEXT NOT NULL,");
+        stringBuilder.append("\n");
+        stringBuilder.append("caption TEXT NOT NULL,");
+        stringBuilder.append("\n");
+        stringBuilder.append("city TEXT NOT NULL,");
+        stringBuilder.append("\n");
+        stringBuilder.append("FOREIGN KEY (picture_id) REFERENCES picture(id))");
         execUpdate(stringBuilder.toString());
     }
 }

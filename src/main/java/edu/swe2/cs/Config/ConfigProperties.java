@@ -18,10 +18,12 @@ import java.util.Properties;
 public class ConfigProperties {
 
     private final static Logger LOGGER = LogManager.getLogger(ConfigProperties.class.getName());
-    private Properties properties = null;
+    private final static String FILENAME = "Config.properties";
+    private static Properties properties = null;
+    private static ConfigProperties configProperties = null;
 
-    public ConfigProperties(String fileName) {
-        initialize(fileName);
+    private ConfigProperties() {
+        initialize(FILENAME);
     }
 
     private void initialize(String fileName) {
@@ -42,18 +44,26 @@ public class ConfigProperties {
         }
     }
 
-    public String getProperty(String key) {
-        if (this.properties != null) {
-            return this.properties.getProperty(key);
+    private static void checkConfigProperties() {
+        if (properties == null) {
+            configProperties = new ConfigProperties();
+        }
+    }
+
+    public static String getProperty(String key) {
+        checkConfigProperties();
+        if (properties != null) {
+            return properties.getProperty(key);
         } else {
             LOGGER.info("No properties loaded.");
         }
         return null;
     }
 
-    public void setProperty(String key, String value) {
-        if (this.properties != null) {
-            this.properties.setProperty(key, value);
+    public static void setProperty(String key, String value) {
+        checkConfigProperties();
+        if (properties != null) {
+            properties.setProperty(key, value);
         } else {
             LOGGER.info("No properties loaded");
         }
@@ -61,14 +71,11 @@ public class ConfigProperties {
 
     /* TESTING */
     public static void main(String[] args) {
-        ConfigProperties configProperties = new ConfigProperties("Config.properties");
-        DALFactory dalFactory = new DALFactory(configProperties);
         try {
-            IDAL dal = dalFactory.getDAL();
+            IDAL dal = DALFactory.getDAL();
             dal.initialize();
-            DBManager dbManager = new DBManager(configProperties);
-            Connection con = dbManager.getConnection();
-            dbManager.closeConnection(con);
+            Connection con = DBManager.getInstance().getConnection();
+            DBManager.closeConnection();
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
             LOGGER.error("Failed to load DAL");
         }
