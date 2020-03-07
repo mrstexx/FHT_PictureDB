@@ -36,35 +36,4 @@ public class MainWindowViewModel extends Application {
         primaryStage.setMinWidth(600);
         primaryStage.show();
     }
-
-    public void exit() {
-    }
-
-    public void showAboutUs() {
-
-    }
-
-    public void showHowToArticle() {
-
-    }
-
-    public void addNewPicture() {
-
-    }
-
-    public void addNewPhotographer() {
-
-    }
-
-    public void exportToPDFReport() {
-
-    }
-
-    public void assignPictures() {
-
-    }
-
-    public void editPhotograph() {
-
-    }
 }

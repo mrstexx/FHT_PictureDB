@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<MenuBar HBox.hgrow="ALWAYS" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.swe2.cs.MainWindowViewModel">
+<MenuBar HBox.hgrow="ALWAYS" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.swe2.cs.views.MenuBarView">
     <menus>
         <Menu mnemonicParsing="false" text="File">
             <items>
