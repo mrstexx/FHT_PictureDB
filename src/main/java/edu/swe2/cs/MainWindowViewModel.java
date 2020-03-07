@@ -11,9 +11,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
-public class Main extends Application {
+public class MainWindowViewModel extends Application {
 
-    private static final Logger LOG = LogManager.getLogger(Main.class);
+    private static final Logger LOG = LogManager.getLogger(MainWindowViewModel.class);
 
     public static void main(String[] args) {
         launch(args);
@@ -24,16 +24,47 @@ public class Main extends Application {
         LOG.info("Starting application...");
         Parent root;
         try {
-            root = FXMLLoader.load(getClass().getResource("main.fxml"));
+            root = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Picture Database");
-        primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("icon.png")));
+        primaryStage.getIcons().add(new Image(MainWindowViewModel.class.getResourceAsStream("icon.png")));
         primaryStage.setMinHeight(400);
         primaryStage.setMinWidth(600);
         primaryStage.show();
+    }
+
+    public void exit() {
+    }
+
+    public void showAboutUs() {
+
+    }
+
+    public void showHowToArticle() {
+
+    }
+
+    public void addNewPicture() {
+
+    }
+
+    public void addNewPhotographer() {
+
+    }
+
+    public void exportToPDFReport() {
+
+    }
+
+    public void assignPictures() {
+
+    }
+
+    public void editPhotograph() {
+
     }
 }

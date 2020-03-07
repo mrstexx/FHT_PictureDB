@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<MenuBar HBox.hgrow="ALWAYS" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.swe2.cs.MainWindowViewModel">
+    <menus>
+        <Menu mnemonicParsing="false" text="File">
+            <items>
+                <MenuItem mnemonicParsing="false" text="New Picture" onAction="#addNewPicture"/>
+                <MenuItem mnemonicParsing="false" text="New Photograph" onAction="#addNewPhotographer"/>
+                <SeparatorMenuItem/>
+                <MenuItem mnemonicParsing="false" text="Exit" onAction="#exit"/>
+            </items>
+        </Menu>
+    </menus>
+    <menus>
+        <Menu mnemonicParsing="false" text="Edit">
+            <items>
+                <MenuItem mnemonicParsing="false" text="Edit Photograph" onAction="#editPhotograph"/>
+            </items>
+        </Menu>
+    </menus>
+    <menus>
+        <Menu mnemonicParsing="false" text="Options">
+            <items>
+                <MenuItem mnemonicParsing="false" text="Assign Pictures" onAction="#assignPictures"/>
+                <MenuItem mnemonicParsing="false" text="Export to PDF" onAction="#exportToPDFReport"/>
+            </items>
+        </Menu>
+    </menus>
+    <menus>
+        <Menu mnemonicParsing="false" text="Help">
+            <items>
+                <MenuItem mnemonicParsing="false" text="How-to Article" onAction="#showHowToArticle"/>
+                <MenuItem mnemonicParsing="false" text="About Us" onAction="#showAboutUs"/>
+            </items>
+        </Menu>
+    </menus>
+</MenuBar>
