@@ -15,6 +15,6 @@ public class SearchBarView {
     public Button searchButton;
 
     public void onSearch() {
-        // call method from view model here
+        viewModel.search(searchTextField.getText());
     }
 }

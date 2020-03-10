@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.geometry.Insets?>
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:id="hBox"
+      fx:controller="edu.swe2.cs.views.PictureView" alignment="CENTER" prefHeight="100.0" prefWidth="200.0"
+      AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+      AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <children>
+        <ImageView fx:id="currentPicture" fitWidth="300.0" pickOnBounds="true"
+                   preserveRatio="true" HBox.hgrow="ALWAYS">
+            <image>
+                <Image url="@../../../../test_images/img-2.jpg"/>
+            </image>
+            <HBox.margin>
+                <Insets/>
+            </HBox.margin>
+            <viewport>
+                <Rectangle2D/>
+            </viewport>
+        </ImageView>
+    </children>
+</HBox>

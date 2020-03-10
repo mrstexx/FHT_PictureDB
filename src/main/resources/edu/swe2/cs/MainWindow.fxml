@@ -25,6 +25,9 @@
           AnchorPane.topAnchor="25.0">
         <children>
             <BorderPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                <top>
+                    <fx:include source="views/SearchBar.fxml" VBox.vgrow="ALWAYS"/>
+                </top>
                 <center>
                     <SplitPane dividerPositions="0.7" orientation="VERTICAL" BorderPane.alignment="CENTER">
                         <items>
@@ -38,24 +41,7 @@
                                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0"
                                                         prefWidth="100.0">
                                                 <children>
-                                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0"
-                                                          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                                                          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                        <children>
-                                                            <ImageView fitWidth="300.0" pickOnBounds="true"
-                                                                       preserveRatio="true" HBox.hgrow="ALWAYS">
-                                                                <image>
-                                                                    <Image url="@../../../test_images/img-2.jpg"/>
-                                                                </image>
-                                                                <HBox.margin>
-                                                                    <Insets/>
-                                                                </HBox.margin>
-                                                                <viewport>
-                                                                    <Rectangle2D/>
-                                                                </viewport>
-                                                            </ImageView>
-                                                        </children>
-                                                    </HBox>
+                                                    <fx:include source="views/PictureView.fxml"/>
                                                 </children>
                                             </AnchorPane>
                                             <AnchorPane minHeight="160.0" minWidth="200.0" prefHeight="160.0"
@@ -106,9 +92,6 @@
                         </BorderPane.margin>
                     </SplitPane>
                 </center>
-                <top>
-                    <fx:include source="views/SearchBar.fxml" VBox.vgrow="ALWAYS"/>
-                </top>
                 <VBox.margin>
                     <Insets/>
                 </VBox.margin>
