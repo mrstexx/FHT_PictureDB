@@ -28,12 +28,12 @@ public class PictureView {
         hBox.heightProperty().addListener(this::resizeHeightListener);
     }
 
-    public void resizeWidthListener(Observable observable, Number oldValue, Number newValue) {
+    private void resizeWidthListener(Observable observable, Number oldValue, Number newValue) {
         float width = calculateWidth(oldValue.floatValue(), newValue.floatValue());
         currentPicture.setFitWidth(width);
     }
 
-    public void resizeHeightListener(Observable observable, Number oldValue, Number newValue) {
+    private void resizeHeightListener(Observable observable, Number oldValue, Number newValue) {
         float height = calculateHeight(oldValue.floatValue(), newValue.floatValue());
         currentPicture.setFitHeight(height);
     }
