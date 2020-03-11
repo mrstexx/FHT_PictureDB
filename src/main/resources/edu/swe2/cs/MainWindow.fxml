@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -53,14 +49,12 @@
                                                         <tabs>
                                                             <Tab text="IPTC">
                                                                 <content>
-                                                                    <AnchorPane minHeight="0.0" minWidth="0.0"
-                                                                                prefHeight="180.0" prefWidth="200.0"/>
+                                                                    <fx:include source="views/IPTCView.fxml"/>
                                                                 </content>
                                                             </Tab>
                                                             <Tab text="EXIF">
                                                                 <content>
-                                                                    <AnchorPane minHeight="0.0" minWidth="0.0"
-                                                                                prefHeight="180.0" prefWidth="200.0"/>
+                                                                    <fx:include source="views/EXIFView.fxml"/>
                                                                 </content>
                                                             </Tab>
                                                         </tabs>
