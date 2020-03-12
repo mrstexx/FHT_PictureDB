@@ -14,6 +14,9 @@ public class Picture {
         this.exif = exif;
     }
 
+    public Picture() {
+    }
+
     public int getId() {
         return this.id;
     }
@@ -22,12 +25,32 @@ public class Picture {
         return this.fileName;
     }
 
+    public Exif getExif() {
+        return this.exif;
+    }
+
+    public Photographer getPhotographer() {
+        return photographer;
+    }
+
     public void setIptc(Iptc iptc) {
         this.iptc = iptc;
     }
 
     public void setPhotographer(Photographer photographer) {
         this.photographer = photographer;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void setExif(Exif exif) {
+        this.exif = exif;
     }
 
 }

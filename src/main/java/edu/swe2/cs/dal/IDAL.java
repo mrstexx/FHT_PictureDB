@@ -23,4 +23,11 @@ public interface IDAL {
     Exif getExif(Connection connection, int id) throws SQLException;
 
     Iptc getIptc(Connection connection, int id) throws SQLException;
+
+    List<String> getFileNames(Connection connection) throws SQLException;
+
+    void addPicture(Connection connection, Picture picture) throws SQLException;
+
+    void addExif(Connection connection, Exif exif, String fileName) throws SQLException;
+
 }

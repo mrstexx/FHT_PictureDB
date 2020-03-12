@@ -1,5 +1,7 @@
 package edu.swe2.cs.views;
 
+import edu.swe2.cs.bl.PictureBL;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,9 +52,6 @@ public class MenuBarView {
         }
     }
 
-    public void addNewPicture() {
-
-    }
 
     public void addNewPhotographer() {
 
@@ -68,5 +67,9 @@ public class MenuBarView {
 
     public void editPhotograph() {
 
+    }
+
+    public void sync(ActionEvent actionEvent) {
+        PictureBL.getInstance().sync();
     }
 }

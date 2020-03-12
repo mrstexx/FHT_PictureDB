@@ -7,13 +7,19 @@ public class Exif {
     private int id;
     private String camera;
     private String lens;
-    private Date date;
+    private Date captureDate;
 
-    public Exif(int id, String camera, String lens, Date date) {
+    public Exif(String camera, String lens, Date captureDate) {
+        this.camera = camera;
+        this.lens = lens;
+        this.captureDate = captureDate;
+    }
+
+    public Exif(int id, String camera, String lens, Date captureDate) {
         this.id = id;
         this.camera = camera;
         this.lens = lens;
-        this.date = date;
+        this.captureDate = captureDate;
     }
 
     public int getId() {
@@ -28,7 +34,7 @@ public class Exif {
         return this.lens;
     }
 
-    public Date getDate() {
-        return this.date;
+    public Date getCaptureDate() {
+        return this.captureDate;
     }
 }

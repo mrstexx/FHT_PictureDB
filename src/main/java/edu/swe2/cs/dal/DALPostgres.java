@@ -1,5 +1,6 @@
 package edu.swe2.cs.dal;
 
+import edu.swe2.cs.bl.FileCache;
 import edu.swe2.cs.model.Exif;
 import edu.swe2.cs.model.Iptc;
 import edu.swe2.cs.model.Photographer;
@@ -7,12 +8,10 @@ import edu.swe2.cs.model.Picture;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 public class DALPostgres implements IDAL {
@@ -130,7 +129,7 @@ public class DALPostgres implements IDAL {
         }
         String camera = rs.getString("camera");
         String lens = rs.getString("lens");
-        Date date = rs.getTimestamp("date");
+        Date date = rs.getTimestamp("captureDate");
         rs.close();
         return new Exif(id, camera, lens, date);
     }
@@ -162,5 +161,57 @@ public class DALPostgres implements IDAL {
         rs.close();
         return iptc;
     }
+
+    @Override
+    public List<String> getFileNames(Connection connection) throws SQLException {
+        List<String> fileNames = new LinkedList<>();
+        String prepStatement = "SELECT file_name FROM picture";
+        PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            fileNames.add(rs.getString("file_name"));
+        }
+        return fileNames;
+    }
+
+    @Override
+    public void addPicture(Connection connection, Picture picture) throws SQLException {
+        String prepStatement = "INSERT INTO picture(photographer_id, file_name) VALUES (?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);
+        if (picture.getPhotographer() != null) {
+            preparedStatement.setInt(1, picture.getPhotographer().getId());
+        } else {
+            preparedStatement.setNull(1, Types.INTEGER);
+        }
+        String fileName = picture.getFileName();
+        preparedStatement.setString(2, fileName);
+        Exif exif = picture.getExif();
+        preparedStatement.executeUpdate();
+
+        if (exif != null) {
+            addExif(connection, exif, fileName);
+        }
+
+        // add file to cache after adding to db
+        FileCache.getInstance().addFile(fileName);
+    }
+
+    @Override
+    public void addExif(Connection connection, Exif exif, String fileName) throws SQLException {
+        String prepStatement = "INSERT INTO exif_info(camera, lens, captureDate) VALUES (?, ?, ?) RETURNING id";
+        PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);
+        preparedStatement.setString(1, exif.getCamera());
+        preparedStatement.setString(2, exif.getLens());
+        preparedStatement.setTimestamp(3, (Timestamp) exif.getCaptureDate());
+        ResultSet rs = preparedStatement.executeQuery();
+        rs.next();
+        int exifId = rs.getInt(1);
+        String preStatement = "UPDATE picture SET exif_id = ? WHERE file_name = ?";
+        PreparedStatement preparedStatement1 = connection.prepareStatement(preStatement);
+        preparedStatement1.setInt(1, exifId);
+        preparedStatement1.setString(2, fileName);
+        preparedStatement1.executeUpdate();
+    }
+
 
 }

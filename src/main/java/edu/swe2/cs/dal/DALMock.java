@@ -18,7 +18,7 @@ public class DALMock implements IDAL {
     }
 
     @Override
-    public List<Photographer> getPhotographers(Connection connection) throws SQLException{
+    public List<Photographer> getPhotographers(Connection connection) throws SQLException {
         return null;
     }
 
@@ -40,5 +40,20 @@ public class DALMock implements IDAL {
     @Override
     public Iptc getIptc(Connection connection, int id) throws SQLException {
         return null;
+    }
+
+    @Override
+    public List<String> getFileNames(Connection connection) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public void addPicture(Connection connection, Picture picture) throws SQLException {
+
+    }
+
+    @Override
+    public void addExif(Connection connection, Exif exif, String fileName) throws SQLException {
+
     }
 }

@@ -1,7 +1,6 @@
 package edu.swe2.cs.views;
 
 import edu.swe2.cs.viewmodel.PictureListViewModel;
-import javafx.beans.Observable;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;

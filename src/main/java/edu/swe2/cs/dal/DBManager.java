@@ -104,11 +104,11 @@ public class DBManager {
         stringBuilder.append("\n");
         stringBuilder.append("photographer_id INTEGER,");
         stringBuilder.append("\n");
-        stringBuilder.append("exif_id INTEGER NOT NULL UNIQUE,");
+        stringBuilder.append("exif_id INTEGER UNIQUE,");
         stringBuilder.append("\n");
         stringBuilder.append("iptc_id INTEGER UNIQUE,");
         stringBuilder.append("\n");
-        stringBuilder.append("file_name TEXT NOT NULL,");
+        stringBuilder.append("file_name TEXT NOT NULL UNIQUE,");
         stringBuilder.append("\n");
         stringBuilder.append("FOREIGN KEY (photographer_id) REFERENCES photographer(id),");
         stringBuilder.append("\n");
@@ -127,7 +127,7 @@ public class DBManager {
         stringBuilder.append("\n");
         stringBuilder.append("lens TEXT NOT NULL,");
         stringBuilder.append("\n");
-        stringBuilder.append("date TIMESTAMP NOT NULL");
+        stringBuilder.append("captureDate TIMESTAMP NOT NULL");
         stringBuilder.append("\n");
         stringBuilder.append(")");
         execUpdate(stringBuilder.toString());

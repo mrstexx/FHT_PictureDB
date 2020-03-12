@@ -1,5 +1,9 @@
 package edu.swe2.cs;
 
+import edu.swe2.cs.bl.PictureBL;
+import edu.swe2.cs.dal.DALFactory;
+import edu.swe2.cs.dal.DBManager;
+import edu.swe2.cs.model.Picture;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +14,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
+import java.util.List;
 
 public class MainWindowViewModel extends Application {
 
@@ -35,5 +42,7 @@ public class MainWindowViewModel extends Application {
         primaryStage.setMinHeight(400);
         primaryStage.setMinWidth(600);
         primaryStage.show();
+
+        PictureBL.getInstance().sync();
     }
 }

@@ -73,21 +73,4 @@ public class ConfigProperties {
             LOGGER.info("No properties loaded");
         }
     }
-
-    /* TESTING */
-    public static void main(String[] args) {
-        try {
-            IDAL dal = DALFactory.getDAL();
-            Connection con = DBManager.getInstance().getConnection();
-            Picture picture = dal.getPicture(con, 2);
-            List<Photographer> photographers = dal.getPhotographers(con);
-            List<Picture> pictures = dal.getPictures(con);
-            DBManager.closeConnection();
-        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
-            LOGGER.error("Failed to load DAL");
-        } catch (SQLException e) {
-            LOGGER.error("Failed to load picture from db");
-        }
-    }
-
 }
