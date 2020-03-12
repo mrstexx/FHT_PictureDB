@@ -86,10 +86,13 @@ public class DBManager {
         stringBuilder.append("\n");
         stringBuilder.append("id SERIAL PRIMARY KEY,");
         stringBuilder.append("\n");
-        stringBuilder.append("firstname TEXT NOT NULL,");
+        stringBuilder.append("lastname TEXT NOT NULL,");
         stringBuilder.append("\n");
-        stringBuilder.append("lastname TEXT NOT NULL");
+        stringBuilder.append("firstname TEXT,");
         stringBuilder.append("\n");
+        stringBuilder.append("birthdate DATE,");
+        stringBuilder.append("\n");
+        stringBuilder.append("notes TEXT");
         stringBuilder.append(")");
         execUpdate(stringBuilder.toString());
     }

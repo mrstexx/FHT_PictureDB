@@ -35,14 +35,12 @@ public class DALPostgres implements IDAL {
     @Override
     public List<Photographer> getPhotographers(Connection connection) throws SQLException {
         List<Photographer> photographers = new ArrayList<>();
-        String prepStatement = "SELECT * FROM photographer ORDER BY ID ASC";
+        String prepStatement = "SELECT id FROM photographer ORDER BY ID ASC";
         PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);
         ResultSet rs = preparedStatement.executeQuery();
         while (rs.next()) {
             int id = rs.getInt("id");
-            String firstname = rs.getString("firstname");
-            String lastname = rs.getString("lastname");
-            photographers.add(new Photographer(id, firstname, lastname));
+            photographers.add(getPhotographer(connection, id));
         }
         return photographers;
     }
@@ -101,10 +99,22 @@ public class DALPostgres implements IDAL {
         } else {
             rs.next();
         }
-        String firstName = rs.getString("firstname");
         String lastName = rs.getString("lastname");
+        Photographer photographer = new Photographer(id, lastName);
+        String firstName = rs.getString("firstname");
+        if (!rs.wasNull()) {
+            photographer.setFirstName(firstName);
+        }
+        Date birthdate = rs.getDate("birthdate");
+        if (!rs.wasNull()) {
+            photographer.setBirthdate(birthdate);
+        }
+        String notes = rs.getString("notes");
+        if (!rs.wasNull()) {
+            photographer.setNotes(notes);
+        }
         rs.close();
-        return new Photographer(id, firstName, lastName);
+        return photographer;
     }
 
     @Override
