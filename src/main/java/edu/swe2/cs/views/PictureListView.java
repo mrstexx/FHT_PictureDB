@@ -6,7 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-public class PictureListView {
+public class PictureListView extends AbstractView {
 
     PictureListViewModel viewModel;
 
@@ -14,7 +14,7 @@ public class PictureListView {
     HBox hBox;
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         viewModel = new PictureListViewModel();
         fitPictureSize();
     }

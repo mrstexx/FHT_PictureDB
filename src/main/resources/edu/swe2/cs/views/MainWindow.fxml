@@ -11,10 +11,10 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane minHeight="600" minWidth="400" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.swe2.cs.MainWindowViewModel">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.swe2.cs.views.MainWindowView">
     <HBox prefHeight="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <children>
-            <fx:include source="views/MenuBar.fxml"/>
+            <fx:include source="MenuBar.fxml"/>
         </children>
     </HBox>
     <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
@@ -22,7 +22,7 @@
         <children>
             <BorderPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                 <top>
-                    <fx:include source="views/SearchBar.fxml" VBox.vgrow="ALWAYS"/>
+                    <fx:include source="SearchBar.fxml" VBox.vgrow="ALWAYS"/>
                 </top>
                 <center>
                     <SplitPane dividerPositions="0.7" orientation="VERTICAL" BorderPane.alignment="CENTER">
@@ -37,7 +37,7 @@
                                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0"
                                                         prefWidth="100.0">
                                                 <children>
-                                                    <fx:include source="views/PictureView.fxml"/>
+                                                    <fx:include source="PictureView.fxml"/>
                                                 </children>
                                             </AnchorPane>
                                             <AnchorPane minHeight="160.0" minWidth="200.0" prefHeight="160.0"
@@ -49,12 +49,12 @@
                                                         <tabs>
                                                             <Tab text="IPTC">
                                                                 <content>
-                                                                    <fx:include source="views/IPTCView.fxml"/>
+                                                                    <fx:include source="IPTCView.fxml"/>
                                                                 </content>
                                                             </Tab>
                                                             <Tab text="EXIF">
                                                                 <content>
-                                                                    <fx:include source="views/EXIFView.fxml"/>
+                                                                    <fx:include source="EXIFView.fxml"/>
                                                                 </content>
                                                             </Tab>
                                                         </tabs>
@@ -71,7 +71,7 @@
                             <AnchorPane maxHeight="250.0" minHeight="100.0" minWidth="0.0" prefHeight="100.0"
                                         prefWidth="160.0">
                                 <children>
-                                    <fx:include source="views/PictureListView.fxml"/>
+                                    <fx:include source="PictureListView.fxml"/>
                                 </children>
                             </AnchorPane>
                         </items>

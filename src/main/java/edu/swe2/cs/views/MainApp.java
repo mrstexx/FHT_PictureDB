@@ -1,11 +1,8 @@
-package edu.swe2.cs;
+package edu.swe2.cs.views;
 
 import edu.swe2.cs.bl.PictureBL;
-import edu.swe2.cs.dal.DALFactory;
-import edu.swe2.cs.dal.DBManager;
-import edu.swe2.cs.model.Picture;
-import edu.swe2.cs.viewmodel.PictureListViewModel;
-import edu.swe2.cs.viewmodel.PictureViewModel;
+import edu.swe2.cs.util.SystemProperties;
+import edu.swe2.cs.viewmodel.MainWindowViewModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,9 +14,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
-public class MainWindowViewModel extends Application {
+public class MainApp extends Application {
 
-    private static final Logger LOG = LogManager.getLogger(MainWindowViewModel.class);
+    private static final Logger LOG = LogManager.getLogger(MainApp.class);
 
     public static void main(String[] args) {
         launch(args);
@@ -37,7 +34,7 @@ public class MainWindowViewModel extends Application {
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Picture Database");
-        primaryStage.getIcons().add(new Image(MainWindowViewModel.class.getResourceAsStream("icon.png")));
+        primaryStage.getIcons().add(new Image(MainWindowViewModel.class.getResourceAsStream("../icon.png")));
         primaryStage.setMinHeight(400);
         primaryStage.setMinWidth(600);
         primaryStage.show();
