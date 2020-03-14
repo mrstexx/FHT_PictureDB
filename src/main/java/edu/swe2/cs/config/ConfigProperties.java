@@ -32,13 +32,13 @@ public class ConfigProperties {
 
     private void initialize(String fileName) {
         try {
-            if (this.properties == null) {
-                this.properties = new Properties();
+            if (properties == null) {
+                properties = new Properties();
                 // TODO Leo: Find better way to build URL String. Package name could be changed
                 String resourcePath = URLBuilder.buildURLString(new String[]{"src", "main", "resources", "edu", "swe2", "cs", fileName});
                 File propertiesFile = new File(resourcePath);
                 if (propertiesFile.exists()) {
-                    this.properties.load(new FileInputStream(propertiesFile));
+                    properties.load(new FileInputStream(propertiesFile));
                 }
 
             }

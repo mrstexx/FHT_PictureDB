@@ -29,6 +29,10 @@ public class Picture {
         return this.exif;
     }
 
+    public Iptc getIptc() {
+        return iptc;
+    }
+
     public Photographer getPhotographer() {
         return photographer;
     }

@@ -3,6 +3,7 @@ package edu.swe2.cs.views;
 import edu.swe2.cs.viewmodel.PictureViewModel;
 import javafx.beans.Observable;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
@@ -10,7 +11,7 @@ public class PictureView {
 
     public static final float IMAGE_OFFSET = 10;
 
-    PictureViewModel viewModel = new PictureViewModel();
+    private PictureViewModel viewModel;
 
     @FXML
     HBox hBox;
@@ -19,7 +20,14 @@ public class PictureView {
 
     @FXML
     public void initialize() {
+        viewModel = new PictureViewModel();
+        setCurrentPicture();
         fitCurrentPicture();
+    }
+
+    private void setCurrentPicture() {
+        Image image = new Image(viewModel.getPicturePath());
+        currentPicture.setImage(image);
     }
 
     private void fitCurrentPicture() {

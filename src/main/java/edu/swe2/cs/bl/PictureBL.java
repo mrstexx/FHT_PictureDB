@@ -19,37 +19,38 @@ public class PictureBL {
     private static PictureBL instance = null;
 
     private PictureBL() {
-        intialize();
+        initialize();
     }
 
-    public static PictureBL getInstance() {
+    public synchronized static PictureBL getInstance() {
         if (instance == null) {
             instance = new PictureBL();
         }
         return instance;
     }
 
-    private void intialize() {
-        if (this.dirPath == null) {
+    private void initialize() {
+        if (dirPath == null) {
             dirPath = URLBuilder.buildURLString(new String[]{"src", "main", "resources", ConfigProperties.getProperty("folderName")});
-            if (this.fileCache == null) {
+            if (fileCache == null) {
                 fileCache = FileCache.getInstance();
             }
         }
-
     }
 
     // files that are in db but get deleted from directory will stay in db
     public void sync() {
-        if (dirPath == null)
+        if (dirPath == null) {
             if (fileCache == null) {
                 fileCache = FileCache.getInstance();
             }
-
+        }
+        assert dirPath != null;
         File dir = new File(dirPath);
         File[] filesList = dir.listFiles();
 
         // if file not in filecache add it to db
+        assert filesList != null;
         for (File file : filesList) {
             if (!fileCache.containsFile(file.getName())) {
                 Picture picture = new Picture();
@@ -66,17 +67,7 @@ public class PictureBL {
                 Connection connection = DBManager.getInstance().getConnection();
                 Objects.requireNonNull(DALFactory.getDAL()).addPicture(connection, picture);
             }
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | SQLException | IllegalAccessException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -84,11 +75,8 @@ public class PictureBL {
     // BL: Picture without Exif is not valid
     public boolean isValid(Picture picture) {
         if (picture != null) {
-            if (picture.getFileName() != null && picture.getExif() != null) {
-                return true;
-            }
+            return picture.getFileName() != null && picture.getExif() != null;
         }
         return false;
     }
-
 }

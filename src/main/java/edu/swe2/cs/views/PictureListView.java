@@ -8,13 +8,14 @@ import javafx.scene.layout.HBox;
 
 public class PictureListView {
 
-    PictureListViewModel viewModel = new PictureListViewModel();
+    PictureListViewModel viewModel;
 
     @FXML
     HBox hBox;
 
     @FXML
     public void initialize() {
+        viewModel = new PictureListViewModel();
         fitPictureSize();
     }
 

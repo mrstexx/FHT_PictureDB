@@ -38,17 +38,7 @@ public class FileCache {
                 // add files to cache that are new in db
                 addNewFiles(fileNames);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
+        } catch (SQLException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
             e.printStackTrace();
         }
     }
@@ -81,9 +71,7 @@ public class FileCache {
 
     public boolean containsFile(String fileName) {
         if (fileCache != null) {
-            if (fileCache.contains(fileName)) {
-                return true;
-            }
+            return fileCache.contains(fileName);
         }
         return false;
     }
