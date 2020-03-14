@@ -6,7 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-public class PictureListView extends AbstractView {
+public class PictureListView {
 
     PictureListViewModel viewModel;
 

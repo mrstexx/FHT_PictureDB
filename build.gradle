@@ -25,4 +25,4 @@ javafx {
     version = '11.0.2'
 }
 
-mainClassName = 'edu.swe2.cs.views.MainApp'
+mainClassName = 'edu.swe2.cs.MainApp'

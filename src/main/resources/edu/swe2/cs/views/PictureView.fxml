@@ -12,7 +12,6 @@
         <ImageView fx:id="currentPicture" fitWidth="300.0" pickOnBounds="true"
                    preserveRatio="true" HBox.hgrow="ALWAYS">
             <image>
-                <Image url="@../../../../test_images/img-2.jpg" backgroundLoading="true"/>
             </image>
         </ImageView>
     </children>

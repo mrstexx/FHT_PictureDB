@@ -7,10 +7,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-public class PictureView extends AbstractView {
-
+public class PictureView {
     public static final float IMAGE_OFFSET = 10;
-
     private PictureViewModel viewModel;
 
     @FXML
@@ -18,9 +16,9 @@ public class PictureView extends AbstractView {
     @FXML
     ImageView currentPicture;
 
-    @FXML
-    private void initialize() {
-        viewModel = new PictureViewModel();
+    public void init(PictureViewModel pictureViewModel) {
+        this.viewModel = pictureViewModel;
+        currentPicture.imageProperty().bindBidirectional(viewModel.imageObjectProperty());
         setCurrentPicture();
         fitCurrentPicture();
     }
