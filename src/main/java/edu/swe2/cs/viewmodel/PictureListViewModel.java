@@ -27,15 +27,14 @@ public class PictureListViewModel implements IViewModel {
         for (Picture pic : pictures) {
             Image image = new Image(URLBuilder.getPreparedImgPath(pic.getFileName()), true);
             ImageView imageView = new ImageView();
-            imageView.setFitWidth(180);
-            imageView.setFitHeight(180);
+            imageView.prefWidth(180);
+            imageView.prefHeight(180);
             imageView.setPreserveRatio(true);
             imageView.fitWidthProperty().bind(heightProperty);
             imageView.fitHeightProperty().bind(heightProperty);
             imageView.setCursor(Cursor.HAND);
             HBox.setHgrow(imageView, Priority.ALWAYS);
             imageView.setImage(image);
-
             nodeList.add(imageView);
         }
         return nodeList;
