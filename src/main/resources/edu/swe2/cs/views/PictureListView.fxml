@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -13,32 +14,6 @@
             fx:controller="edu.swe2.cs.views.PictureListView">
     <content>
         <HBox fx:id="hBox" alignment="CENTER" prefHeight="149.0" prefWidth="796.0" spacing="10.0">
-            <ImageView fitHeight="180.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
-                <Image backgroundLoading="true" url="@../../../../test_images/img-2.jpg"/>
-            </ImageView>
-            <ImageView fitHeight="180.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
-                <Image backgroundLoading="true" url="@../../../../test_images/img-2.jpg"/>
-            </ImageView>
-            <ImageView fitHeight="180.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
-                <Image backgroundLoading="true" url="@../../../../test_images/img-2.jpg"/>
-
-            </ImageView>
-            <ImageView fitHeight="180.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
-                <Image backgroundLoading="true" url="@../../../../test_images/img-2.jpg"/>
-
-            </ImageView>
-            <ImageView fitHeight="180.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
-                <Image backgroundLoading="true" url="@../../../../test_images/img-2.jpg"/>
-
-            </ImageView>
-            <ImageView fitHeight="180.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
-                <Image backgroundLoading="true" url="@../../../../test_images/img-2.jpg"/>
-
-            </ImageView>
-            <ImageView fitHeight="180.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
-                <Image backgroundLoading="true" url="@../../../../test_images/img-2.jpg"/>
-
-            </ImageView>
         </HBox>
     </content>
     <padding>

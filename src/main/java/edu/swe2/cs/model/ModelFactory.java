@@ -1,14 +1,29 @@
 package edu.swe2.cs.model;
 
+import edu.swe2.cs.bl.PictureBL;
+
+import java.util.List;
+
 public class ModelFactory {
 
     private Picture picture;
+    private List<Picture> pictures;
 
     public Picture getPicture() {
         if (picture == null) {
-            picture = new Picture();
+            this.pictures = this.getPictures();
+            if (this.pictures.size() > 0) {
+                this.picture = this.pictures.get(0);
+            }
         }
         return picture;
+    }
+
+    public List<Picture> getPictures() {
+        if (this.pictures == null) {
+            this.pictures = PictureBL.getInstance().getAllPictures();
+        }
+        return this.pictures;
     }
 
 }

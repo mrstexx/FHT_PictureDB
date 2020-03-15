@@ -1,6 +1,6 @@
 package edu.swe2.cs.views;
 
-import edu.swe2.cs.model.Picture;
+import edu.swe2.cs.viewmodel.IViewModel;
 import edu.swe2.cs.viewmodel.ViewModelFactory;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,17 +11,21 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ViewHandler {
+public class ViewManager {
 
-    private static final Logger LOG = LogManager.getLogger(ViewHandler.class);
+    private static final Logger LOG = LogManager.getLogger(ViewManager.class);
+    private static Map<String, IViewModel> viewManager = new HashMap<>();
 
     Stage primaryStage;
     ViewModelFactory viewModelFactory;
 
-    public ViewHandler(Stage primaryStage, ViewModelFactory viewModelFactory) {
+    public ViewManager(Stage primaryStage, ViewModelFactory viewModelFactory) {
         this.primaryStage = primaryStage;
         this.viewModelFactory = viewModelFactory;
+        initViews();
     }
 
     public void start() {
@@ -33,7 +37,6 @@ public class ViewHandler {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        initViews();
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Picture Database");
@@ -44,18 +47,17 @@ public class ViewHandler {
     }
 
     private void initViews() {
-        try {
-            initPictureView();
-        } catch (IOException e) {
-            LOG.error("Error occurred while initializing views", e);
-        }
+        viewManager.put(PictureView.class.getName(), viewModelFactory.getPictureViewModel());
+        viewManager.put(PictureListView.class.getName(), viewModelFactory.getPictureListViewModel());
     }
 
-    private void initPictureView() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("PictureView.fxml"));
-        loader.load();
-        PictureView pictureView = (PictureView) loader.getController();
-        pictureView.init(viewModelFactory.getPictureViewModel());
+    public static IViewModel getViewModel(String key) {
+        IViewModel viewModel = viewManager.get(key);
+        if (viewModel != null) {
+            return viewModel;
+        }
+        LOG.error("Requesting view model that doesn't exist");
+        return null;
     }
 
 }

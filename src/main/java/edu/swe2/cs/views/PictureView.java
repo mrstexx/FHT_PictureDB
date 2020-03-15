@@ -3,29 +3,26 @@ package edu.swe2.cs.views;
 import edu.swe2.cs.viewmodel.PictureViewModel;
 import javafx.beans.Observable;
 import javafx.fxml.FXML;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-public class PictureView {
+public class PictureView implements IView {
     public static final float IMAGE_OFFSET = 10;
-    private PictureViewModel viewModel;
+    private final PictureViewModel viewModel;
 
     @FXML
     HBox hBox;
     @FXML
     ImageView currentPicture;
 
-    public void init(PictureViewModel pictureViewModel) {
-        this.viewModel = pictureViewModel;
+    @FXML
+    private void initialize() {
         currentPicture.imageProperty().bindBidirectional(viewModel.imageObjectProperty());
-        setCurrentPicture();
         fitCurrentPicture();
     }
 
-    private void setCurrentPicture() {
-        Image image = new Image(viewModel.getPicturePath());
-        currentPicture.setImage(image);
+    public PictureView() {
+        this.viewModel = (PictureViewModel) ViewManager.getViewModel(this.getClass().getName());
     }
 
     private void fitCurrentPicture() {

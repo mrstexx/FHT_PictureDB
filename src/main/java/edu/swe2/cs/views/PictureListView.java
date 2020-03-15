@@ -15,8 +15,12 @@ public class PictureListView {
 
     @FXML
     private void initialize() {
-        viewModel = new PictureListViewModel();
-        fitPictureSize();
+        hBox.getChildren().addAll(viewModel.getImageViews(hBox.heightProperty()));
+//        fitPictureSize();
+    }
+
+    public PictureListView() {
+        this.viewModel = (PictureListViewModel) ViewManager.getViewModel(PictureListView.class.getName());
     }
 
     private void fitPictureSize() {
@@ -29,5 +33,4 @@ public class PictureListView {
             }
         }
     }
-
 }

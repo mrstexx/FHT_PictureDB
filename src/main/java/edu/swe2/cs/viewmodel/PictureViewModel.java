@@ -6,7 +6,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 
-public class PictureViewModel {
+public class PictureViewModel implements IViewModel {
 
     private Picture picture;
     private ObjectProperty<Image> imageObjectProperty;
@@ -28,6 +28,6 @@ public class PictureViewModel {
     }
 
     public String getPicturePath() {
-        return URLBuilder.getPreparedImgPath("img-3.jpg");
+        return URLBuilder.getPreparedImgPath(picture.getFileName());
     }
 }

@@ -6,14 +6,20 @@ import edu.swe2.cs.dal.DBManager;
 import edu.swe2.cs.model.Picture;
 import edu.swe2.cs.util.ExifGenerator;
 import edu.swe2.cs.util.URLBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class PictureBL {
+    private static final Logger LOG = LogManager.getLogger(PictureBL.class);
+
     private static String dirPath;
     private static FileCache fileCache = null;
     private static PictureBL instance = null;
@@ -67,9 +73,29 @@ public class PictureBL {
                 Connection connection = DBManager.getInstance().getConnection();
                 Objects.requireNonNull(DALFactory.getDAL()).addPicture(connection, picture);
             }
-        } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | SQLException | IllegalAccessException | ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (InstantiationException |
+                InvocationTargetException |
+                NoSuchMethodException |
+                SQLException |
+                IllegalAccessException |
+                ClassNotFoundException e) {
+            LOG.error("Error occurred while saving picture", e);
         }
+    }
+
+    public List<Picture> getAllPictures() {
+        try {
+            Connection connection = DBManager.getInstance().getConnection();
+            return Objects.requireNonNull(DALFactory.getDAL()).getPictures(connection);
+        } catch (SQLException |
+                ClassNotFoundException |
+                NoSuchMethodException |
+                IllegalAccessException |
+                InvocationTargetException |
+                InstantiationException e) {
+            LOG.error("Error occurred while getting all pictures", e);
+        }
+        return new ArrayList<>();
     }
 
     // BL: Picture without Exif is not valid
