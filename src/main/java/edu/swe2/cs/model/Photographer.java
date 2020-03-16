@@ -1,16 +1,20 @@
 package edu.swe2.cs.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Photographer {
 
     private int id;
     private String firstName;
     private String lastName;
-    private Date birthdate;
+    private LocalDate birthdate;
     private String notes;
 
-    public Photographer(){
+    public Photographer(String firstName, String lastName, LocalDate birthdate, String notes) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthdate = birthdate;
+        this.notes = notes;
     }
 
     public Photographer(int id, String lastName) {
@@ -26,7 +30,7 @@ public class Photographer {
         this.firstName = firstName;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
 
@@ -40,5 +44,13 @@ public class Photographer {
 
     public String getLastName() {
         return this.lastName;
+    }
+
+    public LocalDate getBirthdate() {
+        return this.birthdate;
+    }
+
+    public String getNotes() {
+        return notes;
     }
 }

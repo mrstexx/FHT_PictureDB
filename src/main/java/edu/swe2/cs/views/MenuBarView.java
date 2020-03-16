@@ -58,21 +58,22 @@ public class MenuBarView {
     }
 
 
+    //TODO: Close stage after adding
     public void addNewPhotographer() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddPhotographerView.fxml"));
-        Parent parent = null;
         try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddPhotographerView.fxml"));
+            Parent parent = null;
             parent = fxmlLoader.load();
+            Scene scene = new Scene(parent, 350, 400);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.setTitle("Add new Photographer");
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Scene scene = new Scene(parent, 350, 400);
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(scene);
-        stage.setTitle("Add new Photographer");
-        stage.showAndWait();
     }
 
     public void exportToPDFReport() {

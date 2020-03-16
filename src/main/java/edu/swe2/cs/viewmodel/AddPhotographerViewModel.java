@@ -5,8 +5,6 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 
 import java.time.LocalDate;
 
@@ -17,25 +15,13 @@ public class AddPhotographerViewModel {
     private StringProperty lastName;
     private ObjectProperty<LocalDate> birthDate;
     private StringProperty notes;
-    private StringProperty labelBirthDate;
 
 
     public AddPhotographerViewModel() {
         firstName = new SimpleStringProperty("");
         lastName = new SimpleStringProperty("");
         birthDate = new SimpleObjectProperty<>();
-        birthDate.addListener(new ChangeListener<LocalDate>() {
-            @Override
-            public void changed(ObservableValue<? extends LocalDate> observableValue, LocalDate localDate, LocalDate t1) {
-                if (!isValidDate(t1)) {
-                    labelBirthDate.set("Warning: Birthdate has to be before today");
-                } else {
-                    labelBirthDate.set("Birthdate");
-                }
-            }
-        });
         notes = new SimpleStringProperty("");
-        labelBirthDate = new SimpleStringProperty("Birthdate");
     }
 
     public StringProperty getLastName() {
@@ -54,26 +40,20 @@ public class AddPhotographerViewModel {
         return notes;
     }
 
-    public StringProperty getLabelBirthDate() {
-        return labelBirthDate;
-    }
 
     public boolean isValid() {
         return (isValidDate(birthDate.getValue()) && isLastName());
     }
 
     public boolean isLastName() {
-        if (lastName == null) {
-            return false;
-        }
-        return !(lastName.getValue().isEmpty()) && !(lastName.getValue().equals(""));
+        return (lastName.getValue() != null && !lastName.getValue().trim().isEmpty());
     }
 
     public boolean isValidDate(LocalDate date) {
-        if (date == null) {
-            return true;
-        }
-        return !(date.isEqual(LocalDate.now()) || date.isAfter(LocalDate.now()));
+        return (date != null && date.isBefore(LocalDate.now()));
     }
 
+    public Photographer getPhotographer() {
+        return new Photographer(getFirstName().getValue(), getLastName().getValue(), getBirthDate().getValue(), getNotes().getValue());
+    }
 }

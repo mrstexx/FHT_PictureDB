@@ -76,7 +76,7 @@ public class FileCache {
         return false;
     }
 
-    public int getSize(){
+    public int getSize() {
         return this.fileCache.size();
     }
 

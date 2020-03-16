@@ -16,21 +16,21 @@
               AnchorPane.topAnchor="0.0">
             <children>
                 <Label text="Camera"/>
-                <TextField visible="false"
+                <TextField editable="false"
                         promptText="Which camera did you use?"/>
                 <Label text="Lens">
                     <VBox.margin>
                         <Insets top="10.0"/>
                     </VBox.margin>
                 </Label>
-                <TextField visible="false"
+                <TextField editable="false"
                         promptText="Which lens did you use?"/>
                 <Label text="Date">
                     <VBox.margin>
                         <Insets top="10.0"/>
                     </VBox.margin>
                 </Label>
-                <DatePicker visible="false"
+                <DatePicker editable="false"
                         maxWidth="1.7976931348623157E308"
                         promptText="Choose date"/>
                 <Button visible="false"

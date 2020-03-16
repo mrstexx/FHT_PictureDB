@@ -1,10 +1,5 @@
 package edu.swe2.cs.config;
 
-import edu.swe2.cs.dal.DALFactory;
-import edu.swe2.cs.dal.DBManager;
-import edu.swe2.cs.dal.IDAL;
-import edu.swe2.cs.model.Photographer;
-import edu.swe2.cs.model.Picture;
 import edu.swe2.cs.util.URLBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,10 +8,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
 import java.util.Properties;
 
 public class ConfigProperties {

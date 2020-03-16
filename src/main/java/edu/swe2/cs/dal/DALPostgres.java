@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -104,7 +105,7 @@ public class DALPostgres implements IDAL {
         if (!rs.wasNull()) {
             photographer.setFirstName(firstName);
         }
-        Date birthdate = rs.getDate("birthdate");
+        LocalDate birthdate = rs.getObject("birthdate", LocalDate.class);
         if (!rs.wasNull()) {
             photographer.setBirthdate(birthdate);
         }
@@ -211,6 +212,21 @@ public class DALPostgres implements IDAL {
         preparedStatement1.setInt(1, exifId);
         preparedStatement1.setString(2, fileName);
         preparedStatement1.executeUpdate();
+    }
+
+    @Override
+    public void addPhotographer(Connection connection, Photographer photographer) throws SQLException {
+        String prepStatement = "INSERT INTO photographer(lastname, firstname, birthdate, notes) VALUES (?, ?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);
+        preparedStatement.setString(1, photographer.getLastName());
+        preparedStatement.setString(2, photographer.getFirstName());
+        if (photographer.getBirthdate() != null) {
+            preparedStatement.setObject(3, photographer.getBirthdate());
+        } else {
+            preparedStatement.setNull(3, Types.DATE);
+        }
+        preparedStatement.setString(4, photographer.getNotes());
+        preparedStatement.executeUpdate();
     }
 
 

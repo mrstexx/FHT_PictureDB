@@ -2,7 +2,6 @@ package edu.swe2.cs.viewmodel;
 
 import edu.swe2.cs.model.Picture;
 import edu.swe2.cs.util.URLBuilder;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Cursor;
 import javafx.scene.Node;

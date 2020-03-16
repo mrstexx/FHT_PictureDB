@@ -56,4 +56,9 @@ public class DALMock implements IDAL {
     public void addExif(Connection connection, Exif exif, String fileName) throws SQLException {
 
     }
+
+    @Override
+    public void addPhotographer(Connection connection, Photographer photographer) throws SQLException {
+
+    }
 }
