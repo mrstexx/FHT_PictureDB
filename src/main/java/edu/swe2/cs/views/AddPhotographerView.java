@@ -1,6 +1,8 @@
 package edu.swe2.cs.views;
 
 import edu.swe2.cs.model.PhotographerModel;
+import edu.swe2.cs.stage.EStage;
+import edu.swe2.cs.stage.StageManager;
 import edu.swe2.cs.viewmodel.AddPhotographerViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -76,6 +78,7 @@ public class AddPhotographerView {
             alert.setTitle("Add new Photographer");
             alert.setHeaderText("Successfully added Photographer!");
             alert.show();
+            StageManager.getInstance().closeStage(EStage.ADDPHOTOGRAPHERSTAGE);
         } else {
             unlockInputFields();
             LOG.info("Open new alert dialog - invalid photographer form");

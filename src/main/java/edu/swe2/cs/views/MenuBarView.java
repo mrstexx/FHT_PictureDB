@@ -1,6 +1,8 @@
 package edu.swe2.cs.views;
 
 import edu.swe2.cs.bl.PictureBL;
+import edu.swe2.cs.stage.EStage;
+import edu.swe2.cs.stage.StageManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -58,7 +60,6 @@ public class MenuBarView {
     }
 
 
-    //TODO: Close stage after adding
     public void addNewPhotographer() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddPhotographerView.fxml"));
@@ -69,6 +70,7 @@ public class MenuBarView {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(scene);
             stage.setTitle("Add new Photographer");
+            StageManager.getInstance().addStage(EStage.ADDPHOTOGRAPHERSTAGE, stage);
             stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();

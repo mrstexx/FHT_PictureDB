@@ -1,5 +1,7 @@
 package edu.swe2.cs.views;
 
+import edu.swe2.cs.stage.EStage;
+import edu.swe2.cs.stage.StageManager;
 import edu.swe2.cs.viewmodel.IViewModel;
 import edu.swe2.cs.viewmodel.ViewModelFactory;
 import javafx.fxml.FXMLLoader;
@@ -43,6 +45,7 @@ public class ViewManager {
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("../icon.png")));
         primaryStage.setMinHeight(400);
         primaryStage.setMinWidth(600);
+        StageManager.getInstance().addStage(EStage.PRIMARYSTAGE, primaryStage);
         primaryStage.show();
     }
 
