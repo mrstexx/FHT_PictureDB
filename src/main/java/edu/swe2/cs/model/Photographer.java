@@ -10,6 +10,9 @@ public class Photographer {
     private Date birthdate;
     private String notes;
 
+    public Photographer(){
+    }
+
     public Photographer(int id, String lastName) {
         this.id = id;
         this.lastName = lastName;

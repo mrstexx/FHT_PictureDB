@@ -45,7 +45,7 @@ public class PictureBL {
     }
 
     // files that are in db but get deleted from directory will stay in db
-    public void sync() {
+    public int sync() {
         if (dirPath == null) {
             if (fileCache == null) {
                 fileCache = FileCache.getInstance();
@@ -57,6 +57,7 @@ public class PictureBL {
 
         // if file not in filecache add it to db
         assert filesList != null;
+        int sizeBefore = fileCache.getSize();
         for (File file : filesList) {
             if (!fileCache.containsFile(file.getName())) {
                 Picture picture = new Picture();
@@ -65,6 +66,9 @@ public class PictureBL {
                 savePicture(picture);
             }
         }
+
+        // return number of added images
+        return (fileCache.getSize() - sizeBefore);
     }
 
     public void savePicture(Picture picture) {

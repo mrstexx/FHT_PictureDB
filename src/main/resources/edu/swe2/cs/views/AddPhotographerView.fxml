@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<?import javafx.geometry.Insets?>
-<AnchorPane minHeight="0.0" minWidth="0.0"
-            prefHeight="180.0" prefWidth="200.0" xmlns="http://javafx.com/javafx"
+<AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="edu.swe2.cs.views.EXIFView">
+            fx:controller="edu.swe2.cs.views.AddPhotographerView"
+            prefHeight="400.0" prefWidth="600.0">
+
     <children>
         <VBox prefHeight="200.0" prefWidth="100.0"
               AnchorPane.bottomAnchor="0.0"
@@ -15,31 +16,38 @@
               AnchorPane.rightAnchor="0.0"
               AnchorPane.topAnchor="0.0">
             <children>
-                <Label text="Camera"/>
-                <TextField visible="false"
-                        promptText="Which camera did you use?"/>
-                <Label text="Lens">
+                <Label text="Firstname"/>
+                <TextField fx:id="firstName"
+                           promptText="Firstname"/>
+                <Label text="Lastname">
                     <VBox.margin>
                         <Insets top="10.0"/>
                     </VBox.margin>
                 </Label>
-                <TextField visible="false"
-                        promptText="Which lens did you use?"/>
-                <Label text="Date">
+                <TextField fx:id="lastName"
+                           promptText="Lastname"/>
+                <Label fx:id="labelBirthDate" text="Date">
                     <VBox.margin>
                         <Insets top="10.0"/>
                     </VBox.margin>
                 </Label>
-                <DatePicker visible="false"
-                        maxWidth="1.7976931348623157E308"
-                        promptText="Choose date"/>
-                <Button visible="false"
+                <DatePicker fx:id="birthDate"
+                            maxWidth="1.7976931348623157E308"
+                            promptText="Choose birthdate"/>
+                <Label text="Notes">
+                    <VBox.margin>
+                        <Insets top="10.0"/>
+                    </VBox.margin>
+                </Label>
+                <TextArea fx:id="notes"
+                          promptText="Add Notes"/>
+                <Button fx:id="save" onAction="#savePhotographer"
                         alignment="CENTER"
                         contentDisplay="CENTER"
                         maxWidth="1.7976931348623157E308"
                         mnemonicParsing="false"
                         prefHeight="25.0"
-                        text="Save"
+                        text="Add Photographer"
                         textAlignment="CENTER">
                     <VBox.margin>
                         <Insets top="10.0"/>
@@ -52,4 +60,5 @@
             </padding>
         </VBox>
     </children>
+
 </AnchorPane>

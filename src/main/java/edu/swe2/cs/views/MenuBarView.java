@@ -2,7 +2,12 @@ package edu.swe2.cs.views;
 
 import edu.swe2.cs.bl.PictureBL;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,7 +59,20 @@ public class MenuBarView {
 
 
     public void addNewPhotographer() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddPhotographerView.fxml"));
+        Parent parent = null;
+        try {
+            parent = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+        Scene scene = new Scene(parent, 350, 400);
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(scene);
+        stage.setTitle("Add new Photographer");
+        stage.showAndWait();
     }
 
     public void exportToPDFReport() {
@@ -70,6 +88,11 @@ public class MenuBarView {
     }
 
     public void sync(ActionEvent actionEvent) {
-        PictureBL.getInstance().sync();
+        int newImages = PictureBL.getInstance().sync();
+        LOG.info("Open new alert dialog - show number of new Images");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Image Synchronization");
+        alert.setHeaderText(newImages + " Images have been added to the database");
+        alert.show();
     }
 }
