@@ -17,12 +17,12 @@ public class PictureView implements IView {
 
     @FXML
     private void initialize() {
-        currentPicture.imageProperty().bindBidirectional(viewModel.imageObjectProperty());
+        currentPicture.imageProperty().bind(viewModel.imageObjectProperty());
         fitCurrentPicture();
     }
 
     public PictureView() {
-        this.viewModel = (PictureViewModel) ViewManager.getViewModel(this.getClass().getName());
+        this.viewModel = new PictureViewModel();
     }
 
     private void fitCurrentPicture() {

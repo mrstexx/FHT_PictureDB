@@ -1,6 +1,7 @@
 package edu.swe2.cs.viewmodel;
 
 import edu.swe2.cs.model.Picture;
+import edu.swe2.cs.model.PictureModel;
 import edu.swe2.cs.util.URLBuilder;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Cursor;
@@ -15,10 +16,12 @@ import java.util.List;
 
 public class PictureListViewModel implements IViewModel {
 
-    List<Picture> pictures;
+    private List<Picture> pictures;
+    private PictureModel pictureModel;
 
-    public PictureListViewModel(List<Picture> pictures) {
-        this.pictures = pictures;
+    public PictureListViewModel() {
+        pictureModel = new PictureModel();
+        this.pictures = pictureModel.getPictures();
     }
 
     public List<Node> getImageViews(ReadOnlyDoubleProperty heightProperty) {

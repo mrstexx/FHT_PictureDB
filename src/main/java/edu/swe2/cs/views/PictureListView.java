@@ -23,6 +23,6 @@ public class PictureListView {
     }
 
     public PictureListView() {
-        this.viewModel = (PictureListViewModel) ViewManager.getViewModel(PictureListView.class.getName());
+        viewModel = new PictureListViewModel();
     }
 }

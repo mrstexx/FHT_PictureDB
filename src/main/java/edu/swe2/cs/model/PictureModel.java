@@ -4,7 +4,7 @@ import edu.swe2.cs.bl.PictureBL;
 
 import java.util.List;
 
-public class ModelFactory {
+public class PictureModel {
 
     private Picture picture;
     private List<Picture> pictures;

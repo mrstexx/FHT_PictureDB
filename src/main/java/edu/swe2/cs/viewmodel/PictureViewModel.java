@@ -1,6 +1,7 @@
 package edu.swe2.cs.viewmodel;
 
 import edu.swe2.cs.model.Picture;
+import edu.swe2.cs.model.PictureModel;
 import edu.swe2.cs.util.URLBuilder;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -8,11 +9,13 @@ import javafx.scene.image.Image;
 
 public class PictureViewModel implements IViewModel {
 
+    private PictureModel pictureModel;
     private Picture picture;
     private ObjectProperty<Image> imageObjectProperty;
 
-    public PictureViewModel(Picture picture) {
-        this.picture = picture;
+    public PictureViewModel() {
+        pictureModel = new PictureModel();
+        picture = pictureModel.getPicture();
     }
 
     public void setPicture(Picture picture) {
