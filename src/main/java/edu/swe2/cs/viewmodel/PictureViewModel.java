@@ -7,7 +7,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 
-public class PictureViewModel implements IViewModel {
+public class PictureViewModel {
 
     private PictureModel pictureModel;
     private Picture picture;

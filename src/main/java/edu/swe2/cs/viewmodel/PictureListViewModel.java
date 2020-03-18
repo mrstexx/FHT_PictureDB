@@ -1,23 +1,29 @@
 package edu.swe2.cs.viewmodel;
 
+import edu.swe2.cs.eventbus.EventBusFactory;
+import edu.swe2.cs.eventbus.IEventBus;
 import edu.swe2.cs.model.Picture;
 import edu.swe2.cs.model.PictureModel;
 import edu.swe2.cs.util.URLBuilder;
+import edu.swe2.cs.viewmodel.events.OnPictureSelectEvent;
+import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PictureListViewModel implements IViewModel {
+public class PictureListViewModel {
 
     private List<Picture> pictures;
     private PictureModel pictureModel;
+    private IEventBus eventBus = EventBusFactory.createSharedEventBus();
 
     public PictureListViewModel() {
         pictureModel = new PictureModel();
@@ -35,6 +41,7 @@ public class PictureListViewModel implements IViewModel {
             imageView.fitWidthProperty().bind(heightProperty);
             imageView.fitHeightProperty().bind(heightProperty);
             imageView.setCursor(Cursor.HAND);
+            imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onImageClick);
             HBox.setHgrow(imageView, Priority.ALWAYS);
             imageView.setImage(image);
             nodeList.add(imageView);
@@ -42,4 +49,8 @@ public class PictureListViewModel implements IViewModel {
         return nodeList;
     }
 
+    private void onImageClick(MouseEvent mouseEvent) {
+        ImageView imageView = (ImageView) mouseEvent.getTarget();
+        eventBus.fire(new OnPictureSelectEvent(imageView.getImage().getUrl()));
+    }
 }

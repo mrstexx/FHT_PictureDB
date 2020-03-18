@@ -1,14 +1,25 @@
 package edu.swe2.cs.views;
 
+import edu.swe2.cs.eventbus.EventBusFactory;
+import edu.swe2.cs.eventbus.IEvent;
+import edu.swe2.cs.eventbus.IEventBus;
+import edu.swe2.cs.eventbus.ISubscriber;
+import edu.swe2.cs.model.Picture;
 import edu.swe2.cs.viewmodel.PictureViewModel;
+import edu.swe2.cs.viewmodel.events.OnPictureSelectEvent;
 import javafx.beans.Observable;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-public class PictureView implements IView {
+import java.util.HashSet;
+import java.util.Set;
+
+public class PictureView implements IView, ISubscriber {
     public static final float IMAGE_OFFSET = 10;
     private final PictureViewModel viewModel;
+    private IEventBus eventBus = EventBusFactory.createSharedEventBus();
 
     @FXML
     HBox hBox;
@@ -17,12 +28,13 @@ public class PictureView implements IView {
 
     @FXML
     private void initialize() {
-        currentPicture.imageProperty().bind(viewModel.imageObjectProperty());
+        currentPicture.imageProperty().bindBidirectional(viewModel.imageObjectProperty());
         fitCurrentPicture();
     }
 
     public PictureView() {
         this.viewModel = new PictureViewModel();
+        eventBus.register(this);
     }
 
     private void fitCurrentPicture() {
@@ -55,5 +67,17 @@ public class PictureView implements IView {
             return (float) imageHeight;
         }
         return newHeight - IMAGE_OFFSET;
+    }
+
+    @Override
+    public void handle(IEvent<?> event) {
+        currentPicture.setImage(new Image((String) event.getData()));
+    }
+
+    @Override
+    public Set<Class<?>> supports() {
+        Set<Class<?>> supportedEvents = new HashSet<>();
+        supportedEvents.add(OnPictureSelectEvent.class);
+        return supportedEvents;
     }
 }
