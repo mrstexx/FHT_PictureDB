@@ -6,7 +6,6 @@ import edu.swe2.cs.model.Picture;
 import edu.swe2.cs.model.PictureModel;
 import edu.swe2.cs.util.URLBuilder;
 import edu.swe2.cs.viewmodel.events.OnPictureSelectEvent;
-import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Cursor;
 import javafx.scene.Node;

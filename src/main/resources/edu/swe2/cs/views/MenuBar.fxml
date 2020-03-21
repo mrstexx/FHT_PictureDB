@@ -17,7 +17,7 @@
     <menus>
         <Menu mnemonicParsing="false" text="Edit">
             <items>
-                <MenuItem mnemonicParsing="false" text="Edit Photographer" onAction="#editPhotograph"/>
+                <MenuItem mnemonicParsing="false" text="Edit Photographer" onAction="#editPhotographer"/>
             </items>
         </Menu>
     </menus>

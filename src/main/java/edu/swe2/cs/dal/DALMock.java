@@ -61,4 +61,14 @@ public class DALMock implements IDAL {
     public void addPhotographer(Connection connection, Photographer photographer) throws SQLException {
 
     }
+
+    @Override
+    public void deletePhotographer(Connection connection, Photographer photographer) throws SQLException {
+
+    }
+
+    @Override
+    public void updatePhotographer(Connection connection, Photographer photographer) throws SQLException {
+
+    }
 }

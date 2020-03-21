@@ -26,6 +26,10 @@ public class Photographer {
         return this.id;
     }
 
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }

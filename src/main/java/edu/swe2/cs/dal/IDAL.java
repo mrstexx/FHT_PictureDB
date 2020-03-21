@@ -32,4 +32,7 @@ public interface IDAL {
 
     void addPhotographer(Connection connection, Photographer photographer) throws SQLException;
 
+    void deletePhotographer(Connection connection, Photographer photographer) throws SQLException;
+
+    void updatePhotographer(Connection connection, Photographer photographer) throws SQLException;
 }

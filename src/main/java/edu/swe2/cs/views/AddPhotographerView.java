@@ -1,9 +1,8 @@
 package edu.swe2.cs.views;
 
-import edu.swe2.cs.model.PhotographerModel;
 import edu.swe2.cs.stage.EStage;
 import edu.swe2.cs.stage.StageManager;
-import edu.swe2.cs.viewmodel.AddPhotographerViewModel;
+import edu.swe2.cs.viewmodel.PhotographerViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -14,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 public class AddPhotographerView {
 
     private final static Logger LOG = LogManager.getLogger(AddPhotographerView.class);
-    private AddPhotographerViewModel addPhotographerViewModel = new AddPhotographerViewModel();
+    private PhotographerViewModel photographerViewModel = new PhotographerViewModel();
 
     @FXML
     private TextField firstName;
@@ -42,17 +41,16 @@ public class AddPhotographerView {
 
     @FXML
     public void initialize() {
-        firstName.textProperty().bindBidirectional(addPhotographerViewModel.getFirstName());
-        lastName.textProperty().bindBidirectional(addPhotographerViewModel.getLastName());
-        birthDate.valueProperty().bindBidirectional(addPhotographerViewModel.getBirthDate());
-        notes.textProperty().bindBidirectional(addPhotographerViewModel.getNotes());
+        firstName.textProperty().bindBidirectional(photographerViewModel.getFirstName());
+        lastName.textProperty().bindBidirectional(photographerViewModel.getLastName());
+        birthDate.valueProperty().bindBidirectional(photographerViewModel.getBirthDate());
+        notes.textProperty().bindBidirectional(photographerViewModel.getNotes());
         addListeners();
     }
 
-    //TODO: Listeners work in ViewModel but not in View
     public void addListeners() {
         lastName.textProperty().addListener((observableValue, s, t1) -> {
-            if (!addPhotographerViewModel.isLastName()) {
+            if (!photographerViewModel.isLastName()) {
                 labelMandatoryLastName();
             } else {
                 unlabelMandatoryLastName();
@@ -60,7 +58,7 @@ public class AddPhotographerView {
         });
 
         birthDate.valueProperty().addListener((observableValue, s, t1) -> {
-            if (!addPhotographerViewModel.isValidDate(t1)) {
+            if (!photographerViewModel.isValidDate(t1)) {
                 labelInvalidBirthDate();
             } else {
                 unlabelInvalidBirthDate();
@@ -68,11 +66,10 @@ public class AddPhotographerView {
         });
     }
 
-    //TODO: Close stage after adding
     public void savePhotographer(ActionEvent actionEvent) {
-        if (addPhotographerViewModel.isValid()) {
+        if (photographerViewModel.isValid()) {
             lockInputFields();
-            PhotographerModel.addPhotographerToModel(addPhotographerViewModel.getPhotographer());
+            photographerViewModel.getPhotographerModel().addPhotographerToModel(photographerViewModel.getNewPhotographer());
             LOG.info("Open new alert dialog - valid photographer form");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Add new Photographer");

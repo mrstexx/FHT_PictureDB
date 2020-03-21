@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox prefHeight="200" prefWidth="300" xmlns="http://javafx.com/javafx/10.0.2-internal"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.swe2.cs.views.PhotographerListView"
+      alignment="CENTER"
+      AnchorPane.bottomAnchor="0.0"
+      AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+      AnchorPane.topAnchor="0.0">
+
+    <ListView fx:id="photographerListView" HBox.hgrow="ALWAYS" prefHeight="200" prefWidth="300">
+        <items>
+        </items>
+    </ListView>
+</HBox>

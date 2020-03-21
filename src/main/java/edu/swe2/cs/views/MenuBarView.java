@@ -73,7 +73,7 @@ public class MenuBarView {
             StageManager.getInstance().addStage(EStage.ADDPHOTOGRAPHERSTAGE, stage);
             stage.showAndWait();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Failed to load addNewPhotographer View..", e);
         }
 
     }
@@ -86,8 +86,23 @@ public class MenuBarView {
 
     }
 
-    public void editPhotograph() {
-
+    //TODO: maybe style
+    public void editPhotographer() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditPhotographerView.fxml"));
+            Parent parent = null;
+            parent = fxmlLoader.load();
+            Scene scene = new Scene(parent, 600, 400);
+            scene.getStylesheets().add(getClass().getResource("../styles/ListTestTheme.css").toString());
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.setTitle("Edit Photographer");
+            StageManager.getInstance().addStage(EStage.EDITPHOTOGRAPHERSTAGE, stage);
+            stage.showAndWait();
+        } catch (IOException e) {
+            LOG.error("Failed to load editPhotographer View..", e);
+        }
     }
 
     public void sync(ActionEvent actionEvent) {

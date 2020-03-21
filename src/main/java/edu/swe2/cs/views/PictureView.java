@@ -4,7 +4,6 @@ import edu.swe2.cs.eventbus.EventBusFactory;
 import edu.swe2.cs.eventbus.IEvent;
 import edu.swe2.cs.eventbus.IEventBus;
 import edu.swe2.cs.eventbus.ISubscriber;
-import edu.swe2.cs.model.Picture;
 import edu.swe2.cs.viewmodel.PictureViewModel;
 import edu.swe2.cs.viewmodel.events.OnPictureSelectEvent;
 import javafx.beans.Observable;

@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 public class PhotographerBL {
@@ -34,5 +35,35 @@ public class PhotographerBL {
 
     public static boolean isValid(Photographer photographer) {
         return ((photographer.getLastName() != null && !photographer.getLastName().isEmpty() && photographer.getBirthdate() != null && photographer.getBirthdate().isBefore(LocalDate.now())));
+    }
+
+    public static List<Photographer> getAllPhotographers() {
+        try {
+            Connection connection = DBManager.getInstance().getConnection();
+            return DALFactory.getDAL().getPhotographers(connection);
+        } catch (InstantiationException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | SQLException e) {
+            LOG.error("Error occured while getting all photographers", e);
+        }
+        return null;
+    }
+
+    public static void removePhotographer(Photographer photographer) {
+        try {
+            Connection connection = DBManager.getInstance().getConnection();
+            DALFactory.getDAL().deletePhotographer(connection, photographer);
+        } catch (InstantiationException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | SQLException e) {
+            LOG.error("Error occured while deleting photographer", e);
+        }
+    }
+
+    public static void updatePhotographer(Photographer photographer) {
+        try {
+            if(isValid(photographer)) {
+                Connection connection = DBManager.getInstance().getConnection();
+                DALFactory.getDAL().updatePhotographer(connection, photographer);
+            }
+        } catch (InstantiationException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | SQLException e) {
+            LOG.error("Error occured while updating photographer", e);
+        }
     }
 }

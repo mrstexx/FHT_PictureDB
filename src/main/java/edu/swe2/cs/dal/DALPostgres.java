@@ -229,5 +229,29 @@ public class DALPostgres implements IDAL {
         preparedStatement.executeUpdate();
     }
 
+    @Override
+    public void deletePhotographer(Connection connection, Photographer photographer) throws SQLException {
+        String prepStatement = "DELETE FROM photographer WHERE id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);
+        preparedStatement.setInt(1, photographer.getId());
+        preparedStatement.executeUpdate();
+    }
+
+    @Override
+    public void updatePhotographer(Connection connection, Photographer photographer) throws SQLException {
+        String preStatement = "UPDATE photographer SET lastname = ?, firstname = ?, birthdate = ?, notes = ? WHERE id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(preStatement);
+        preparedStatement.setString(1, photographer.getLastName());
+        preparedStatement.setString(2, photographer.getFirstName());
+        if (photographer.getBirthdate() != null) {
+            preparedStatement.setObject(3, photographer.getBirthdate());
+        } else {
+            preparedStatement.setNull(3, Types.DATE);
+        }
+        preparedStatement.setString(4, photographer.getNotes());
+        preparedStatement.setInt(5, photographer.getId());
+        preparedStatement.executeUpdate();
+    }
+
 
 }
