@@ -55,6 +55,7 @@ public class UpdatePhotographerView implements ISubscriber {
         lastName.textProperty().bindBidirectional(photographerViewModel.getLastName());
         birthDate.valueProperty().bindBidirectional(photographerViewModel.getBirthDate());
         notes.textProperty().bindBidirectional(photographerViewModel.getNotes());
+        birthDate.getEditor().setDisable(true);
         addListeners();
         lockInputFields();
     }
