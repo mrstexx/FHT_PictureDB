@@ -16,41 +16,32 @@ import java.util.Set;
 public class EXIFViewModel implements ISubscriber {
 
     private Picture picture;
-    private StringProperty camera;
-    private StringProperty lens;
-    private StringProperty date;
+    private StringProperty cameraProperty = new SimpleStringProperty();
+    private StringProperty lensProperty = new SimpleStringProperty();
+    private StringProperty dateProperty = new SimpleStringProperty();
     private IEventBus eventBus = EventBusFactory.createSharedEventBus();
 
     public EXIFViewModel() {
         eventBus.register(this);
     }
 
-    public StringProperty getCamera() {
-        if (camera == null) {
-            camera = new SimpleStringProperty();
-        }
-        return camera;
+    public StringProperty cameraProperty() {
+        return cameraProperty;
     }
 
-    public StringProperty getLens() {
-        if (lens == null) {
-            lens = new SimpleStringProperty();
-        }
-        return lens;
+    public StringProperty lensProperty() {
+        return lensProperty;
     }
 
-    public StringProperty getDate() {
-        if (date == null) {
-            date = new SimpleStringProperty();
-        }
-        return date;
+    public StringProperty dateProperty() {
+        return dateProperty;
     }
 
     private void updateExifData() {
         Exif exifDate = picture.getExif();
-        camera.setValue(exifDate.getCamera());
-        lens.setValue(exifDate.getLens());
-        date.setValue(exifDate.getCaptureDate().toString());
+        cameraProperty.setValue(exifDate.getCamera());
+        lensProperty.setValue(exifDate.getLens());
+        dateProperty.setValue(exifDate.getCaptureDate().toString());
     }
 
     @Override

@@ -18,7 +18,7 @@
             <children>
                 <Label text="Title"/>
                 <TextField
-                        promptText="Give a name"/>
+                        promptText="Give a name" fx:id="titleField"/>
                 <Label text="Caption">
                     <VBox.margin>
                         <Insets top="10.0"/>
@@ -27,14 +27,14 @@
                 <TextArea maxHeight="500.0"
                           prefHeight="200.0"
                           prefWidth="200.0"
-                          promptText="Picture notes..."/>
+                          promptText="Picture notes..." fx:id="captionField"/>
                 <Label text="City">
                     <VBox.margin>
                         <Insets top="10.0"/>
                     </VBox.margin>
                 </Label>
                 <TextField
-                        promptText="Where did you make this photo ?">
+                        promptText="Where did you make this photo ?" fx:id="cityField">
                     <VBox.margin>
                         <Insets/>
                     </VBox.margin>
@@ -46,7 +46,7 @@
                         prefHeight="25.0"
                         text="Save"
                         textAlignment="CENTER"
-                        VBox.vgrow="ALWAYS">
+                        VBox.vgrow="ALWAYS" fx:id="saveBtn" onAction="#saveData">
                     <VBox.margin>
                         <Insets top="10.0"/>
                     </VBox.margin>

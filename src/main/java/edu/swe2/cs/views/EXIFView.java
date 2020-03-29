@@ -17,9 +17,9 @@ public class EXIFView {
 
     @FXML
     public void initialize() {
-        cameraTextField.textProperty().bindBidirectional(viewModel.getCamera());
-        lensTextField.textProperty().bindBidirectional(viewModel.getLens());
-        dateField.textProperty().bindBidirectional(viewModel.getDate());
+        cameraTextField.textProperty().bindBidirectional(viewModel.cameraProperty());
+        lensTextField.textProperty().bindBidirectional(viewModel.lensProperty());
+        dateField.textProperty().bindBidirectional(viewModel.dateProperty());
     }
 
     public EXIFView() {
