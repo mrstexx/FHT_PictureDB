@@ -24,7 +24,6 @@ public class PictureViewModel implements ISubscriber {
 
     public PictureViewModel() {
         pictureModel = new PictureModel();
-        picture = pictureModel.getPicture();
         eventBus.register(this);
     }
 
@@ -33,7 +32,9 @@ public class PictureViewModel implements ISubscriber {
     }
 
     public ObjectProperty<Image> getCurrentPicture() {
-        if (currentPicture == null) {
+        if (picture == null) {
+            currentPicture = new SimpleObjectProperty<>();
+        } else if (currentPicture == null) {
             Image img = new Image(getPicturePath());
             currentPicture = new SimpleObjectProperty<>(img);
         }
@@ -41,6 +42,9 @@ public class PictureViewModel implements ISubscriber {
     }
 
     public String getPicturePath() {
+        if (picture == null) {
+            return "";
+        }
         return URLBuilder.getPreparedImgPath(picture.getFileName());
     }
 

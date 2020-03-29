@@ -17,22 +17,21 @@
             <children>
                 <Label text="Camera"/>
                 <TextField editable="false"
-                        promptText="Which camera did you use?"/>
+                           promptText="Which camera did you use?" fx:id="cameraTextField"/>
                 <Label text="Lens">
                     <VBox.margin>
                         <Insets top="10.0"/>
                     </VBox.margin>
                 </Label>
                 <TextField editable="false"
-                        promptText="Which lens did you use?"/>
+                           promptText="Which lens did you use?" fx:id="lensTextField"/>
                 <Label text="Date">
                     <VBox.margin>
                         <Insets top="10.0"/>
                     </VBox.margin>
                 </Label>
-                <DatePicker editable="false"
-                        maxWidth="1.7976931348623157E308"
-                        promptText="Choose date"/>
+                <TextField editable="false"
+                           promptText="Choose date" fx:id="dateField"/>
                 <Button visible="false"
                         alignment="CENTER"
                         contentDisplay="CENTER"

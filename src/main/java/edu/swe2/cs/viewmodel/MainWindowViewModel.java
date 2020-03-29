@@ -1,5 +1,19 @@
 package edu.swe2.cs.viewmodel;
 
+import edu.swe2.cs.eventbus.EventBusFactory;
+import edu.swe2.cs.eventbus.IEventBus;
+import edu.swe2.cs.model.Picture;
+import edu.swe2.cs.model.PictureModel;
+import edu.swe2.cs.viewmodel.events.OnPictureSelectEvent;
+
 public class MainWindowViewModel {
+
+    private IEventBus eventBus = EventBusFactory.createSharedEventBus();
+
+    public void setFirstPicture() {
+        // needed to set exif and iptc data when first time app open
+        Picture firstPicture = new PictureModel().getPicture();
+        eventBus.fire(new OnPictureSelectEvent(firstPicture));
+    }
 
 }
