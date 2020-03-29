@@ -41,6 +41,7 @@ public class PictureListViewModel {
             imageView.fitHeightProperty().bind(heightProperty);
             imageView.setCursor(Cursor.HAND);
             imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onImageClick);
+            imageView.setUserData(pic);
             HBox.setHgrow(imageView, Priority.ALWAYS);
             imageView.setImage(image);
             nodeList.add(imageView);
@@ -49,7 +50,7 @@ public class PictureListViewModel {
     }
 
     private void onImageClick(MouseEvent mouseEvent) {
-        ImageView imageView = (ImageView) mouseEvent.getTarget();
-        eventBus.fire(new OnPictureSelectEvent(imageView.getImage().getUrl()));
+        Object sourceData = mouseEvent.getSource();
+        eventBus.fire(new OnPictureSelectEvent((Picture) ((ImageView) sourceData).getUserData()));
     }
 }

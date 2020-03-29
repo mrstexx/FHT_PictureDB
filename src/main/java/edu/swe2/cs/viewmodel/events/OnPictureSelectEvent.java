@@ -1,17 +1,18 @@
 package edu.swe2.cs.viewmodel.events;
 
 import edu.swe2.cs.eventbus.IEvent;
+import edu.swe2.cs.model.Picture;
 
 public class OnPictureSelectEvent implements IEvent {
 
-    private String imageUrl;
+    private Picture picture;
 
-    public OnPictureSelectEvent(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public OnPictureSelectEvent(Picture picture) {
+        this.picture = picture;
     }
 
     @Override
     public Object getData() {
-        return imageUrl;
+        return picture;
     }
 }
