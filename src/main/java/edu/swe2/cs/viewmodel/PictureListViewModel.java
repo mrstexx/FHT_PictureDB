@@ -9,11 +9,13 @@ import edu.swe2.cs.viewmodel.events.OnPictureSelectEvent;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +44,25 @@ public class PictureListViewModel {
             imageView.setCursor(Cursor.HAND);
             imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onImageClick);
             imageView.setUserData(pic);
+            imageView.setOnMouseEntered(this::onMouseEnter);
+            imageView.setOnMouseExited(this::onMouseLeave);
             HBox.setHgrow(imageView, Priority.ALWAYS);
             imageView.setImage(image);
             nodeList.add(imageView);
         }
         return nodeList;
+    }
+
+    private void onMouseEnter(MouseEvent event) {
+        Object sourceData = event.getSource();
+        ImageView imgView = (ImageView) sourceData;
+        imgView.setEffect(new DropShadow(5, Color.BLACK));
+    }
+
+    private void onMouseLeave(MouseEvent event) {
+        Object sourceData = event.getSource();
+        ImageView imgView = (ImageView) sourceData;
+        imgView.setEffect(null);
     }
 
     private void onImageClick(MouseEvent mouseEvent) {
