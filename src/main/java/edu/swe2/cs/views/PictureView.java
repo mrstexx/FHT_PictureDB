@@ -1,18 +1,31 @@
 package edu.swe2.cs.views;
 
+import edu.swe2.cs.bl.PictureBL;
+import edu.swe2.cs.stage.EStage;
+import edu.swe2.cs.stage.StageManager;
 import edu.swe2.cs.viewmodel.PictureViewModel;
 import javafx.beans.Observable;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 
 public class PictureView implements IView {
     public static final float IMAGE_OFFSET = 10;
+    private static final Logger LOG = LogManager.getLogger(PictureView.class);
     private final PictureViewModel viewModel;
 
     @FXML
@@ -33,7 +46,24 @@ public class PictureView implements IView {
 
     @FXML
     private void onImageClick(MouseEvent event) {
-        this.viewModel.onImageClick(event);
+        if(viewModel.isOnImageClick(event)) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AssignPictureView.fxml"));
+                Parent parent = null;
+                parent = fxmlLoader.load();
+                Scene scene = new Scene(parent, 400, 170);
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setScene(scene);
+                stage.setTitle("Assign Picture to Photographer");
+                AssignPictureView assignPictureView = fxmlLoader.getController();
+                assignPictureView.getViewModel().setPicture(viewModel.getPicture());
+                StageManager.getInstance().addStage(EStage.ASSIGNPICTURESTAGE, stage);
+                stage.showAndWait();
+            } catch (IOException e) {
+                LOG.error("Failed to load assignPicture View..", e);
+            }
+        }
     }
 
     @FXML

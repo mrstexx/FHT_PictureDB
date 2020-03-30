@@ -4,6 +4,7 @@ import edu.swe2.cs.eventbus.EventBusFactory;
 import edu.swe2.cs.eventbus.IEvent;
 import edu.swe2.cs.eventbus.IEventBus;
 import edu.swe2.cs.eventbus.ISubscriber;
+import edu.swe2.cs.model.Picture;
 import edu.swe2.cs.stage.EStage;
 import edu.swe2.cs.stage.StageManager;
 import edu.swe2.cs.viewmodel.MainWindowViewModel;
@@ -22,15 +23,13 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MainWindowView implements ISubscriber {
+public class MainWindowView {
 
     private final static Logger LOG = LogManager.getLogger(MainWindowView.class);
     MainWindowViewModel viewModel;
-    private IEventBus eventBus = EventBusFactory.createSharedEventBus();
 
     public MainWindowView() {
         viewModel = new MainWindowViewModel();
-        eventBus.register(this);
     }
 
     @FXML
@@ -57,29 +56,4 @@ public class MainWindowView implements ISubscriber {
         primaryStage.show();
     }
 
-    //TODO: Fix exception
-    @Override
-    public void handle(IEvent<?> event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AssignPictureView.fxml"));
-            Parent parent = null;
-            parent = fxmlLoader.load();
-            Scene scene = new Scene(parent, 600, 400);
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(scene);
-            stage.setTitle("Assign Picture to Photographer");
-            StageManager.getInstance().addStage(EStage.ASSIGNPICTURESTAGE, stage);
-            stage.showAndWait();
-        } catch (IOException e) {
-            LOG.error("Failed to load assignPicture View..", e);
-        }
-    }
-
-    @Override
-    public Set<Class<?>> supports() {
-        Set<Class<?>> supportedEvents = new HashSet<>();
-        supportedEvents.add(OnPictureDoubleClickEvent.class);
-        return supportedEvents;
-    }
 }

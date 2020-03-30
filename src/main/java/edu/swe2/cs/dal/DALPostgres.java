@@ -282,5 +282,12 @@ public class DALPostgres implements IDAL {
         preparedStatement.executeUpdate();
     }
 
+    @Override
+    public void assignPicture(Connection connection, Picture picture, Photographer photographer) throws SQLException {
+        //TODO: Save
+        System.out.println(picture.getFileName());
+        System.out.println(photographer.getFirstName());
+    }
+
 
 }

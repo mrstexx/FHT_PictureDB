@@ -76,4 +76,9 @@ public class DALMock implements IDAL {
     public void updatePhotographer(Connection connection, Photographer photographer) throws SQLException {
 
     }
+
+    @Override
+    public void assignPicture(Connection connection, Picture picture, Photographer photographer) throws SQLException {
+
+    }
 }

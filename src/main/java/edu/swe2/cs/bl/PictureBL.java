@@ -4,6 +4,7 @@ import edu.swe2.cs.config.ConfigProperties;
 import edu.swe2.cs.dal.DALFactory;
 import edu.swe2.cs.dal.DBManager;
 import edu.swe2.cs.model.Iptc;
+import edu.swe2.cs.model.Photographer;
 import edu.swe2.cs.model.Picture;
 import edu.swe2.cs.util.ExifGenerator;
 import edu.swe2.cs.util.URLBuilder;
@@ -135,5 +136,20 @@ public class PictureBL {
             return picture.getFileName() != null && picture.getExif() != null;
         }
         return false;
+    }
+
+
+    public void assignPicture(Picture picture, Photographer photographer){
+        try {
+            Connection connection = DBManager.getInstance().getConnection();
+            Objects.requireNonNull(DALFactory.getDAL()).assignPicture(connection, picture, photographer);
+        } catch (InstantiationException |
+                InvocationTargetException |
+                NoSuchMethodException |
+                SQLException |
+                IllegalAccessException |
+                ClassNotFoundException e) {
+            LOG.error("Error occurred while saving picture", e);
+        }
     }
 }

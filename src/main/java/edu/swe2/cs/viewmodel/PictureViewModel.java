@@ -6,14 +6,23 @@ import edu.swe2.cs.eventbus.IEventBus;
 import edu.swe2.cs.eventbus.ISubscriber;
 import edu.swe2.cs.model.Picture;
 import edu.swe2.cs.model.PictureModel;
+import edu.swe2.cs.stage.EStage;
+import edu.swe2.cs.stage.StageManager;
 import edu.swe2.cs.util.URLBuilder;
 import edu.swe2.cs.viewmodel.events.OnPictureDoubleClickEvent;
 import edu.swe2.cs.viewmodel.events.OnPictureSelectEvent;
+import edu.swe2.cs.views.AssignPictureView;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,6 +40,10 @@ public class PictureViewModel implements ISubscriber {
 
     public void setPicture(Picture picture) {
         this.picture = picture;
+    }
+
+    public Picture getPicture() {
+        return picture;
     }
 
     public ObjectProperty<Image> getCurrentPicture() {
@@ -63,9 +76,10 @@ public class PictureViewModel implements ISubscriber {
         return supportedEvents;
     }
 
-    public void onImageClick(MouseEvent event) {
+    public boolean isOnImageClick(MouseEvent event) {
         if (event.getClickCount() == 2) {
-            eventBus.fire(new OnPictureDoubleClickEvent(picture));
+           return true;
         }
+        return false;
     }
 }
