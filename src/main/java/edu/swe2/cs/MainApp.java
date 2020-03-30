@@ -18,8 +18,8 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         LOG.info("Starting application...");
+        PictureBL.getInstance().sync();
         MainWindowView mainWindowView = new MainWindowView();
         mainWindowView.start(primaryStage);
-        PictureBL.getInstance().sync();
     }
 }

@@ -21,14 +21,10 @@ public class IPTCViewModel implements ISubscriber {
     private StringProperty titleProperty = new SimpleStringProperty();
     private StringProperty captionProperty = new SimpleStringProperty();
     private StringProperty cityProperty = new SimpleStringProperty();
-    private BooleanProperty disabledProperty = new SimpleBooleanProperty(true);
     private IEventBus eventBus = EventBusFactory.createSharedEventBus();
     private Picture picture;
 
     public IPTCViewModel() {
-        titleProperty.addListener((observable, oldValue, newValue) -> validate());
-        captionProperty.addListener((observable, oldValue, newValue) -> validate());
-        cityProperty.addListener((observable, oldValue, newValue) -> validate());
         eventBus.register(this);
     }
 
@@ -44,56 +40,18 @@ public class IPTCViewModel implements ISubscriber {
         return cityProperty;
     }
 
-    public BooleanProperty disabledProperty() {
-        return disabledProperty;
-    }
-
-    private boolean validateTitleProp() {
-        if (titleProperty.get() == null) {
-            return true;
-        }
-        return titleProperty.get().isEmpty();
-    }
-
-    private boolean validateCaptionProp() {
-        if (captionProperty.get() == null) {
-            return true;
-        }
-        return captionProperty.get().isEmpty();
-    }
-
-    private boolean validateCityProp() {
-        if (cityProperty.get() == null) {
-            return true;
-        }
-        return cityProperty.get().isEmpty();
-    }
-
-    private void validate() {
-        if (validateTitleProp() && validateCaptionProp() && validateCityProp()) {
-            disabledProperty.setValue(true);
-        } else {
-            disabledProperty.setValue(false);
-        }
-    }
-
     public void saveData() {
-        Iptc iptcData = this.picture.getIptc();
-        // TODO Stefan: addIptc missing
-        if (iptcData == null) {
-            return;
+        Iptc iptcData;
+        if (this.picture.getIptc() == null) {
+            iptcData = new Iptc();
+        } else {
+            iptcData = this.picture.getIptc();
         }
-        if (!validateTitleProp()) {
-            iptcData.setTitle(titleProperty.getValue());
-        }
-        if (!validateCaptionProp()) {
-            iptcData.setCaption(captionProperty.getValue());
-        }
-        if (!validateCityProp()) {
-            iptcData.setCity(cityProperty.getValue());
-        }
+        iptcData.setTitle(titleProperty.getValue());
+        iptcData.setCaption(captionProperty.getValue());
+        iptcData.setCity(cityProperty.getValue());
         this.picture.setIptc(iptcData);
-        PictureBL.getInstance().savePicture(this.picture);
+        PictureBL.getInstance().updateIptc(iptcData, this.picture.getFileName());
     }
 
     private void updateIptcData() {
@@ -105,9 +63,16 @@ public class IPTCViewModel implements ISubscriber {
         }
     }
 
+    private void resetIptcValues() {
+        titleProperty.setValue("");
+        captionProperty.setValue("");
+        cityProperty.setValue("");
+    }
+
     @Override
     public void handle(IEvent<?> event) {
         picture = (Picture) event.getData();
+        resetIptcValues();
         updateIptcData();
     }
 

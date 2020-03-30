@@ -215,6 +215,35 @@ public class DALPostgres implements IDAL {
     }
 
     @Override
+    public void updateIptc(Connection connection, Iptc iptc, String fileName) throws SQLException {
+        String prepStatement;
+        if (iptc.getId() > -1) {
+            prepStatement = "UPDATE iptc_info SET title=?, caption=?, city=? WHERE id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);
+            preparedStatement.setString(1, iptc.getTitle());
+            preparedStatement.setString(2, iptc.getCaption());
+            preparedStatement.setString(3, iptc.getCity());
+            preparedStatement.setInt(4, iptc.getId());
+            preparedStatement.executeUpdate();
+        } else {
+            prepStatement = "INSERT INTO iptc_info(title, caption, city) VALUES (?, ?, ?) RETURNING id";
+            PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);
+            preparedStatement.setString(1, iptc.getTitle());
+            preparedStatement.setString(2, iptc.getCaption());
+            preparedStatement.setString(3, iptc.getCity());
+            ResultSet rs = preparedStatement.executeQuery();
+            rs.next();
+            int iptcID = rs.getInt(1);
+            prepStatement = "UPDATE picture SET iptc_id = ? WHERE file_name = ?";
+            PreparedStatement preparedStatement1 = connection.prepareStatement(prepStatement);
+            preparedStatement1.setInt(1, iptcID);
+            preparedStatement1.setString(2, fileName);
+            preparedStatement1.executeUpdate();
+            iptc.setID(iptcID);
+        }
+    }
+
+    @Override
     public void addPhotographer(Connection connection, Photographer photographer) throws SQLException {
         String prepStatement = "INSERT INTO photographer(lastname, firstname, birthdate, notes) VALUES (?, ?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);

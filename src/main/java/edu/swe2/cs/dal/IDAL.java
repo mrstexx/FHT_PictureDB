@@ -30,6 +30,8 @@ public interface IDAL {
 
     void addExif(Connection connection, Exif exif, String fileName) throws SQLException;
 
+    void updateIptc(Connection connection, Iptc iptc, String fileName) throws SQLException;
+
     void addPhotographer(Connection connection, Photographer photographer) throws SQLException;
 
     void deletePhotographer(Connection connection, Photographer photographer) throws SQLException;

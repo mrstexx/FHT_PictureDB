@@ -3,9 +3,11 @@ package edu.swe2.cs.bl;
 import edu.swe2.cs.config.ConfigProperties;
 import edu.swe2.cs.dal.DALFactory;
 import edu.swe2.cs.dal.DBManager;
+import edu.swe2.cs.model.Iptc;
 import edu.swe2.cs.model.Picture;
 import edu.swe2.cs.util.ExifGenerator;
 import edu.swe2.cs.util.URLBuilder;
+import javafx.beans.property.ObjectProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -73,7 +75,7 @@ public class PictureBL {
 
     public void savePicture(Picture picture) {
         try {
-            if (isValid(picture)) {
+            if (isValidPicture(picture)) {
                 Connection connection = DBManager.getInstance().getConnection();
                 Objects.requireNonNull(DALFactory.getDAL()).addPicture(connection, picture);
             }
@@ -84,6 +86,24 @@ public class PictureBL {
                 IllegalAccessException |
                 ClassNotFoundException e) {
             LOG.error("Error occurred while saving picture", e);
+        }
+    }
+
+    public void updateIptc(Iptc iptcData, String fileName) {
+        try {
+            if (isValidIptc(iptcData)) {
+                Connection connection = DBManager.getInstance().getConnection();
+                Objects.requireNonNull(DALFactory.getDAL()).updateIptc(connection, iptcData, fileName);
+                LOG.debug("IPTC data with {}-ID update successfully executed", iptcData.getId());
+                LOG.info("IPTC data on picture {} successfully updated", fileName);
+            }
+        } catch (SQLException |
+                ClassNotFoundException |
+                NoSuchMethodException |
+                IllegalAccessException |
+                InvocationTargetException |
+                InstantiationException e) {
+            LOG.error("Error occurred while saving IPTC data for picture {}, {}", fileName, e);
         }
     }
 
@@ -102,8 +122,15 @@ public class PictureBL {
         return new ArrayList<>();
     }
 
+    public boolean isValidIptc(Iptc iptc) {
+        if (iptc == null) {
+            return false;
+        }
+        return true;
+    }
+
     // BL: Picture without Exif is not valid
-    public boolean isValid(Picture picture) {
+    public boolean isValidPicture(Picture picture) {
         if (picture != null) {
             return picture.getFileName() != null && picture.getExif() != null;
         }

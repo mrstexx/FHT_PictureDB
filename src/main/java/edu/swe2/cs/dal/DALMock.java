@@ -58,6 +58,11 @@ public class DALMock implements IDAL {
     }
 
     @Override
+    public void updateIptc(Connection connection, Iptc iptc, String fileName) throws SQLException {
+
+    }
+
+    @Override
     public void addPhotographer(Connection connection, Photographer photographer) throws SQLException {
 
     }

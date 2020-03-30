@@ -22,7 +22,6 @@ public class IPTCView {
         titleField.textProperty().bindBidirectional(viewModel.titleProperty());
         captionField.textProperty().bindBidirectional(viewModel.captionProperty());
         cityField.textProperty().bindBidirectional(viewModel.cityProperty());
-        saveBtn.disableProperty().bindBidirectional(viewModel.disabledProperty());
     }
 
     public void saveData() {

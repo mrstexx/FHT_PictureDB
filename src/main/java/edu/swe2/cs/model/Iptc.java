@@ -2,10 +2,13 @@ package edu.swe2.cs.model;
 
 public class Iptc {
 
-    private int id;
+    private int id = -1;
     private String title;
     private String caption;
     private String city;
+
+    public Iptc() {
+    }
 
     public Iptc(int id) {
         this.id = id;
@@ -25,6 +28,10 @@ public class Iptc {
 
     public String getCity() {
         return this.city;
+    }
+
+    public void setID(int ID) {
+        this.id = ID;
     }
 
     public void setTitle(String title) {
