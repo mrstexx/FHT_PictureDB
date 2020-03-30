@@ -3,8 +3,13 @@ package edu.swe2.cs.views;
 import edu.swe2.cs.viewmodel.PictureViewModel;
 import javafx.beans.Observable;
 import javafx.fxml.FXML;
+import javafx.scene.control.Tooltip;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 public class PictureView implements IView {
     public static final float IMAGE_OFFSET = 10;
@@ -18,7 +23,29 @@ public class PictureView implements IView {
     @FXML
     private void initialize() {
         currentPicture.imageProperty().bindBidirectional(viewModel.getCurrentPicture());
+        Tooltip tooltip = new Tooltip("Double Click to assign Photographer");
+        tooltip.setShowDelay(Duration.seconds(0.1));
+        tooltip.setShowDuration(Duration.seconds(2));
+        tooltip.setStyle("-fx-background-color:azure; -fx-text-fill:black;");
+        Tooltip.install(hBox, tooltip);
         fitCurrentPicture();
+    }
+
+    @FXML
+    private void onImageClick(MouseEvent event) {
+        this.viewModel.onImageClick(event);
+    }
+
+    @FXML
+    private void onMouseEntered(MouseEvent event) {
+        hBox.setStyle("-fx-background-color: azure");
+        currentPicture.setEffect(new DropShadow(20, Color.BLACK));
+    }
+
+    @FXML
+    private void onMouseExited(MouseEvent event) {
+        hBox.setStyle("-fx-border-color: white");
+        currentPicture.setEffect(null);
     }
 
     public PictureView() {
@@ -56,4 +83,5 @@ public class PictureView implements IView {
         }
         return newHeight - IMAGE_OFFSET;
     }
+
 }

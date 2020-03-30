@@ -82,10 +82,6 @@ public class MenuBarView {
 
     }
 
-    public void assignPictures() {
-
-    }
-
     //TODO: maybe style
     public void editPhotographer() {
         try {

@@ -7,10 +7,12 @@ import edu.swe2.cs.eventbus.ISubscriber;
 import edu.swe2.cs.model.Picture;
 import edu.swe2.cs.model.PictureModel;
 import edu.swe2.cs.util.URLBuilder;
+import edu.swe2.cs.viewmodel.events.OnPictureDoubleClickEvent;
 import edu.swe2.cs.viewmodel.events.OnPictureSelectEvent;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -59,5 +61,11 @@ public class PictureViewModel implements ISubscriber {
         Set<Class<?>> supportedEvents = new HashSet<>();
         supportedEvents.add(OnPictureSelectEvent.class);
         return supportedEvents;
+    }
+
+    public void onImageClick(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            eventBus.fire(new OnPictureDoubleClickEvent(picture));
+        }
     }
 }
