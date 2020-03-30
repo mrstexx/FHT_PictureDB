@@ -8,7 +8,6 @@ import edu.swe2.cs.model.Photographer;
 import edu.swe2.cs.model.Picture;
 import edu.swe2.cs.util.ExifGenerator;
 import edu.swe2.cs.util.URLBuilder;
-import javafx.beans.property.ObjectProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -138,8 +137,7 @@ public class PictureBL {
         return false;
     }
 
-
-    public void assignPicture(Picture picture, Photographer photographer){
+    public void assignPicture(Picture picture, Photographer oldPhotographer, Photographer photographer) {
         try {
             Connection connection = DBManager.getInstance().getConnection();
             Objects.requireNonNull(DALFactory.getDAL()).assignPicture(connection, picture, photographer);

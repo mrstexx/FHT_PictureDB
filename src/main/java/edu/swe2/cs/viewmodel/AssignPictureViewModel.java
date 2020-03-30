@@ -3,32 +3,31 @@ package edu.swe2.cs.viewmodel;
 import edu.swe2.cs.model.Photographer;
 import edu.swe2.cs.model.PhotographerModel;
 import edu.swe2.cs.model.Picture;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.List;
-
 public class AssignPictureViewModel {
 
     private Picture picture;
     private Photographer photographer;
+    private Photographer oldPhotographer;
     private PhotographerModel photographerModel;
     private ObservableList<Photographer> photographers;
     private StringProperty currentPhotographerString = new SimpleStringProperty("None");
 
-    public AssignPictureViewModel(){
+    public AssignPictureViewModel() {
         photographerModel = new PhotographerModel();
         photographers = FXCollections.observableList(photographerModel.getPhotographers());
     }
 
-    public void setFirstPhotographer(){
-        if(picture != null){
+    public void setFirstPhotographer() {
+        if (picture != null) {
             Photographer currentPhotographer = picture.getPhotographer();
-            if(currentPhotographer != null && photographers.contains(currentPhotographer)){
-                currentPhotographerString.setValue("Currently assigned to this image: " + photographer.getId() + ", " + photographer.getLastName() + " " + photographer.getFirstName());
+            if (currentPhotographer != null && photographersContainsPhotographer(currentPhotographer)) {
+                currentPhotographerString.setValue("Currently assigned to this image: " + currentPhotographer.getId() + ", " + currentPhotographer.getLastName() + " " + currentPhotographer.getFirstName());
+                oldPhotographer = currentPhotographer;
             }
         }
     }
@@ -42,7 +41,17 @@ public class AssignPictureViewModel {
         return picture;
     }
 
-    public ObservableList<Photographer> getPhotographers(){
+    private boolean photographersContainsPhotographer(Photographer photographer) {
+        assert photographers != null;
+        for (Photographer elem : photographers) {
+            if (elem.getId() == photographer.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ObservableList<Photographer> getPhotographers() {
         return photographers;
     }
 
@@ -50,10 +59,10 @@ public class AssignPictureViewModel {
         this.photographer = newPhotographer;
     }
 
-    public boolean isCurrentPhotographer(Photographer photographer){
-        if(picture != null){
+    public boolean isCurrentPhotographer(Photographer photographer) {
+        if (picture != null) {
             Photographer currentPhotographer = picture.getPhotographer();
-            if(currentPhotographer != null && currentPhotographer.getId() == photographer.getId())
+            if (currentPhotographer != null && currentPhotographer.getId() == photographer.getId())
                 return true;
         }
         return false;
@@ -65,5 +74,9 @@ public class AssignPictureViewModel {
 
     public Photographer getPhotographer() {
         return photographer;
+    }
+
+    public Photographer getOldPhotographer() {
+        return oldPhotographer;
     }
 }
