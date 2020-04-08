@@ -3,7 +3,6 @@ package edu.swe2.cs.viewmodel;
 import edu.swe2.cs.bl.PhotographerBL;
 import edu.swe2.cs.bl.PictureBL;
 import edu.swe2.cs.model.Photographer;
-import edu.swe2.cs.model.PhotographerModel;
 import edu.swe2.cs.model.Picture;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -15,12 +14,10 @@ public class AssignPictureViewModel {
     private Picture picture;
     private Photographer photographer;
     private Photographer oldPhotographer;
-    private PhotographerModel photographerModel;
     private ObservableList<Photographer> photographers;
     private StringProperty currentPhotographerString = new SimpleStringProperty("None");
 
     public AssignPictureViewModel() {
-        photographerModel = new PhotographerModel();
         photographers = FXCollections.observableList(PhotographerBL.getAllPhotographers());
     }
 

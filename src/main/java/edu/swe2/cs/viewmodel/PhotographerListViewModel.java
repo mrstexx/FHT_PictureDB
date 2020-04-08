@@ -4,7 +4,6 @@ import edu.swe2.cs.bl.PhotographerBL;
 import edu.swe2.cs.eventbus.EventBusFactory;
 import edu.swe2.cs.eventbus.IEventBus;
 import edu.swe2.cs.model.Photographer;
-import edu.swe2.cs.model.PhotographerModel;
 import edu.swe2.cs.viewmodel.events.OnEmptyPhotographerListEvent;
 import edu.swe2.cs.viewmodel.events.OnPhotographerSelectEvent;
 
@@ -12,12 +11,10 @@ import java.util.List;
 
 public class PhotographerListViewModel {
 
-    PhotographerModel photographerModel;
     List<Photographer> photographers;
     private IEventBus eventBus = EventBusFactory.createSharedEventBus();
 
     public PhotographerListViewModel() {
-        photographerModel = new PhotographerModel();
         photographers = PhotographerBL.getAllPhotographers();
     }
 

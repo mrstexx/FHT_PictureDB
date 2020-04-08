@@ -4,7 +4,6 @@ import edu.swe2.cs.bl.PictureBL;
 import edu.swe2.cs.eventbus.EventBusFactory;
 import edu.swe2.cs.eventbus.IEventBus;
 import edu.swe2.cs.model.Picture;
-import edu.swe2.cs.model.PictureModel;
 import edu.swe2.cs.viewmodel.events.OnPictureSelectEvent;
 
 public class MainWindowViewModel {

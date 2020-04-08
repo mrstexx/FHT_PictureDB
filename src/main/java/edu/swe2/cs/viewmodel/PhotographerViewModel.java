@@ -3,7 +3,6 @@ package edu.swe2.cs.viewmodel;
 import edu.swe2.cs.eventbus.EventBusFactory;
 import edu.swe2.cs.eventbus.IEventBus;
 import edu.swe2.cs.model.Photographer;
-import edu.swe2.cs.model.PhotographerModel;
 import edu.swe2.cs.viewmodel.events.OnPhotographerDeleteEvent;
 import edu.swe2.cs.viewmodel.events.OnPhotographerUpdateEvent;
 import javafx.beans.property.ObjectProperty;
@@ -16,7 +15,6 @@ import java.time.LocalDate;
 public class PhotographerViewModel {
 
     private Photographer photographer;
-    private PhotographerModel photographerModel;
     private StringProperty firstName;
     private StringProperty lastName;
     private ObjectProperty<LocalDate> birthDate;
@@ -25,7 +23,6 @@ public class PhotographerViewModel {
 
 
     public PhotographerViewModel() {
-        photographerModel = new PhotographerModel();
         firstName = new SimpleStringProperty("");
         lastName = new SimpleStringProperty("");
         birthDate = new SimpleObjectProperty<>();
@@ -44,10 +41,6 @@ public class PhotographerViewModel {
         lastName.setValue(photographer.getLastName());
         birthDate.setValue(photographer.getBirthdate());
         notes.setValue(photographer.getNotes());
-    }
-
-    public PhotographerModel getPhotographerModel() {
-        return this.photographerModel;
     }
 
     public StringProperty getLastName() {
