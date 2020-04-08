@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox maxHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/11.0.1"
+<HBox fx:id="hBox" maxHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/11.0.1"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.swe2.cs.views.SearchBarView">
     <children>
         <TextField fx:id="searchTextField" promptText="Enter to search" HBox.hgrow="ALWAYS">

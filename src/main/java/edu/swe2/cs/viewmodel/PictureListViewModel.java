@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class PictureListViewModel {
 
     private List<Picture> pictures;
@@ -34,22 +35,24 @@ public class PictureListViewModel {
 
     public List<Node> getImageViews(ReadOnlyDoubleProperty heightProperty) {
         List<Node> nodeList = new ArrayList<>();
-        for (Picture pic : pictures) {
-            Image image = new Image(URLBuilder.getPreparedImgPath(pic.getFileName()), true);
-            ImageView imageView = new ImageView();
-            imageView.prefWidth(180);
-            imageView.prefHeight(180);
-            imageView.setPreserveRatio(true);
-            imageView.fitWidthProperty().bind(heightProperty);
-            imageView.fitHeightProperty().bind(heightProperty);
-            imageView.setCursor(Cursor.HAND);
-            imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onImageClick);
-            imageView.setUserData(pic);
-            imageView.setOnMouseEntered(this::onMouseEnter);
-            imageView.setOnMouseExited(this::onMouseLeave);
-            HBox.setHgrow(imageView, Priority.ALWAYS);
-            imageView.setImage(image);
-            nodeList.add(imageView);
+        if (pictures != null) {
+            for (Picture pic : pictures) {
+                Image image = new Image(URLBuilder.getPreparedImgPath(pic.getFileName()), true);
+                ImageView imageView = new ImageView();
+                imageView.prefWidth(180);
+                imageView.prefHeight(180);
+                imageView.setPreserveRatio(true);
+                imageView.fitWidthProperty().bind(heightProperty);
+                imageView.fitHeightProperty().bind(heightProperty);
+                imageView.setCursor(Cursor.HAND);
+                imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onImageClick);
+                imageView.setUserData(pic);
+                imageView.setOnMouseEntered(this::onMouseEnter);
+                imageView.setOnMouseExited(this::onMouseLeave);
+                HBox.setHgrow(imageView, Priority.ALWAYS);
+                imageView.setImage(image);
+                nodeList.add(imageView);
+            }
         }
         return nodeList;
     }
@@ -69,5 +72,16 @@ public class PictureListViewModel {
     private void onImageClick(MouseEvent mouseEvent) {
         Object sourceData = mouseEvent.getSource();
         eventBus.fire(new OnPictureSelectEvent((Picture) ((ImageView) sourceData).getUserData()));
+    }
+
+    public List<Node> onSearchPictures(List<Picture> pictures, ReadOnlyDoubleProperty heightProperty) {
+        this.pictures = pictures;
+        List<Node> imageViews = getImageViews(heightProperty);
+        if (pictures != null && !pictures.isEmpty()) {
+            eventBus.fire(new OnPictureSelectEvent(pictures.get(0)));
+        } else {
+            //eventBus.fire(new OnPictureSelectEvent(null));
+        }
+        return imageViews;
     }
 }

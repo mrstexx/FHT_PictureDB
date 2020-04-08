@@ -13,82 +13,87 @@ public class DALMock implements IDAL {
 
 
     @Override
-    public List<Picture> getPictures(Connection connection) throws SQLException {
+    public List<Picture> getPictures() throws SQLException {
         return null;
     }
 
     @Override
-    public List<Photographer> getPhotographers(Connection connection) throws SQLException {
+    public List<Photographer> getPhotographers() throws SQLException {
         return null;
     }
 
     @Override
-    public List<Exif> getExifs(Connection connection) throws SQLException {
+    public List<Exif> getExifs() throws SQLException {
         return null;
     }
 
     @Override
-    public List<Iptc> getIptcs(Connection connection) throws SQLException {
+    public List<Iptc> getIptcs() throws SQLException {
         return null;
     }
 
     @Override
-    public Picture getPicture(Connection connection, int id) throws SQLException {
+    public Picture getPicture(int id) throws SQLException {
         return null;
     }
 
     @Override
-    public Photographer getPhotographer(Connection connection, int id) throws SQLException {
+    public Photographer getPhotographer(int id) throws SQLException {
         return null;
     }
 
     @Override
-    public Exif getExif(Connection connection, int id) throws SQLException {
+    public Exif getExif(int id) throws SQLException {
         return null;
     }
 
     @Override
-    public Iptc getIptc(Connection connection, int id) throws SQLException {
+    public Iptc getIptc(int id) throws SQLException {
         return null;
     }
 
     @Override
-    public List<String> getFileNames(Connection connection) throws SQLException {
+    public List<String> getFileNames() throws SQLException {
         return null;
     }
 
     @Override
-    public int addPicture(Connection connection, Picture picture) throws SQLException {
+    public int addPicture(Picture picture) throws SQLException {
         return 0;
     }
 
     @Override
-    public int addExif(Connection connection, Exif exif, int pictureID) throws SQLException {
+    public int addExif(Exif exif, int pictureID) throws SQLException {
         return 0;
     }
 
     @Override
-    public int updateIptc(Connection connection, Iptc iptc, String fileName) throws SQLException {
+    public int updateIptc(Iptc iptc, String fileName) throws SQLException {
         return 0;
     }
 
     @Override
-    public int addPhotographer(Connection connection, Photographer photographer) throws SQLException {
+    public int addPhotographer(Photographer photographer) throws SQLException {
         return 0;
     }
 
     @Override
-    public void deletePhotographer(Connection connection, Photographer photographer) throws SQLException {
+    public void deletePhotographer(Photographer photographer) throws SQLException {
 
     }
 
     @Override
-    public void updatePhotographer(Connection connection, Photographer photographer) throws SQLException {
+    public void updatePhotographer(Photographer photographer) throws SQLException {
 
     }
 
     @Override
-    public void assignPicture(Connection connection, Picture picture, Photographer photographer) throws SQLException {
+    public void assignPicture(Picture picture, Photographer photographer) throws SQLException {
+
+    }
+
+    @Override
+    public void setConnection(Connection connection){
 
     }
 }

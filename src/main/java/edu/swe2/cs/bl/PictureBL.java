@@ -135,4 +135,9 @@ public class PictureBL {
     public Picture getPicture(Picture picture) {
         return queryEngine.getCachedPicture(picture);
     }
+
+    public List<Picture> getPicturesToSearch(String searchText){
+        if (searchText != null && !searchText.isEmpty()) return queryEngine.getPicturesToSearch(searchText);
+        else return null;
+    }
 }

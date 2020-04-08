@@ -2,6 +2,7 @@ package edu.swe2.cs.bl;
 
 import edu.swe2.cs.dal.DALFactory;
 import edu.swe2.cs.dal.DBManager;
+import edu.swe2.cs.dal.IDAL;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -29,8 +30,9 @@ public class FileCache {
 
     public void update() {
         try {
-            Connection connection = DBManager.getInstance().getConnection();
-            List<String> fileNames = DALFactory.getDAL().getFileNames(connection);
+            IDAL dal =  DALFactory.getDAL();
+            dal.setConnection(DBManager.getInstance().getConnection());
+            List<String> fileNames = dal.getFileNames();
             if (fileCache == null) {
                 fileCache = fileNames;
             } else {

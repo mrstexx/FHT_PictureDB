@@ -11,36 +11,37 @@ import java.util.List;
 
 public interface IDAL {
 
+    List<Picture> getPictures() throws SQLException;
 
-    List<Picture> getPictures(Connection connection) throws SQLException;
+    List<Photographer> getPhotographers() throws SQLException;
 
-    List<Photographer> getPhotographers(Connection connection) throws SQLException;
+    List<Exif> getExifs() throws SQLException;
 
-    List<Exif> getExifs(Connection connection) throws SQLException;
+    List<Iptc> getIptcs() throws SQLException;
 
-    List<Iptc> getIptcs(Connection connection) throws SQLException;
+    Picture getPicture(int id) throws SQLException;
 
-    Picture getPicture(Connection connection, int id) throws SQLException;
+    Photographer getPhotographer(int id) throws SQLException;
 
-    Photographer getPhotographer(Connection connection, int id) throws SQLException;
+    Exif getExif(int id) throws SQLException;
 
-    Exif getExif(Connection connection, int id) throws SQLException;
+    Iptc getIptc(int id) throws SQLException;
 
-    Iptc getIptc(Connection connection, int id) throws SQLException;
+    List<String> getFileNames() throws SQLException;
 
-    List<String> getFileNames(Connection connection) throws SQLException;
+    int addPicture(Picture picture) throws SQLException;
 
-    int addPicture(Connection connection, Picture picture) throws SQLException;
+    int addExif(Exif exif, int picture_id) throws SQLException;
 
-    int addExif(Connection connection, Exif exif, int picture_id) throws SQLException;
+    int updateIptc(Iptc iptc, String fileName) throws SQLException;
 
-    int updateIptc(Connection connection, Iptc iptc, String fileName) throws SQLException;
+    int addPhotographer(Photographer photographer) throws SQLException;
 
-    int addPhotographer(Connection connection, Photographer photographer) throws SQLException;
+    void deletePhotographer(Photographer photographer) throws SQLException;
 
-    void deletePhotographer(Connection connection, Photographer photographer) throws SQLException;
+    void updatePhotographer(Photographer photographer) throws SQLException;
 
-    void updatePhotographer(Connection connection, Photographer photographer) throws SQLException;
+    void assignPicture(Picture picture, Photographer photographer) throws SQLException;
 
-    void assignPicture(Connection connection, Picture picture, Photographer photographer) throws SQLException;
+    void setConnection(Connection connection);
 }
