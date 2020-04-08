@@ -93,7 +93,7 @@ public class DALMock implements IDAL {
     }
 
     @Override
-    public void setConnection(Connection connection){
+    public void setConnection(Connection connection) {
 
     }
 }

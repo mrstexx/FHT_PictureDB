@@ -21,6 +21,7 @@ public class PictureBL {
     private static FileCache fileCache = null;
     private static PictureBL instance = null;
     private QueryEngine queryEngine = null;
+    private Picture currentPicture;
 
     private PictureBL() {
         initialize();
@@ -99,10 +100,7 @@ public class PictureBL {
     }
 
     public boolean isValidIptc(Iptc iptc) {
-        if (iptc == null) {
-            return false;
-        }
-        return true;
+        return iptc != null;
     }
 
     public boolean isValidPicture(Picture picture) {
@@ -136,8 +134,19 @@ public class PictureBL {
         return queryEngine.getCachedPicture(picture);
     }
 
-    public List<Picture> getPicturesToSearch(String searchText){
+    public List<Picture> getPicturesToSearch(String searchText) {
         if (searchText != null && !searchText.isEmpty()) return queryEngine.getPicturesToSearch(searchText);
         else return null;
+    }
+
+    public Picture getCurrentPicture() {
+        return currentPicture;
+    }
+
+    public void setCurrentPicture(Picture currentPicture) {
+        this.currentPicture = currentPicture;
+        this.currentPicture.setIptc(getIptcToPicture(currentPicture));
+        this.currentPicture.setPhotographer(getPhotographerToPicture(currentPicture));
+        this.currentPicture.setExif(getExifToPicture(currentPicture));
     }
 }

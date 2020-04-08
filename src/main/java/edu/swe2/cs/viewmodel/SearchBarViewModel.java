@@ -24,7 +24,7 @@ public class SearchBarViewModel {
     }
 
     public void search() {
-        List<Picture> pictureList = new ArrayList<>();
+        List<Picture> pictureList;
         if (isEmpty()) {
             // get all pictures if empty search
             pictureList = PictureBL.getInstance().getAllPictures();

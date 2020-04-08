@@ -1,6 +1,8 @@
 package edu.swe2.cs.views;
 
 import edu.swe2.cs.bl.PictureBL;
+import edu.swe2.cs.model.Picture;
+import edu.swe2.cs.reporting.ReportHandler;
 import edu.swe2.cs.stage.EStage;
 import edu.swe2.cs.stage.StageManager;
 import javafx.event.ActionEvent;
@@ -8,12 +10,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -79,7 +83,29 @@ public class MenuBarView {
     }
 
     public void exportToPDFReport() {
+        String saveDirectory = getTargetPath();
+        ReportHandler reportHandler = new ReportHandler(saveDirectory);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("PDF Report");
+        if (saveDirectory.isEmpty()) {
+            return;
+        }
+        if (reportHandler.createPdfReport(PictureBL.getInstance().getCurrentPicture())) {
+            alert.setHeaderText("PDF export has been successfully executed");
+        } else {
+            alert.setHeaderText("An error occurred while generating a PDF report");
+            alert.setContentText("Please contact your administrator!");
+        }
+        alert.show();
+    }
 
+    private String getTargetPath() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File file = directoryChooser.showDialog(StageManager.getInstance().getStage(EStage.PRIMARYSTAGE));
+        if (file != null) {
+            return file.getAbsolutePath();
+        }
+        return "";
     }
 
     //TODO: maybe style

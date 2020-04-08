@@ -20,8 +20,8 @@ public class DALPostgres implements IDAL {
     private final static Logger LOGGER = LogManager.getLogger(DALPostgres.class.getName());
     private Connection connection;
 
-    public void setConnection(Connection connection){
-        if(this.connection == null) {
+    public void setConnection(Connection connection) {
+        if (this.connection == null) {
             this.connection = connection;
         }
     }

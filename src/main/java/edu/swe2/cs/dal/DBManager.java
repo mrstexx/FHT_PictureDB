@@ -25,11 +25,11 @@ public class DBManager {
     }
 
     private void initialize() {
-        this.driver = ConfigProperties.getProperty("driver");
-        this.url = ConfigProperties.getProperty("url");
-        this.user = ConfigProperties.getProperty("user");
-        this.password = ConfigProperties.getProperty("password");
-        this.connection = getConnection();
+        driver = ConfigProperties.getProperty("driver");
+        url = ConfigProperties.getProperty("url");
+        user = ConfigProperties.getProperty("user");
+        password = ConfigProperties.getProperty("password");
+        connection = getConnection();
         initializeBaseTables();
     }
 
@@ -65,7 +65,7 @@ public class DBManager {
     }
 
     public int execUpdate(String sqlStatement) throws SQLException {
-        PreparedStatement preparedStatement = this.connection.prepareStatement(sqlStatement);
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlStatement);
         return preparedStatement.executeUpdate();
     }
 

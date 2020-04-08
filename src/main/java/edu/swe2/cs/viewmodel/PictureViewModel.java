@@ -1,5 +1,6 @@
 package edu.swe2.cs.viewmodel;
 
+import edu.swe2.cs.bl.PictureBL;
 import edu.swe2.cs.eventbus.EventBusFactory;
 import edu.swe2.cs.eventbus.IEvent;
 import edu.swe2.cs.eventbus.IEventBus;
@@ -66,6 +67,7 @@ public class PictureViewModel implements ISubscriber {
     @Override
     public void handle(IEvent<?> event) {
         picture = (Picture) event.getData();
+        PictureBL.getInstance().setCurrentPicture(picture);
         currentPicture.setValue(new Image(getPicturePath()));
     }
 
@@ -77,9 +79,6 @@ public class PictureViewModel implements ISubscriber {
     }
 
     public boolean isOnImageClick(MouseEvent event) {
-        if (event.getClickCount() == 2) {
-           return true;
-        }
-        return false;
+        return event.getClickCount() == 2;
     }
 }
