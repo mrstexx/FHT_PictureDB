@@ -37,4 +37,8 @@ public class Exif {
     public Date getCaptureDate() {
         return this.captureDate;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

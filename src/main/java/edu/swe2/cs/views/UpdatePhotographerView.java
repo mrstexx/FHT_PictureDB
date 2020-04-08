@@ -1,5 +1,6 @@
 package edu.swe2.cs.views;
 
+import edu.swe2.cs.bl.PhotographerBL;
 import edu.swe2.cs.eventbus.EventBusFactory;
 import edu.swe2.cs.eventbus.IEvent;
 import edu.swe2.cs.eventbus.IEventBus;
@@ -145,7 +146,7 @@ public class UpdatePhotographerView implements ISubscriber {
     public void updatePhotographer(ActionEvent actionEvent) {
         if (photographerViewModel.isValid()) {
             photographerViewModel.updatePhotographer();
-            photographerViewModel.getPhotographerModel().updatePhotographerModel(photographerViewModel.getPhotographer());
+            PhotographerBL.updatePhotographer(photographerViewModel.getPhotographer());
             photographerViewModel.OnPhotographerUpdate();
             LOG.info("Open new alert dialog - valid update photographer form");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -164,7 +165,7 @@ public class UpdatePhotographerView implements ISubscriber {
     }
 
     public void deletePhotographer(ActionEvent actionEvent) {
-        photographerViewModel.getPhotographerModel().removePhotographerFromModel(photographerViewModel.getPhotographer());
+        PhotographerBL.removePhotographer(photographerViewModel.getPhotographer());
         photographerViewModel.OnPhotographerDelete();
         LOG.info("Open new alert dialog - deleting photographer");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

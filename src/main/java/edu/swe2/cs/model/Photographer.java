@@ -57,4 +57,8 @@ public class Photographer {
     public String getNotes() {
         return notes;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

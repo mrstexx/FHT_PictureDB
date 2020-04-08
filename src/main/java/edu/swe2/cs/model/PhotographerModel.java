@@ -4,6 +4,7 @@ import edu.swe2.cs.bl.PhotographerBL;
 
 import java.util.List;
 
+//TODO: Delete class
 public class PhotographerModel {
 
     private Photographer photographer;

@@ -1,5 +1,6 @@
 package edu.swe2.cs.viewmodel;
 
+import edu.swe2.cs.bl.PictureBL;
 import edu.swe2.cs.eventbus.EventBusFactory;
 import edu.swe2.cs.eventbus.IEventBus;
 import edu.swe2.cs.model.Picture;
@@ -28,7 +29,7 @@ public class PictureListViewModel {
 
     public PictureListViewModel() {
         pictureModel = new PictureModel();
-        this.pictures = pictureModel.getPictures();
+        this.pictures = PictureBL.getInstance().getAllPictures();
     }
 
     public List<Node> getImageViews(ReadOnlyDoubleProperty heightProperty) {

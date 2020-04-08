@@ -1,5 +1,6 @@
 package edu.swe2.cs.viewmodel;
 
+import edu.swe2.cs.bl.PhotographerBL;
 import edu.swe2.cs.eventbus.EventBusFactory;
 import edu.swe2.cs.eventbus.IEventBus;
 import edu.swe2.cs.model.Photographer;
@@ -17,7 +18,7 @@ public class PhotographerListViewModel {
 
     public PhotographerListViewModel() {
         photographerModel = new PhotographerModel();
-        photographers = photographerModel.getPhotographers();
+        photographers = PhotographerBL.getAllPhotographers();
     }
 
     public List<Photographer> getPhotographers() {

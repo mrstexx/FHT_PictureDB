@@ -1,5 +1,6 @@
 package edu.swe2.cs.viewmodel;
 
+import edu.swe2.cs.bl.PictureBL;
 import edu.swe2.cs.eventbus.EventBusFactory;
 import edu.swe2.cs.eventbus.IEventBus;
 import edu.swe2.cs.model.Picture;
@@ -12,7 +13,7 @@ public class MainWindowViewModel {
 
     public void setFirstPicture() {
         // needed to set exif and iptc data when first time app open
-        Picture firstPicture = new PictureModel().getPicture();
+        Picture firstPicture = PictureBL.getInstance().getAllPictures().get(0);
         eventBus.fire(new OnPictureSelectEvent(firstPicture));
     }
 

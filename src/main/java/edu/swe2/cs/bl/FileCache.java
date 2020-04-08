@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+//TODO: Old Cache --> Match this cache to new caching
 // represents all files stored in db
 
 public class FileCache {

@@ -1,5 +1,6 @@
 package edu.swe2.cs.viewmodel;
 
+import edu.swe2.cs.bl.PictureBL;
 import edu.swe2.cs.eventbus.EventBusFactory;
 import edu.swe2.cs.eventbus.IEvent;
 import edu.swe2.cs.eventbus.IEventBus;
@@ -38,7 +39,7 @@ public class EXIFViewModel implements ISubscriber {
     }
 
     private void updateExifData() {
-        Exif exifDate = picture.getExif();
+        Exif exifDate = PictureBL.getInstance().getExifToPicture(picture);
         cameraProperty.setValue(exifDate.getCamera());
         lensProperty.setValue(exifDate.getLens());
         dateProperty.setValue(exifDate.getCaptureDate().toString());

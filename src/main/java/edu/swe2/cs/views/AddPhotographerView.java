@@ -1,5 +1,6 @@
 package edu.swe2.cs.views;
 
+import edu.swe2.cs.bl.PhotographerBL;
 import edu.swe2.cs.stage.EStage;
 import edu.swe2.cs.stage.StageManager;
 import edu.swe2.cs.viewmodel.PhotographerViewModel;
@@ -70,7 +71,7 @@ public class AddPhotographerView {
     public void savePhotographer(ActionEvent actionEvent) {
         if (photographerViewModel.isValid()) {
             lockInputFields();
-            photographerViewModel.getPhotographerModel().addPhotographerToModel(photographerViewModel.getNewPhotographer());
+            PhotographerBL.savePhotographer(photographerViewModel.getNewPhotographer());
             LOG.info("Open new alert dialog - valid photographer form");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Add new Photographer");

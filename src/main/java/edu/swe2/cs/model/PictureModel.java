@@ -4,6 +4,7 @@ import edu.swe2.cs.bl.PictureBL;
 
 import java.util.List;
 
+//TODO: Delete class
 public class PictureModel {
 
     private Picture picture;

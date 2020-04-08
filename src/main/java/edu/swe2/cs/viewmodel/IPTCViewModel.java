@@ -42,20 +42,20 @@ public class IPTCViewModel implements ISubscriber {
 
     public void saveData() {
         Iptc iptcData;
-        if (this.picture.getIptc() == null) {
+        if (PictureBL.getInstance().getIptcToPicture(this.picture) == null) {
             iptcData = new Iptc();
         } else {
-            iptcData = this.picture.getIptc();
+            iptcData = PictureBL.getInstance().getIptcToPicture(this.picture);
         }
         iptcData.setTitle(titleProperty.getValue());
         iptcData.setCaption(captionProperty.getValue());
         iptcData.setCity(cityProperty.getValue());
         this.picture.setIptc(iptcData);
-        PictureBL.getInstance().updateIptc(iptcData, this.picture.getFileName());
+        PictureBL.getInstance().updateIptc(iptcData, this.picture);
     }
 
     private void updateIptcData() {
-        Iptc iptcData = this.picture.getIptc();
+        Iptc iptcData = PictureBL.getInstance().getIptcToPicture(this.picture);
         if (iptcData != null) {
             titleProperty.setValue(iptcData.getTitle());
             captionProperty.setValue(iptcData.getCaption());

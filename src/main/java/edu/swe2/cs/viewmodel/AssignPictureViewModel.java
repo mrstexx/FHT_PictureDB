@@ -1,5 +1,7 @@
 package edu.swe2.cs.viewmodel;
 
+import edu.swe2.cs.bl.PhotographerBL;
+import edu.swe2.cs.bl.PictureBL;
 import edu.swe2.cs.model.Photographer;
 import edu.swe2.cs.model.PhotographerModel;
 import edu.swe2.cs.model.Picture;
@@ -19,12 +21,12 @@ public class AssignPictureViewModel {
 
     public AssignPictureViewModel() {
         photographerModel = new PhotographerModel();
-        photographers = FXCollections.observableList(photographerModel.getPhotographers());
+        photographers = FXCollections.observableList(PhotographerBL.getAllPhotographers());
     }
 
     public void setFirstPhotographer() {
         if (picture != null) {
-            Photographer currentPhotographer = picture.getPhotographer();
+            Photographer currentPhotographer = PictureBL.getInstance().getPhotographerToPicture(picture);
             if (currentPhotographer != null && photographersContainsPhotographer(currentPhotographer)) {
                 currentPhotographerString.setValue("Currently assigned to this image: " + currentPhotographer.getId() + ", " + currentPhotographer.getLastName() + " " + currentPhotographer.getFirstName());
                 oldPhotographer = currentPhotographer;
@@ -33,7 +35,7 @@ public class AssignPictureViewModel {
     }
 
     public void setPicture(Picture picture) {
-        this.picture = picture;
+        this.picture =  PictureBL.getInstance().getPicture(picture);
         setFirstPhotographer();
     }
 
@@ -61,7 +63,7 @@ public class AssignPictureViewModel {
 
     public boolean isCurrentPhotographer(Photographer photographer) {
         if (picture != null) {
-            Photographer currentPhotographer = picture.getPhotographer();
+            Photographer currentPhotographer = PictureBL.getInstance().getPhotographerToPicture(picture);
             if (currentPhotographer != null && currentPhotographer.getId() == photographer.getId())
                 return true;
         }

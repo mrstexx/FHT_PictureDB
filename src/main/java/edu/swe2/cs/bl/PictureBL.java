@@ -1,8 +1,7 @@
 package edu.swe2.cs.bl;
 
 import edu.swe2.cs.config.ConfigProperties;
-import edu.swe2.cs.dal.DALFactory;
-import edu.swe2.cs.dal.DBManager;
+import edu.swe2.cs.model.Exif;
 import edu.swe2.cs.model.Iptc;
 import edu.swe2.cs.model.Photographer;
 import edu.swe2.cs.model.Picture;
@@ -12,12 +11,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class PictureBL {
     private static final Logger LOG = LogManager.getLogger(PictureBL.class);
@@ -25,6 +20,7 @@ public class PictureBL {
     private static String dirPath;
     private static FileCache fileCache = null;
     private static PictureBL instance = null;
+    private QueryEngine queryEngine = null;
 
     private PictureBL() {
         initialize();
@@ -43,6 +39,7 @@ public class PictureBL {
             if (fileCache == null) {
                 fileCache = FileCache.getInstance();
             }
+            queryEngine = QueryEngine.getInstance();
         }
     }
 
@@ -64,8 +61,8 @@ public class PictureBL {
             if (!fileCache.containsFile(file.getName())) {
                 Picture picture = new Picture();
                 picture.setFileName(file.getName());
-                picture.setExif(ExifGenerator.getExif());
-                savePicture(picture);
+                Exif exif = ExifGenerator.getExif();
+                savePictureWithExif(picture, exif);
             }
         }
 
@@ -73,53 +70,32 @@ public class PictureBL {
         return (fileCache.getSize() - sizeBefore);
     }
 
-    public void savePicture(Picture picture) {
+    public void savePictureWithExif(Picture picture, Exif exif) { // WITH EXIF
         try {
             if (isValidPicture(picture)) {
-                Connection connection = DBManager.getInstance().getConnection();
-                Objects.requireNonNull(DALFactory.getDAL()).addPicture(connection, picture);
+                queryEngine.savePictureWithExif(picture, exif);
+                /*Connection connection = DBManager.getInstance().getConnection();
+                Objects.requireNonNull(DALFactory.getDAL()).addPicture(connection, picture);*/
             }
-        } catch (InstantiationException |
-                InvocationTargetException |
-                NoSuchMethodException |
-                SQLException |
-                IllegalAccessException |
-                ClassNotFoundException e) {
+        } catch (SQLException e) {
             LOG.error("Error occurred while saving picture", e);
         }
     }
 
-    public void updateIptc(Iptc iptcData, String fileName) {
+    public void updateIptc(Iptc iptcData, Picture picture) {
         try {
             if (isValidIptc(iptcData)) {
-                Connection connection = DBManager.getInstance().getConnection();
-                Objects.requireNonNull(DALFactory.getDAL()).updateIptc(connection, iptcData, fileName);
+                queryEngine.updateIPTC(iptcData, picture);
                 LOG.debug("IPTC data with {}-ID update successfully executed", iptcData.getId());
-                LOG.info("IPTC data on picture {} successfully updated", fileName);
+                LOG.info("IPTC data on picture {} successfully updated", picture.getFileName());
             }
-        } catch (SQLException |
-                ClassNotFoundException |
-                NoSuchMethodException |
-                IllegalAccessException |
-                InvocationTargetException |
-                InstantiationException e) {
-            LOG.error("Error occurred while saving IPTC data for picture {}, {}", fileName, e);
+        } catch (SQLException e) {
+            LOG.error("Error occurred while saving IPTC data for picture {}, {}", picture.getFileName(), e);
         }
     }
 
     public List<Picture> getAllPictures() {
-        try {
-            Connection connection = DBManager.getInstance().getConnection();
-            return Objects.requireNonNull(DALFactory.getDAL()).getPictures(connection);
-        } catch (SQLException |
-                ClassNotFoundException |
-                NoSuchMethodException |
-                IllegalAccessException |
-                InvocationTargetException |
-                InstantiationException e) {
-            LOG.error("Error occurred while getting all pictures", e);
-        }
-        return new ArrayList<>();
+        return queryEngine.getAllPictures();
     }
 
     public boolean isValidIptc(Iptc iptc) {
@@ -129,25 +105,34 @@ public class PictureBL {
         return true;
     }
 
-    // BL: Picture without Exif is not valid
     public boolean isValidPicture(Picture picture) {
         if (picture != null) {
-            return picture.getFileName() != null && picture.getExif() != null;
+            return picture.getFileName() != null;
         }
         return false;
     }
 
     public void assignPicture(Picture picture, Photographer oldPhotographer, Photographer photographer) {
         try {
-            Connection connection = DBManager.getInstance().getConnection();
-            Objects.requireNonNull(DALFactory.getDAL()).assignPicture(connection, picture, photographer);
-        } catch (InstantiationException |
-                InvocationTargetException |
-                NoSuchMethodException |
-                SQLException |
-                IllegalAccessException |
-                ClassNotFoundException e) {
+            queryEngine.assignPicture(picture, oldPhotographer, photographer);
+        } catch (SQLException e) {
             LOG.error("Error occurred while saving picture", e);
         }
+    }
+
+    public Photographer getPhotographerToPicture(Picture picture) {
+        return queryEngine.getPhotographerToPicture(picture);
+    }
+
+    public Exif getExifToPicture(Picture picture) {
+        return queryEngine.getExifToPicture(picture);
+    }
+
+    public Iptc getIptcToPicture(Picture picture) {
+        return queryEngine.getIptcToPicture(picture);
+    }
+
+    public Picture getPicture(Picture picture) {
+        return queryEngine.getCachedPicture(picture);
     }
 }

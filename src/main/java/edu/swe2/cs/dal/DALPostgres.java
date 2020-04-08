@@ -46,6 +46,32 @@ public class DALPostgres implements IDAL {
     }
 
     @Override
+    public List<Exif> getExifs(Connection connection) throws SQLException {
+        List<Exif> exifList = new ArrayList<>();
+        String prepStatement = "SELECT id FROM exif_info ORDER BY ID ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            exifList.add(getExif(connection, id));
+        }
+        return exifList;
+    }
+
+    @Override
+    public List<Iptc> getIptcs(Connection connection) throws SQLException {
+        List<Iptc> iptcList = new ArrayList<>();
+        String prepStatement = "SELECT id FROM iptc_info ORDER BY ID ASC";
+        PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            iptcList.add(getIptc(connection, id));
+        }
+        return iptcList;
+    }
+
+    @Override
     public Picture getPicture(Connection connection, int id) throws SQLException {
         boolean hasPhotographer = true;
         boolean hasIptc = true;
@@ -71,19 +97,15 @@ public class DALPostgres implements IDAL {
         }
         String fileName = rs.getString("file_name");
         rs.close();
-        Exif exif = getExif(connection, exifId);
-        Picture picture = new Picture(picId, fileName, exif);
+        Picture picture = new Picture();
+        picture.setId(picId);
+        picture.setFileName(fileName);
+        picture.setExif_id(exifId);
         if (hasIptc) {
-            Iptc iptc = getIptc(connection, ipctId);
-            if (iptc != null) {
-                picture.setIptc(iptc);
-            }
+            picture.setIptc_id(ipctId);
         }
         if (hasPhotographer) {
-            Photographer photographer = getPhotographer(connection, photographerId);
-            if (photographer != null) {
-                picture.setPhotographer(photographer);
-            }
+            picture.setPhotographer_id(photographerId);
         }
         return picture;
     }
@@ -176,8 +198,8 @@ public class DALPostgres implements IDAL {
     }
 
     @Override
-    public void addPicture(Connection connection, Picture picture) throws SQLException {
-        String prepStatement = "INSERT INTO picture(photographer_id, file_name) VALUES (?, ?)";
+    public int addPicture(Connection connection, Picture picture) throws SQLException {
+        String prepStatement = "INSERT INTO picture(photographer_id, file_name) VALUES (?, ?) RETURNING id";
         PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);
         if (picture.getPhotographer() != null) {
             preparedStatement.setInt(1, picture.getPhotographer().getId());
@@ -186,19 +208,18 @@ public class DALPostgres implements IDAL {
         }
         String fileName = picture.getFileName();
         preparedStatement.setString(2, fileName);
-        Exif exif = picture.getExif();
-        preparedStatement.executeUpdate();
-
-        if (exif != null) {
-            addExif(connection, exif, fileName);
-        }
+        preparedStatement.execute();
+        ResultSet rs = preparedStatement.getResultSet();
+        rs.next();
+        int pictureID = rs.getInt(1);
 
         // add file to cache after adding to db
         FileCache.getInstance().addFile(fileName);
+        return pictureID;
     }
 
     @Override
-    public void addExif(Connection connection, Exif exif, String fileName) throws SQLException {
+    public int addExif(Connection connection, Exif exif, int pictureID) throws SQLException {
         String prepStatement = "INSERT INTO exif_info(camera, lens, captureDate) VALUES (?, ?, ?) RETURNING id";
         PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);
         preparedStatement.setString(1, exif.getCamera());
@@ -207,15 +228,16 @@ public class DALPostgres implements IDAL {
         ResultSet rs = preparedStatement.executeQuery();
         rs.next();
         int exifId = rs.getInt(1);
-        String preStatement = "UPDATE picture SET exif_id = ? WHERE file_name = ?";
+        String preStatement = "UPDATE picture SET exif_id = ? WHERE id = ?";
         PreparedStatement preparedStatement1 = connection.prepareStatement(preStatement);
         preparedStatement1.setInt(1, exifId);
-        preparedStatement1.setString(2, fileName);
+        preparedStatement1.setInt(2, pictureID);
         preparedStatement1.executeUpdate();
+        return exifId;
     }
 
     @Override
-    public void updateIptc(Connection connection, Iptc iptc, String fileName) throws SQLException {
+    public int updateIptc(Connection connection, Iptc iptc, String fileName) throws SQLException {
         String prepStatement;
         if (iptc.getId() > -1) {
             prepStatement = "UPDATE iptc_info SET title=?, caption=?, city=? WHERE id = ?";
@@ -225,6 +247,7 @@ public class DALPostgres implements IDAL {
             preparedStatement.setString(3, iptc.getCity());
             preparedStatement.setInt(4, iptc.getId());
             preparedStatement.executeUpdate();
+            return -1;
         } else {
             prepStatement = "INSERT INTO iptc_info(title, caption, city) VALUES (?, ?, ?) RETURNING id";
             PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);
@@ -240,12 +263,13 @@ public class DALPostgres implements IDAL {
             preparedStatement1.setString(2, fileName);
             preparedStatement1.executeUpdate();
             iptc.setID(iptcID);
+            return iptcID;
         }
     }
 
     @Override
-    public void addPhotographer(Connection connection, Photographer photographer) throws SQLException {
-        String prepStatement = "INSERT INTO photographer(lastname, firstname, birthdate, notes) VALUES (?, ?, ?, ?)";
+    public int addPhotographer(Connection connection, Photographer photographer) throws SQLException {
+        String prepStatement = "INSERT INTO photographer(lastname, firstname, birthdate, notes) VALUES (?, ?, ?, ?) RETURNING id";
         PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);
         preparedStatement.setString(1, photographer.getLastName());
         preparedStatement.setString(2, photographer.getFirstName());
@@ -255,11 +279,20 @@ public class DALPostgres implements IDAL {
             preparedStatement.setNull(3, Types.DATE);
         }
         preparedStatement.setString(4, photographer.getNotes());
-        preparedStatement.executeUpdate();
+        preparedStatement.execute();
+        ResultSet rs = preparedStatement.getResultSet();
+        rs.next();
+        return rs.getInt(1);
     }
 
     @Override
     public void deletePhotographer(Connection connection, Photographer photographer) throws SQLException {
+        String preStatement = "UPDATE picture SET photographer_id = ? WHERE photographer_id = ?";
+        PreparedStatement preparedStatement1 = connection.prepareStatement(preStatement);
+        preparedStatement1.setNull(1, Types.INTEGER);
+        preparedStatement1.setInt(2, photographer.getId());
+        preparedStatement1.executeUpdate();
+
         String prepStatement = "DELETE FROM photographer WHERE id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);
         preparedStatement.setInt(1, photographer.getId());

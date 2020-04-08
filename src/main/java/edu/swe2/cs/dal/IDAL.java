@@ -16,6 +16,10 @@ public interface IDAL {
 
     List<Photographer> getPhotographers(Connection connection) throws SQLException;
 
+    List<Exif> getExifs(Connection connection) throws SQLException;
+
+    List<Iptc> getIptcs(Connection connection) throws SQLException;
+
     Picture getPicture(Connection connection, int id) throws SQLException;
 
     Photographer getPhotographer(Connection connection, int id) throws SQLException;
@@ -26,13 +30,13 @@ public interface IDAL {
 
     List<String> getFileNames(Connection connection) throws SQLException;
 
-    void addPicture(Connection connection, Picture picture) throws SQLException;
+    int addPicture(Connection connection, Picture picture) throws SQLException;
 
-    void addExif(Connection connection, Exif exif, String fileName) throws SQLException;
+    int addExif(Connection connection, Exif exif, int picture_id) throws SQLException;
 
-    void updateIptc(Connection connection, Iptc iptc, String fileName) throws SQLException;
+    int updateIptc(Connection connection, Iptc iptc, String fileName) throws SQLException;
 
-    void addPhotographer(Connection connection, Photographer photographer) throws SQLException;
+    int addPhotographer(Connection connection, Photographer photographer) throws SQLException;
 
     void deletePhotographer(Connection connection, Photographer photographer) throws SQLException;
 
