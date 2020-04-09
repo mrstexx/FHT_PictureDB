@@ -24,11 +24,9 @@ import java.util.List;
 public class PictureListViewModel {
 
     private List<Picture> pictures;
-    private PictureModel pictureModel;
     private IEventBus eventBus = EventBusFactory.createSharedEventBus();
 
     public PictureListViewModel() {
-        pictureModel = new PictureModel();
         this.pictures = PictureBL.getInstance().getAllPictures();
     }
 
