@@ -2,6 +2,7 @@ package edu.swe2.cs.bl;
 
 import edu.swe2.cs.dal.DALFactory;
 import edu.swe2.cs.dal.DBManager;
+import edu.swe2.cs.dal.DataAccessException;
 import edu.swe2.cs.dal.IDAL;
 import edu.swe2.cs.model.Exif;
 import edu.swe2.cs.model.Iptc;
@@ -42,7 +43,7 @@ public class QueryEngine {
             dal = DALFactory.getDAL();
             dal.setConnection(DBManager.getInstance().getConnection());
             initializeCaches();
-        } catch (SQLException |
+        } catch (DataAccessException |
                 ClassNotFoundException |
                 NoSuchMethodException |
                 IllegalAccessException |
@@ -52,28 +53,28 @@ public class QueryEngine {
         }
     }
 
-    private void initializeCaches() throws SQLException {
+    private void initializeCaches() throws DataAccessException {
         setPictureCache();
         setPhotographerCache();
         setExifCache();
         setIPTCCache();
     }
 
-    private void setIPTCCache() throws SQLException {
+    private void setIPTCCache() throws DataAccessException {
         caches.put(ECache.IPTCS, new Cache<Integer, Iptc>());
         Cache iptcCache = getCache(ECache.IPTCS);
         List<Iptc> iptcList = dal.getIptcs();
         if (iptcList != null) iptcList.stream().forEach(iptc -> iptcCache.addData(iptc.getId(), iptc));
     }
 
-    private void setExifCache() throws SQLException {
+    private void setExifCache() throws DataAccessException {
         caches.put(ECache.EXIFS, new Cache<Integer, Exif>());
         Cache exifCache = getCache(ECache.EXIFS);
         List<Exif> exifList = dal.getExifs();
         if (exifList != null) exifList.stream().forEach(exif -> exifCache.addData(exif.getId(), exif));
     }
 
-    private void setPhotographerCache() throws SQLException {
+    private void setPhotographerCache() throws DataAccessException {
         caches.put(ECache.PHOTOGRAPHERS, new Cache<Integer, Photographer>());
         Cache pictureCache = getCache(ECache.PHOTOGRAPHERS);
         List<Photographer> photographerList = dal.getPhotographers();
@@ -82,7 +83,7 @@ public class QueryEngine {
     }
 
 
-    private void setPictureCache() throws SQLException {
+    private void setPictureCache() throws DataAccessException {
         caches.put(ECache.PICTURES, new Cache<Integer, Picture>());
         Cache pictureCache = getCache(ECache.PICTURES);
         List<Picture> pictureList = dal.getPictures();
@@ -97,7 +98,7 @@ public class QueryEngine {
         return null;
     }
 
-    public void savePhotographer(Photographer photographer) throws SQLException {
+    public void savePhotographer(Photographer photographer) throws DataAccessException {
         int id = dal.addPhotographer(photographer);
         photographer.setId(id);
         getCache(ECache.PHOTOGRAPHERS).addData(photographer.getId(), photographer);
@@ -107,7 +108,7 @@ public class QueryEngine {
         return getCache(ECache.PHOTOGRAPHERS).getALLData();
     }
 
-    public void removePhotographer(Photographer photographer) throws SQLException {
+    public void removePhotographer(Photographer photographer) throws DataAccessException {
         dal.deletePhotographer(photographer);
         Cache pictureCache = getCache(ECache.PICTURES);
         List<Picture> pictureList = pictureCache.getALLData();
@@ -121,19 +122,19 @@ public class QueryEngine {
         getCache(ECache.PHOTOGRAPHERS).deleteData(photographer.getId());
     }
 
-    public void updatePhotographer(Photographer photographer) throws SQLException {
+    public void updatePhotographer(Photographer photographer) throws DataAccessException {
         dal.updatePhotographer(photographer);
         getCache(ECache.PHOTOGRAPHERS).updateData(photographer.getId(), photographer);
     }
 
-    public void savePictureWithExif(Picture picture, Exif exif) throws SQLException {
+    public void savePictureWithExif(Picture picture, Exif exif) throws DataAccessException {
         int id = dal.addPicture(picture);
         picture.setId(id);
         getCache(ECache.PICTURES).addData(picture.getId(), picture);
         addExif(exif, picture.getId());
     }
 
-    public void updateIPTC(Iptc iptc, Picture picture) throws SQLException {
+    public void updateIPTC(Iptc iptc, Picture picture) throws DataAccessException {
         int id = dal.updateIptc(iptc, picture.getFileName());
         Cache iptcCache = getCache(ECache.IPTCS);
         if (id == -1) {
@@ -150,13 +151,13 @@ public class QueryEngine {
         return getCache(ECache.PICTURES).getALLData();
     }
 
-    public void assignPicture(Picture picture, Photographer oldPhotographer, Photographer photographer) throws SQLException {
+    public void assignPicture(Picture picture, Photographer oldPhotographer, Photographer photographer) throws DataAccessException {
         dal.assignPicture(picture, photographer);
         picture.setPhotographer_id(photographer.getId());
         getCache(ECache.PICTURES).updateData(picture.getId(), picture);
     }
 
-    public void addExif(Exif exif, int pictureID) throws SQLException {
+    public void addExif(Exif exif, int pictureID) throws DataAccessException {
         int id = dal.addExif(exif, pictureID);
         exif.setId(id);
         getCache(ECache.EXIFS).addData(exif.getId(), exif);

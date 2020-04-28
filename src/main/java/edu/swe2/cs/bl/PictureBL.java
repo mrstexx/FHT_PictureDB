@@ -1,6 +1,7 @@
 package edu.swe2.cs.bl;
 
 import edu.swe2.cs.config.ConfigProperties;
+import edu.swe2.cs.dal.DataAccessException;
 import edu.swe2.cs.model.Exif;
 import edu.swe2.cs.model.Iptc;
 import edu.swe2.cs.model.Photographer;
@@ -78,8 +79,8 @@ public class PictureBL {
                 /*Connection connection = DBManager.getInstance().getConnection();
                 Objects.requireNonNull(DALFactory.getDAL()).addPicture(connection, picture);*/
             }
-        } catch (SQLException e) {
-            LOG.error("Error occurred while saving picture", e);
+        } catch (DataAccessException e) {
+            LOG.error(e);
         }
     }
 
@@ -90,7 +91,7 @@ public class PictureBL {
                 LOG.debug("IPTC data with {}-ID update successfully executed", iptcData.getId());
                 LOG.info("IPTC data on picture {} successfully updated", picture.getFileName());
             }
-        } catch (SQLException e) {
+        } catch (DataAccessException e) {
             LOG.error("Error occurred while saving IPTC data for picture {}, {}", picture.getFileName(), e);
         }
     }
@@ -113,8 +114,8 @@ public class PictureBL {
     public void assignPicture(Picture picture, Photographer oldPhotographer, Photographer photographer) {
         try {
             queryEngine.assignPicture(picture, oldPhotographer, photographer);
-        } catch (SQLException e) {
-            LOG.error("Error occurred while saving picture", e);
+        } catch (DataAccessException e) {
+            LOG.error(e);
         }
     }
 

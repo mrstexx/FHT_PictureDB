@@ -1,5 +1,6 @@
 package edu.swe2.cs.bl;
 
+import edu.swe2.cs.dal.DataAccessException;
 import edu.swe2.cs.model.Photographer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,8 +19,8 @@ public class PhotographerBL {
             if (isValid(photographer)) {
                 queryEngine.savePhotographer(photographer);
             }
-        } catch (SQLException e) {
-            LOG.error("Error occurred while adding photographer", e);
+        } catch (DataAccessException e) {
+            LOG.error(e);
         }
     }
 
@@ -34,8 +35,8 @@ public class PhotographerBL {
     public static void removePhotographer(Photographer photographer) {
         try {
             queryEngine.removePhotographer(photographer);
-        } catch (SQLException e) {
-            LOG.error("Error occured while deleting photographer", e);
+        } catch (DataAccessException e) {
+            LOG.error(e);
         }
     }
 
@@ -44,8 +45,8 @@ public class PhotographerBL {
             if (isValid(photographer)) {
                 queryEngine.updatePhotographer(photographer);
             }
-        } catch (SQLException e) {
-            LOG.error("Error occured while updating photographer", e);
+        } catch (DataAccessException e) {
+            LOG.error(e);
         }
     }
 }

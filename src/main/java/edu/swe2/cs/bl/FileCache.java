@@ -2,6 +2,7 @@ package edu.swe2.cs.bl;
 
 import edu.swe2.cs.dal.DALFactory;
 import edu.swe2.cs.dal.DBManager;
+import edu.swe2.cs.dal.DataAccessException;
 import edu.swe2.cs.dal.IDAL;
 
 import java.lang.reflect.InvocationTargetException;
@@ -41,7 +42,7 @@ public class FileCache {
                 // add files to cache that are new in db
                 addNewFiles(fileNames);
             }
-        } catch (SQLException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+        } catch (DataAccessException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
             e.printStackTrace();
         }
     }
