@@ -14,10 +14,7 @@ import org.apache.logging.log4j.Logger;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 //TODO: REFACTOR
@@ -220,29 +217,56 @@ public class QueryEngine {
     }
 
     private boolean queryPhotographer(Photographer photographer, String searchText) {
+        boolean matchFN = false;
+        boolean matchLN = false;
         if (photographer != null) {
             String firstName = photographer.getFirstName();
             String lastName = photographer.getLastName();
-            return (firstName != null && firstName.equals(searchText)) || (lastName != null && lastName.equals(searchText));
+            if (firstName != null) {
+                matchFN = Arrays.stream((firstName).split(" ")).anyMatch(searchText::equals);
+            }
+            if (lastName != null) {
+                matchLN = Arrays.stream((lastName).split(" ")).anyMatch(searchText::equals);
+            }
         }
-        return false;
+        return matchFN || matchLN;
     }
 
     private boolean queryExif(Exif exif, String searchText) {
+        boolean matchC = false;
+        boolean matchL = false;
         if (exif != null) {
             String camera = exif.getCamera();
             String lens = exif.getLens();
-            return (camera != null && camera.equals(searchText)) || (lens != null && lens.equals(searchText));
+            if (camera != null) {
+                matchC = Arrays.stream((camera).split(" ")).anyMatch(searchText::equals);
+            }
+            if (lens != null) {
+                matchL = Arrays.stream((lens).split(" ")).anyMatch(searchText::equals);
+            }
         }
-        return false;
+        return matchC || matchL;
     }
 
     private boolean queryIptc(Iptc iptc, String searchText) {
+        boolean matchC = false;
+        boolean matchT = false;
+        boolean matchCA = false;
         if (iptc != null) {
             String city = iptc.getCity();
             String title = iptc.getTitle();
-            return (city != null && city.equals(searchText)) || (title != null && title.equals(searchText));
+            String caption = iptc.getCaption();
+            if (city != null) {
+                matchC = Arrays.stream((city).split(" ")).anyMatch(searchText::equals);
+            }
+            if (title != null) {
+                matchT = Arrays.stream((title).split(" ")).anyMatch(searchText::equals);
+            }
+            if (caption != null) {
+                matchCA = Arrays.stream((caption).split(" ")).anyMatch(searchText::equals);
+            }
         }
-        return false;
+        return matchC || matchT || matchCA;
     }
+
 }
