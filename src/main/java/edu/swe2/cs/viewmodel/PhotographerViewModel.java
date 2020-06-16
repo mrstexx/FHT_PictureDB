@@ -68,7 +68,7 @@ public class PhotographerViewModel {
     }
 
     public boolean isValidDate(LocalDate date) {
-        return (date == null || (date != null && date.isBefore(LocalDate.now())));
+        return (date == null || date.isBefore(LocalDate.now()));
     }
 
     public Photographer getPhotographer() {

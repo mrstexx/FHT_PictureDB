@@ -69,8 +69,6 @@ public class AssignPictureView {
         this.assign.setDisable(false);
     }
 
-    //TODO: UPDATE ALL PICTURES IN PROGRAM AFTER CHANGES?
-
     public void assignPicture(ActionEvent actionEvent) {
         Photographer photographer = viewModel.getPhotographer();
         Photographer oldPhotographer = viewModel.getOldPhotographer();
