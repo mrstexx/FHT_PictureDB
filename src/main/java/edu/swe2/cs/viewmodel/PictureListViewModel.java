@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,8 +77,6 @@ public class PictureListViewModel {
         List<Node> imageViews = getImageViews(heightProperty);
         if (pictures != null && !pictures.isEmpty()) {
             eventBus.fire(new OnPictureSelectEvent(pictures.get(0)));
-        } else {
-            //eventBus.fire(new OnPictureSelectEvent(null));
         }
         return imageViews;
     }

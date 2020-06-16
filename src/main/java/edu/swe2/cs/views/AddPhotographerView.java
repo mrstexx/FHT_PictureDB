@@ -77,7 +77,7 @@ public class AddPhotographerView {
             alert.setTitle("Add new Photographer");
             alert.setHeaderText("Successfully added Photographer!");
             alert.show();
-            StageManager.getInstance().closeStage(EStage.ADDPHOTOGRAPHERSTAGE);
+            StageManager.getInstance().closeStage(EStage.ADD_PHOTOGRAPHER_STAGE);
         } else {
             unlockInputFields();
             LOG.info("Open new alert dialog - invalid photographer form");

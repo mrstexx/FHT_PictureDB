@@ -1,8 +1,8 @@
 package edu.swe2.cs.dal;
 
-public class DataAccessException extends Exception{
+public class DataAccessException extends Exception {
 
-    public DataAccessException(String errorMessage, Throwable cause){
+    public DataAccessException(String errorMessage, Throwable cause) {
         super(errorMessage, cause);
     }
 

@@ -7,7 +7,7 @@
     <menus>
         <Menu mnemonicParsing="false" text="File">
             <items>
-                <MenuItem mnemonicParsing="false" text="Add Pictures to Database" onAction="#sync"/>
+                <MenuItem mnemonicParsing="false" text="Sync Pictures" onAction="#sync"/>
                 <MenuItem mnemonicParsing="false" text="New Photographer" onAction="#addNewPhotographer"/>
                 <SeparatorMenuItem/>
                 <MenuItem mnemonicParsing="false" text="Exit" onAction="#exit"/>

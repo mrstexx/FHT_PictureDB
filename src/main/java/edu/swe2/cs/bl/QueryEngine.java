@@ -24,7 +24,6 @@ public class QueryEngine {
     private final static Logger LOG = LogManager.getLogger(QueryEngine.class.getName());
     private Map<ECache, Cache> caches;
     private IDAL dal;
-    private Connection connection;
     private static QueryEngine instance = null;
 
     public synchronized static QueryEngine getInstance() {
@@ -38,14 +37,10 @@ public class QueryEngine {
         try {
             caches = new HashMap<>();
             dal = DALFactory.getDAL();
+            assert dal != null;
             dal.setConnection(DBManager.getInstance().getConnection());
             initializeCaches();
-        } catch (DataAccessException |
-                ClassNotFoundException |
-                NoSuchMethodException |
-                IllegalAccessException |
-                InvocationTargetException |
-                InstantiationException e) {
+        } catch (Exception e) {
             LOG.error("Error occurred while initializing QueryEngine.", e);
         }
     }
@@ -61,22 +56,27 @@ public class QueryEngine {
         caches.put(ECache.IPTCS, new Cache<Integer, Iptc>());
         Cache iptcCache = getCache(ECache.IPTCS);
         List<Iptc> iptcList = dal.getIptcs();
-        if (iptcList != null) iptcList.stream().forEach(iptc -> iptcCache.addData(iptc.getId(), iptc));
+        if (iptcList != null) {
+            iptcList.stream().forEach(iptc -> iptcCache.addData(iptc.getId(), iptc));
+        }
     }
 
     private void setExifCache() throws DataAccessException {
         caches.put(ECache.EXIFS, new Cache<Integer, Exif>());
         Cache exifCache = getCache(ECache.EXIFS);
         List<Exif> exifList = dal.getExifs();
-        if (exifList != null) exifList.stream().forEach(exif -> exifCache.addData(exif.getId(), exif));
+        if (exifList != null) {
+            exifList.stream().forEach(exif -> exifCache.addData(exif.getId(), exif));
+        }
     }
 
     private void setPhotographerCache() throws DataAccessException {
         caches.put(ECache.PHOTOGRAPHERS, new Cache<Integer, Photographer>());
         Cache pictureCache = getCache(ECache.PHOTOGRAPHERS);
         List<Photographer> photographerList = dal.getPhotographers();
-        if (photographerList != null)
+        if (photographerList != null) {
             photographerList.stream().forEach(photographer -> pictureCache.addData(photographer.getId(), photographer));
+        }
     }
 
 
@@ -84,8 +84,9 @@ public class QueryEngine {
         caches.put(ECache.PICTURES, new Cache<Integer, Picture>());
         Cache pictureCache = getCache(ECache.PICTURES);
         List<Picture> pictureList = dal.getPictures();
-        if (pictureList != null)
+        if (pictureList != null) {
             pictureList.stream().forEach(picture -> pictureCache.addData(picture.getId(), picture));
+        }
     }
 
     public Cache getCache(ECache eCache) {
@@ -109,13 +110,14 @@ public class QueryEngine {
         dal.deletePhotographer(photographer);
         Cache pictureCache = getCache(ECache.PICTURES);
         List<Picture> pictureList = pictureCache.getALLData();
-        if (pictureList != null) pictureList.stream().forEach(picture ->
-        {
-            if (picture.getPhotographer_id() == photographer.getId()) {
-                picture.setPhotographer_id(-1);
-                pictureCache.updateData(picture.getId(), picture);
-            }
-        });
+        if (pictureList != null) {
+            pictureList.stream().forEach(picture -> {
+                if (picture.getPhotographer_id() == photographer.getId()) {
+                    picture.setPhotographer_id(-1);
+                    pictureCache.updateData(picture.getId(), picture);
+                }
+            });
+        }
         getCache(ECache.PHOTOGRAPHERS).deleteData(photographer.getId());
     }
 
@@ -187,32 +189,34 @@ public class QueryEngine {
     public List<Picture> getPicturesToSearch(String searchText) {
         List<Picture> pictures = new ArrayList<>();
         List<Picture> allPictures = getCache(ECache.PICTURES).getALLData();
-        if (allPictures != null) allPictures.stream().forEach(picture -> {
-            String[] keywords = searchText.split(" ");
-            for (String key : keywords) {
-                boolean containsSearchText = false;
-                Photographer photographer = (Photographer) getCache(ECache.PHOTOGRAPHERS).getData(picture.getPhotographer_id());
-                if (photographer != null) {
-                    containsSearchText = queryPhotographer(photographer, key);
-                }
-                if (!containsSearchText) {
-                    Exif exif = (Exif) getCache(ECache.EXIFS).getData(picture.getExif_id());
-                    if (exif != null) {
-                        containsSearchText = queryExif(exif, key);
+        if (allPictures != null) {
+            allPictures.stream().forEach(picture -> {
+                String[] keywords = searchText.split(" ");
+                for (String key : keywords) {
+                    boolean containsSearchText = false;
+                    Photographer photographer = (Photographer) getCache(ECache.PHOTOGRAPHERS).getData(picture.getPhotographer_id());
+                    if (photographer != null) {
+                        containsSearchText = queryPhotographer(photographer, key);
                     }
                     if (!containsSearchText) {
-                        Iptc iptc = (Iptc) getCache(ECache.IPTCS).getData(picture.getIptc_id());
-                        if (iptc != null) {
-                            containsSearchText = queryIptc(iptc, key);
+                        Exif exif = (Exif) getCache(ECache.EXIFS).getData(picture.getExif_id());
+                        if (exif != null) {
+                            containsSearchText = queryExif(exif, key);
+                        }
+                        if (!containsSearchText) {
+                            Iptc iptc = (Iptc) getCache(ECache.IPTCS).getData(picture.getIptc_id());
+                            if (iptc != null) {
+                                containsSearchText = queryIptc(iptc, key);
+                            }
                         }
                     }
+                    if (containsSearchText) {
+                        pictures.add(picture);
+                        break;
+                    }
                 }
-                if (containsSearchText) {
-                    pictures.add(picture);
-                    break;
-                }
-            }
-        });
+            });
+        }
         return pictures;
     }
 

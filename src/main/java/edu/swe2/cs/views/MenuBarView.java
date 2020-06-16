@@ -1,7 +1,6 @@
 package edu.swe2.cs.views;
 
 import edu.swe2.cs.bl.PictureBL;
-import edu.swe2.cs.model.Picture;
 import edu.swe2.cs.reporting.ReportHandler;
 import edu.swe2.cs.stage.EStage;
 import edu.swe2.cs.stage.StageManager;
@@ -74,7 +73,7 @@ public class MenuBarView {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(scene);
             stage.setTitle("Add new Photographer");
-            StageManager.getInstance().addStage(EStage.ADDPHOTOGRAPHERSTAGE, stage);
+            StageManager.getInstance().addStage(EStage.ADD_PHOTOGRAPHER_STAGE, stage);
             stage.showAndWait();
         } catch (IOException e) {
             LOG.error("Failed to load addNewPhotographer View..", e);
@@ -101,7 +100,7 @@ public class MenuBarView {
 
     private String getTargetPath() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        File file = directoryChooser.showDialog(StageManager.getInstance().getStage(EStage.PRIMARYSTAGE));
+        File file = directoryChooser.showDialog(StageManager.getInstance().getStage(EStage.PRIMARY_STAGE));
         if (file != null) {
             return file.getAbsolutePath();
         }
@@ -120,7 +119,7 @@ public class MenuBarView {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(scene);
             stage.setTitle("Edit Photographer");
-            StageManager.getInstance().addStage(EStage.EDITPHOTOGRAPHERSTAGE, stage);
+            StageManager.getInstance().addStage(EStage.EDIT_PHOTOGRAPHER_STAGE, stage);
             stage.showAndWait();
         } catch (IOException e) {
             LOG.error("Failed to load editPhotographer View..", e);

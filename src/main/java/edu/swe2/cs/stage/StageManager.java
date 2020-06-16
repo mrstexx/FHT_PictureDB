@@ -14,9 +14,7 @@ public class StageManager {
     private Map<EStage, Stage> stages = null;
 
     private StageManager() {
-        if (stages == null) {
-            stages = new HashMap<>();
-        }
+        stages = new HashMap<>();
     }
 
     public static synchronized StageManager getInstance() {
@@ -27,12 +25,10 @@ public class StageManager {
     }
 
     public void addStage(EStage eStage, Stage stage) {
-        assert stages != null;
         stages.put(eStage, stage);
     }
 
     public Stage getStage(EStage eStage) {
-        assert stages != null;
         Stage stage = stages.get(eStage);
         if (stage != null) {
             return stage;

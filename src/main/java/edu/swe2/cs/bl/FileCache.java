@@ -31,7 +31,8 @@ public class FileCache {
 
     public void update() {
         try {
-            IDAL dal =  DALFactory.getDAL();
+            IDAL dal = DALFactory.getDAL();
+            assert dal != null;
             dal.setConnection(DBManager.getInstance().getConnection());
             List<String> fileNames = dal.getFileNames();
             if (fileCache == null) {
@@ -42,18 +43,14 @@ public class FileCache {
                 // add files to cache that are new in db
                 addNewFiles(fileNames);
             }
-        } catch (DataAccessException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void clearRemovedFiles(List<String> fileNames) {
+    public void clearRemovedFiles(List<String> fileNames) {
         if (fileCache != null) {
-            for (String fileName : fileCache) {
-                if (!fileNames.contains(fileName)) {
-                    fileCache.remove(fileName);
-                }
-            }
+            fileCache.removeIf(fileName -> !fileNames.contains(fileName));
         }
     }
 

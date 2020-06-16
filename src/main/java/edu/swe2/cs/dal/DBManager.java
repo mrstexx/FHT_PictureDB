@@ -64,9 +64,9 @@ public class DBManager {
         }
     }
 
-    public int execUpdate(String sqlStatement) throws SQLException {
+    public void execUpdate(String sqlStatement) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(sqlStatement);
-        return preparedStatement.executeUpdate();
+        preparedStatement.executeUpdate();
     }
 
 

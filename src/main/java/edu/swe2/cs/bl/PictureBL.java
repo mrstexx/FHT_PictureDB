@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PictureBL {
@@ -47,16 +48,14 @@ public class PictureBL {
 
     // files that are in db but get deleted from directory will stay in db
     public int sync() {
-        if (dirPath == null) {
-            if (fileCache == null) {
-                fileCache = FileCache.getInstance();
-            }
+        if (dirPath == null && fileCache == null) {
+            fileCache = FileCache.getInstance();
         }
         assert dirPath != null;
         File dir = new File(dirPath);
         File[] filesList = dir.listFiles();
 
-        // if file not in filecache add it to db
+        // if file not in file cache add it to db
         assert filesList != null;
         int sizeBefore = fileCache.getSize();
         for (File file : filesList) {
@@ -67,9 +66,18 @@ public class PictureBL {
                 savePictureWithExif(picture, exif);
             }
         }
-
+        // remove from cache not available files
+//        fileCache.clearRemovedFiles(getFilesList(filesList));
         // return number of added images
         return (fileCache.getSize() - sizeBefore);
+    }
+
+    private List<String> getFilesList(File[] filesList) {
+        List<String> list = new ArrayList<>();
+        for (File file : filesList) {
+            list.add(file.getName());
+        }
+        return list;
     }
 
     public void savePictureWithExif(Picture picture, Exif exif) { // WITH EXIF

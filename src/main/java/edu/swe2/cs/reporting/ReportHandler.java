@@ -20,12 +20,12 @@ import java.time.format.DateTimeFormatter;
 public class ReportHandler {
 
     private static final String PDF_EXTENSION = ".pdf";
-    private static Font TITLE_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
-    private static Font SUBTITLE_BOLD = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD);
-    private static Font NORMAL_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL);
+    private static final Font TITLE_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
+    private static final Font SUBTITLE_BOLD = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD);
+    private static final Font NORMAL_FONT = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL);
     private static final Logger LOG = LogManager.getLogger(ReportHandler.class);
 
-    private String targetPath;
+    private final String targetPath;
     private Picture picture;
 
     public ReportHandler(String targetPath) {
@@ -69,9 +69,11 @@ public class ReportHandler {
     private void addTitle(Document document) throws DocumentException {
         Paragraph preface = new Paragraph();
         addEmptyLine(preface, 1);
-        preface.add(new Paragraph("PictureDB Image Report - " + picture.getFileName(), TITLE_FONT));
+        preface.add(new Paragraph("PictureDB Image Report - " +
+                picture.getFileName(), TITLE_FONT));
         addEmptyLine(preface, 1);
-        preface.add(new Paragraph("Report generated on: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.YYYY HH:mm")), NORMAL_FONT));
+        preface.add(new Paragraph("Report generated on: " +
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")), NORMAL_FONT));
         addEmptyLine(preface, 2);
         document.add(preface);
     }

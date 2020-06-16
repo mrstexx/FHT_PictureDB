@@ -1,6 +1,5 @@
 package edu.swe2.cs.views;
 
-import edu.swe2.cs.bl.PictureBL;
 import edu.swe2.cs.stage.EStage;
 import edu.swe2.cs.stage.StageManager;
 import edu.swe2.cs.viewmodel.PictureViewModel;
@@ -23,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
-public class PictureView implements IView {
+public class PictureView {
     public static final float IMAGE_OFFSET = 10;
     private static final Logger LOG = LogManager.getLogger(PictureView.class);
     private final PictureViewModel viewModel;
@@ -58,7 +57,7 @@ public class PictureView implements IView {
                 stage.setTitle("Assign Picture to Photographer");
                 AssignPictureView assignPictureView = fxmlLoader.getController();
                 assignPictureView.getViewModel().setPicture(viewModel.getPicture());
-                StageManager.getInstance().addStage(EStage.ASSIGNPICTURESTAGE, stage);
+                StageManager.getInstance().addStage(EStage.ASSIGN_PICTURE_STAGE, stage);
                 stage.showAndWait();
             } catch (IOException e) {
                 LOG.error("Failed to load assignPicture View..", e);

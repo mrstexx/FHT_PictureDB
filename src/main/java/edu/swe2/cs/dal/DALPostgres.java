@@ -39,7 +39,7 @@ public class DALPostgres implements IDAL {
                 pictures.add(getPicture(rs.getInt("id")));
             }
             return pictures;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(e);
             throw new DataAccessException("Unable to load Pictures", e);
         }
@@ -57,7 +57,7 @@ public class DALPostgres implements IDAL {
                 photographers.add(getPhotographer(id));
             }
             return photographers;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(e);
             throw new DataAccessException("Unable to load Photographers", e);
         }
@@ -75,7 +75,7 @@ public class DALPostgres implements IDAL {
                 exifList.add(getExif(id));
             }
             return exifList;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(e);
             throw new DataAccessException("Unable to load Exifs", e);
         }
@@ -93,7 +93,7 @@ public class DALPostgres implements IDAL {
                 iptcList.add(getIptc(id));
             }
             return iptcList;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(e);
             throw new DataAccessException("Unable to load IPTCs", e);
         }
@@ -137,7 +137,7 @@ public class DALPostgres implements IDAL {
                 picture.setPhotographer_id(photographerId);
             }
             return picture;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(e);
             throw new DataAccessException("Unable to load Picture", e);
         }
@@ -171,7 +171,7 @@ public class DALPostgres implements IDAL {
             }
             rs.close();
             return photographer;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(e);
             throw new DataAccessException("Unable to load Photographer", e);
         }
@@ -194,7 +194,7 @@ public class DALPostgres implements IDAL {
             Date date = rs.getTimestamp("captureDate");
             rs.close();
             return new Exif(id, camera, lens, date);
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(e);
             throw new DataAccessException("Unable to load Exif", e);
         }
@@ -227,7 +227,7 @@ public class DALPostgres implements IDAL {
             }
             rs.close();
             return iptc;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(e);
             throw new DataAccessException("Unable to load IPTC", e);
         }
@@ -244,7 +244,7 @@ public class DALPostgres implements IDAL {
                 fileNames.add(rs.getString("file_name"));
             }
             return fileNames;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(e);
             throw new DataAccessException("Unable to load Picture File Names", e);
         }
@@ -270,7 +270,7 @@ public class DALPostgres implements IDAL {
             // add file to cache after adding to db
             FileCache.getInstance().addFile(fileName);
             return pictureID;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(e);
             throw new DataAccessException("Unable to add Picture", e);
         }
@@ -293,7 +293,7 @@ public class DALPostgres implements IDAL {
             preparedStatement1.setInt(2, pictureID);
             preparedStatement1.executeUpdate();
             return exifId;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(e);
             throw new DataAccessException("Unable to add Exif", e);
         }
@@ -329,7 +329,7 @@ public class DALPostgres implements IDAL {
                 iptc.setID(iptcID);
                 return iptcID;
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(e);
             throw new DataAccessException("Unable to update IPTC informations", e);
         }
@@ -352,7 +352,7 @@ public class DALPostgres implements IDAL {
             ResultSet rs = preparedStatement.getResultSet();
             rs.next();
             return rs.getInt(1);
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(e);
             throw new DataAccessException("Unable to add Photographer", e);
         }
@@ -371,7 +371,7 @@ public class DALPostgres implements IDAL {
             PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);
             preparedStatement.setInt(1, photographer.getId());
             preparedStatement.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(e);
             throw new DataAccessException("Unable to delete Photographer", e);
         }
@@ -393,7 +393,7 @@ public class DALPostgres implements IDAL {
             preparedStatement.setString(4, photographer.getNotes());
             preparedStatement.setInt(5, photographer.getId());
             preparedStatement.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(e);
             throw new DataAccessException("Unable to update Photographer", e);
         }
@@ -408,7 +408,7 @@ public class DALPostgres implements IDAL {
             preparedStatement.setInt(1, photographer.getId());
             preparedStatement.setInt(2, picture.getId());
             preparedStatement.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error(e);
             throw new DataAccessException("Unable to assign Photographer to Picture", e);
         }

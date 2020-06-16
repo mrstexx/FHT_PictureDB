@@ -88,6 +88,6 @@ public class AssignPictureView {
             alert.setHeaderText("Picture is already assigned to " + photographer.getLastName() + " " + photographer.getFirstName());
         }
         alert.show();
-        StageManager.getInstance().closeStage(EStage.ASSIGNPICTURESTAGE);
+        StageManager.getInstance().closeStage(EStage.ASSIGN_PICTURE_STAGE);
     }
 }

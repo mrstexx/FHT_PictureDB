@@ -10,12 +10,12 @@ public class DALFactory {
 
     private final static Logger LOGGER = LogManager.getLogger(DALFactory.class.getName());
 
-    public static IDAL getDAL() throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public static IDAL getDAL() throws Exception {
         String dalClass = ConfigProperties.getProperty("DALClass");
         if (dalClass != null) {
             return (IDAL) Class.forName(dalClass).getDeclaredConstructor().newInstance();
         }
-        LOGGER.info("Database Name unknown");
+        LOGGER.warn("Database Name unknown");
         return null;
     }
 }
