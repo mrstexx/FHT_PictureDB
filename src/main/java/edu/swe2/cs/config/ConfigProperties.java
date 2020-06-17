@@ -1,5 +1,6 @@
 package edu.swe2.cs.config;
 
+import edu.swe2.cs.util.SystemProperties;
 import edu.swe2.cs.util.URLBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,35 +9,24 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 public class ConfigProperties {
 
     private final static Logger LOGGER = LogManager.getLogger(ConfigProperties.class.getName());
-    private final static String FILENAME = "Config.properties";
-    private static Properties properties = null;
+    private final static String FILENAME = "Config";
+    private static ResourceBundle properties = null;
     private static ConfigProperties configProperties = null;
 
     private ConfigProperties() {
-        initialize(FILENAME);
+        initialize();
     }
 
-    private void initialize(String fileName) {
-        try {
-            if (properties == null) {
-                properties = new Properties();
-                // TODO Leo: Find better way to build URL String. Package name could be changed
-                String resourcePath = URLBuilder.buildURLString(new String[]{"src", "main", "resources", "edu", "swe2", "cs", fileName});
-                File propertiesFile = new File(resourcePath);
-                if (propertiesFile.exists()) {
-                    properties.load(new FileInputStream(propertiesFile));
-                }
-
-            }
-        } catch (FileNotFoundException e) {
-            LOGGER.error("Properties File not found " + fileName);
-        } catch (IOException e) {
-            LOGGER.error("Error while loading properties: " + e.getMessage());
+    private void initialize() {
+        if (properties == null) {
+            properties = ResourceBundle.getBundle(FILENAME);
         }
     }
 
@@ -49,19 +39,10 @@ public class ConfigProperties {
     public static String getProperty(String key) {
         checkConfigProperties();
         if (properties != null) {
-            return properties.getProperty(key);
+            return properties.getString(key);
         } else {
             LOGGER.info("No properties loaded.");
         }
         return null;
-    }
-
-    public static void setProperty(String key, String value) {
-        checkConfigProperties();
-        if (properties != null) {
-            properties.setProperty(key, value);
-        } else {
-            LOGGER.info("No properties loaded");
-        }
     }
 }

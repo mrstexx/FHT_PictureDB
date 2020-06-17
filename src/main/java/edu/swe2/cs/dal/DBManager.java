@@ -18,7 +18,7 @@ public class DBManager {
     private static String user = null;
     private static String password = null;
     private static Connection connection = null;
-    private static DBManager dbManager = null;
+    private static DBManager dbManager;
 
     private DBManager() {
         initialize();
