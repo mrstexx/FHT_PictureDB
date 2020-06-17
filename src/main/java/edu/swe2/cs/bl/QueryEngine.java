@@ -253,10 +253,12 @@ public class QueryEngine {
         boolean matchC = false;
         boolean matchT = false;
         boolean matchCA = false;
+        boolean matchTags = false;
         if (iptc != null) {
             String city = iptc.getCity();
             String title = iptc.getTitle();
             String caption = iptc.getCaption();
+            String tags = iptc.getTags();
             if (city != null) {
                 matchC = Arrays.stream((city).split(" ")).anyMatch(searchText::equals);
             }
@@ -266,8 +268,11 @@ public class QueryEngine {
             if (caption != null) {
                 matchCA = Arrays.stream((caption).split(" ")).anyMatch(searchText::equals);
             }
+            if (tags != null) {
+                matchTags = Arrays.stream((tags).split(",")).anyMatch(searchText::equals);
+            }
         }
-        return matchC || matchT || matchCA;
+        return matchC || matchT || matchCA || matchTags;
     }
 
 }
