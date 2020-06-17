@@ -25,7 +25,7 @@ public class PhotographerBL {
     }
 
     public static boolean isValid(Photographer photographer) {
-        return ((photographer.getLastName() != null && !photographer.getLastName().isEmpty() && photographer.getBirthdate() == null || (photographer.getBirthdate() != null && photographer.getBirthdate().isBefore(LocalDate.now()))));
+        return ((photographer.getLastName() != null && !photographer.getLastName().trim().isEmpty() && photographer.getBirthdate() == null || (photographer.getLastName() != null && !photographer.getLastName().trim().isEmpty() && photographer.getBirthdate() != null && photographer.getBirthdate().isBefore(LocalDate.now()))));
     }
 
     public static List<Photographer> getAllPhotographers() {

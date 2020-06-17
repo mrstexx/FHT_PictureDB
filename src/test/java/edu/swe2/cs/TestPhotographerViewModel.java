@@ -19,7 +19,7 @@ public class TestPhotographerViewModel {
     @Test
     public void isValidDate_InvalidDate_False() {
         PhotographerViewModel photographerViewModel = new PhotographerViewModel();
-        Assert.assertFalse("Date after now must be invalid", photographerViewModel.isValidDate(LocalDate.now().plusDays(1)));
+        Assert.assertFalse("Birth Date not before now must be invalid", photographerViewModel.isValidDate(LocalDate.now()));
     }
 
 
