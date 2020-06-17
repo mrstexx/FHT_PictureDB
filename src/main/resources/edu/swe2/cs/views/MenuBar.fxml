@@ -24,7 +24,8 @@
     <menus>
         <Menu mnemonicParsing="false" text="Options">
             <items>
-                <MenuItem mnemonicParsing="false" text="Export to PDF" onAction="#exportToPDFReport"/>
+                <MenuItem mnemonicParsing="false" text="Export Image to PDF" onAction="#exportToPDFReport"/>
+                <MenuItem mnemonicParsing="false" text="Export Tags" onAction="#exportTagsToPDF"/>
             </items>
         </Menu>
     </menus>

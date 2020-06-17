@@ -1,7 +1,7 @@
 package edu.swe2.cs.views;
 
 import edu.swe2.cs.bl.PictureBL;
-import edu.swe2.cs.reporting.ReportHandler;
+import edu.swe2.cs.reporting.*;
 import edu.swe2.cs.stage.EStage;
 import edu.swe2.cs.stage.StageManager;
 import javafx.event.ActionEvent;
@@ -83,16 +83,33 @@ public class MenuBarView {
 
     public void exportToPDFReport() {
         String saveDirectory = getTargetPath();
-        ReportHandler reportHandler = new ReportHandler(saveDirectory);
+        AbstractReportHandler reportHandler = new ImageReportHandler(saveDirectory);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("PDF Report");
+        alert.setTitle("Picture Report");
         if (saveDirectory.isEmpty()) {
             return;
         }
-        if (reportHandler.createPdfReport(PictureBL.getInstance().getCurrentPicture())) {
-            alert.setHeaderText("PDF export has been successfully executed");
+        if (reportHandler.createPdfReport(new ImageReport(PictureBL.getInstance().getCurrentPicture()))) {
+            alert.setHeaderText("Picture has been successfully exported");
         } else {
-            alert.setHeaderText("An error occurred while generating a PDF report");
+            alert.setHeaderText("An error occurred while generating a picture report");
+            alert.setContentText("Please contact your administrator!");
+        }
+        alert.show();
+    }
+
+    public void exportTagsToPDF() {
+        String saveDirectory = getTargetPath();
+        AbstractReportHandler reportHandler = new TagReportHandler(saveDirectory);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Tag Report");
+        if (saveDirectory.isEmpty()) {
+            return;
+        }
+        if (reportHandler.createPdfReport(new TagReport(PictureBL.getInstance().getAllPictures()))) {
+            alert.setHeaderText("Tags have been successfully exported");
+        } else {
+            alert.setHeaderText("An error occurred while generating a tag report");
             alert.setContentText("Please contact your administrator!");
         }
         alert.show();

@@ -11,9 +11,6 @@ import edu.swe2.cs.model.Picture;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.*;
 
 
