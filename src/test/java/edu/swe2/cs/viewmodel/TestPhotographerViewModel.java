@@ -1,4 +1,4 @@
-package edu.swe2.cs;
+package edu.swe2.cs.viewmodel;
 
 import edu.swe2.cs.model.Photographer;
 import edu.swe2.cs.viewmodel.PhotographerViewModel;

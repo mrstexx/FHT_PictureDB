@@ -6,7 +6,6 @@ import edu.swe2.cs.model.Photographer;
 import edu.swe2.cs.model.Picture;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 public class DALMock implements IDAL {

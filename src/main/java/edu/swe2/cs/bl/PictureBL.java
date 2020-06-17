@@ -66,8 +66,6 @@ public class PictureBL {
                 savePictureWithExif(picture, exif);
             }
         }
-        // remove from cache not available files
-//        fileCache.clearRemovedFiles(getFilesList(filesList));
         // return number of added images
         return (fileCache.getSize() - sizeBefore);
     }

@@ -1,4 +1,4 @@
-package edu.swe2.cs;
+package edu.swe2.cs.bl;
 import edu.swe2.cs.bl.PhotographerBL;
 import edu.swe2.cs.model.Photographer;
 import org.junit.Assert;
