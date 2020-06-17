@@ -6,6 +6,8 @@ public class DataAccessException extends Exception {
         super(errorMessage, cause);
     }
 
+    public DataAccessException(String errorMessage) { super(errorMessage); }
+
     @Override
     public synchronized Throwable getCause() {
         return super.getCause();
