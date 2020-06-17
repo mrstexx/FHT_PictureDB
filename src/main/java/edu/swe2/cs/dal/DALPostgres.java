@@ -225,6 +225,10 @@ public class DALPostgres implements IDAL {
             if (!rs.wasNull()) {
                 iptc.setCity(city);
             }
+            String tags = rs.getString("tags");
+            if (!rs.wasNull()) {
+                iptc.addTags(tags);
+            }
             rs.close();
             return iptc;
         } catch (SQLException e) {
@@ -304,20 +308,22 @@ public class DALPostgres implements IDAL {
         try {
             String prepStatement;
             if (iptc.getId() > -1) {
-                prepStatement = "UPDATE iptc_info SET title=?, caption=?, city=? WHERE id = ?";
+                prepStatement = "UPDATE iptc_info SET title=?, caption=?, city=?, tags=? WHERE id = ?";
                 PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);
                 preparedStatement.setString(1, iptc.getTitle());
                 preparedStatement.setString(2, iptc.getCaption());
                 preparedStatement.setString(3, iptc.getCity());
-                preparedStatement.setInt(4, iptc.getId());
+                preparedStatement.setString(4, iptc.getTags());
+                preparedStatement.setInt(5, iptc.getId());
                 preparedStatement.executeUpdate();
                 return -1;
             } else {
-                prepStatement = "INSERT INTO iptc_info(title, caption, city) VALUES (?, ?, ?) RETURNING id";
+                prepStatement = "INSERT INTO iptc_info(title, caption, city, tags) VALUES (?, ?, ?, ?) RETURNING id";
                 PreparedStatement preparedStatement = connection.prepareStatement(prepStatement);
                 preparedStatement.setString(1, iptc.getTitle());
                 preparedStatement.setString(2, iptc.getCaption());
                 preparedStatement.setString(3, iptc.getCity());
+                preparedStatement.setString(4, iptc.getTags());
                 ResultSet rs = preparedStatement.executeQuery();
                 rs.next();
                 int iptcID = rs.getInt(1);

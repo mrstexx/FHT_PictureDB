@@ -68,7 +68,7 @@
                                     </SplitPane>
                                 </children>
                             </AnchorPane>
-                            <AnchorPane maxHeight="250.0" minHeight="100.0" minWidth="0.0" prefHeight="100.0"
+                            <AnchorPane maxHeight="230.0" minHeight="100.0" minWidth="0.0" prefHeight="100.0"
                                         prefWidth="160.0">
                                 <children>
                                     <fx:include source="PictureListView.fxml"/>

@@ -91,13 +91,14 @@ public class ReportHandler {
         Paragraph preface = new Paragraph();
         addEmptyLine(preface, 2);
         document.add(preface);
-        document.add(new Paragraph("Tags", SUBTITLE_BOLD));
+        document.add(new Paragraph("IPTC / EXIF", SUBTITLE_BOLD));
+        addEmptyLine(preface, 1);
         // create table
         PdfPTable table = new PdfPTable(2);
-        PdfPCell c1 = new PdfPCell(new Phrase("Tag Name"));
+        PdfPCell c1 = new PdfPCell(new Phrase("Property Name"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
-        c1 = new PdfPCell(new Phrase("Tag Label"));
+        c1 = new PdfPCell(new Phrase("Property Value"));
         c1.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(c1);
         table.setHeaderRows(1);

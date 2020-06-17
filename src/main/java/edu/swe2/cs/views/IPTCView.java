@@ -16,12 +16,15 @@ public class IPTCView {
     TextArea captionField;
     @FXML
     TextField cityField;
+    @FXML
+    TextField tagsField;
 
     @FXML
     public void initialize() {
         titleField.textProperty().bindBidirectional(viewModel.titleProperty());
         captionField.textProperty().bindBidirectional(viewModel.captionProperty());
         cityField.textProperty().bindBidirectional(viewModel.cityProperty());
+        tagsField.textProperty().bindBidirectional(viewModel.tagsProperty());
     }
 
     public void saveData() {

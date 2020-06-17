@@ -142,7 +142,9 @@ public class DBManager {
         stringBuilder.append("\n");
         stringBuilder.append("caption TEXT,");
         stringBuilder.append("\n");
-        stringBuilder.append("city TEXT");
+        stringBuilder.append("city TEXT,");
+        stringBuilder.append("\n");
+        stringBuilder.append("tags TEXT");
         stringBuilder.append("\n");
         stringBuilder.append(")");
         execUpdate(stringBuilder.toString());
