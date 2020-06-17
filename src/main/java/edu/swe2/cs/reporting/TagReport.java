@@ -1,5 +1,6 @@
 package edu.swe2.cs.reporting;
 
+import edu.swe2.cs.bl.PictureBL;
 import edu.swe2.cs.model.Iptc;
 import edu.swe2.cs.model.Picture;
 
@@ -20,7 +21,7 @@ public class TagReport implements IReport {
     public Map<String, Integer> getTagsData() {
         Map<String, Integer> tagsData = new HashMap<>();
         for (Picture picture : pictures) {
-            Iptc iptc = picture.getIptc();
+            Iptc iptc = PictureBL.getInstance().getIptcToPicture(picture);
             if (iptc != null) {
                 Set<String> tags = iptc.getAllTags();
                 tags.forEach((tagName) -> {
