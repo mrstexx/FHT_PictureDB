@@ -59,6 +59,12 @@ public class DALMock implements IDAL {
 
     private void initializeIptcs() {
         iptcs = new ArrayList<>();
+        Iptc iptc1 = new Iptc();
+        iptc1.addTags("test,photo");
+        Iptc iptc2 = new Iptc();
+        iptc2.addTags("test");
+        pictures.get(0).setIptc(iptc1);
+        pictures.get(1).setIptc(iptc2);
     }
 
     @Override
