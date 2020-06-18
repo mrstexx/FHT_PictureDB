@@ -26,18 +26,30 @@ public class EXIFViewModel implements ISubscriber {
         eventBus.register(this);
     }
 
+    /**
+     * @return Current picture of exif data
+     */
     public Picture getPicture() {
         return picture;
     }
 
+    /**
+     * @return Camera property for EXIF Data
+     */
     public StringProperty cameraProperty() {
         return cameraProperty;
     }
 
+    /**
+     * @return Lens property for EXIF Data
+     */
     public StringProperty lensProperty() {
         return lensProperty;
     }
 
+    /**
+     * @return Date property for EXIF Data
+     */
     public StringProperty dateProperty() {
         return dateProperty;
     }

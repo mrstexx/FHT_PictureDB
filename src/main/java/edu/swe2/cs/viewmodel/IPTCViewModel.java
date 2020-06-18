@@ -31,26 +31,44 @@ public class IPTCViewModel implements ISubscriber {
         eventBus.register(this);
     }
 
+    /**
+     * @return Current picture of IPTC data
+     */
     public Picture getPicture() {
         return picture;
     }
 
+    /**
+     * @return Title property for IPTC Data
+     */
     public StringProperty titleProperty() {
         return titleProperty;
     }
 
+    /**
+     * @return Caption property for IPTC Data
+     */
     public StringProperty captionProperty() {
         return captionProperty;
     }
 
+    /**
+     * @return City property for IPTC Data
+     */
     public StringProperty cityProperty() {
         return cityProperty;
     }
 
+    /**
+     * @return Tags property for IPTC Data
+     */
     public StringProperty tagsProperty() {
         return tagsProperty;
     }
 
+    /**
+     * Save all IPTC data of IPTC properties
+     */
     public void saveData() {
         Iptc iptcData;
         if (PictureBL.getInstance().getIptcToPicture(this.picture) == null) {

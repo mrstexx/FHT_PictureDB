@@ -16,13 +16,16 @@ public class SearchBarViewModel {
     private StringProperty searchText = new SimpleStringProperty();
     private IEventBus eventBus = EventBusFactory.createSharedEventBus();
 
-    public SearchBarViewModel() {
-    }
-
+    /**
+     * @return Search property for text to be entered
+     */
     public StringProperty searchTextProperty() {
         return searchText;
     }
 
+    /**
+     * Search and update picture list view of string property value
+     */
     public void search() {
         List<Picture> pictureList;
         if (isEmpty()) {

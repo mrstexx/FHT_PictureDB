@@ -26,15 +26,26 @@ public class PictureViewModel implements ISubscriber {
         eventBus.register(this);
     }
 
+    /**
+     * Set current picture
+     *
+     * @param picture Picture to be set as current
+     */
     public void setPicture(Picture picture) {
         this.picture = picture;
         PictureBL.getInstance().setCurrentPicture(picture);
     }
 
+    /**
+     * @return Current selected picture
+     */
     public Picture getPicture() {
         return picture;
     }
 
+    /**
+     * @return Property for the current picture
+     */
     public ObjectProperty<Image> getCurrentPicture() {
         if (picture == null) {
             currentPicture = new SimpleObjectProperty<>();
@@ -45,6 +56,9 @@ public class PictureViewModel implements ISubscriber {
         return currentPicture;
     }
 
+    /**
+     * @return Picture path for Image Node element. It starts with "file:"
+     */
     public String getPicturePath() {
         if (picture == null) {
             return "";
@@ -65,6 +79,10 @@ public class PictureViewModel implements ISubscriber {
         return supportedEvents;
     }
 
+    /**
+     * @param event Mouse event on click
+     * @return true if double click
+     */
     public boolean isOnImageClick(MouseEvent event) {
         return event.getClickCount() == 2;
     }

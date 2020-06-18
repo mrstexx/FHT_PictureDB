@@ -10,6 +10,9 @@ public class MainWindowViewModel {
 
     private IEventBus eventBus = EventBusFactory.createSharedEventBus();
 
+    /**
+     * Set first available picture from picture store
+     */
     public void setFirstPicture() {
         // needed to set exif and iptc data when first time app open
         Picture firstPicture = PictureBL.getInstance().getAllPictures().get(0);

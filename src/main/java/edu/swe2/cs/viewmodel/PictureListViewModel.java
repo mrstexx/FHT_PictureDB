@@ -31,6 +31,12 @@ public class PictureListViewModel {
         this.pictures = PictureBL.getInstance().getAllPictures();
     }
 
+    /**
+     * Create and return image list of image notes for all available pictures
+     *
+     * @param heightProperty Height to be used for creating images view nodes
+     * @return List of prepared image nodes
+     */
     public List<Node> getImageViews(ReadOnlyDoubleProperty heightProperty) {
         List<Node> nodeList = new ArrayList<>();
         if (pictures != null) {
@@ -72,6 +78,11 @@ public class PictureListViewModel {
         eventBus.fire(new OnPictureSelectEvent((Picture) ((ImageView) sourceData).getUserData()));
     }
 
+    /**
+     * @param pictures       List of pictures to be created when using search
+     * @param heightProperty Height to be used for creating images view nodes
+     * @return List of image view nodes
+     */
     public List<Node> onSearchPictures(List<Picture> pictures, ReadOnlyDoubleProperty heightProperty) {
         this.pictures = pictures;
         List<Node> imageViews = getImageViews(heightProperty);
