@@ -1,4 +1,5 @@
 package edu.swe2.cs.bl;
+
 import edu.swe2.cs.bl.PhotographerBL;
 import edu.swe2.cs.dal.DALMock;
 import edu.swe2.cs.dal.DBManager;
@@ -16,6 +17,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.time.LocalDate;
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(DBManager.class)
 @PowerMockIgnore({
@@ -46,12 +48,13 @@ public class TestPhotographerBL {
         Photographer photographer = new Photographer("Marius", "Hochwald", date, "some notes");
         PhotographerBL.savePhotographer(photographer);
         boolean contains = false;
-        for (Photographer photographer1 : PhotographerBL.getAllPhotographers()){
+        for (Photographer photographer1 : PhotographerBL.getAllPhotographers()) {
             String fN = photographer1.getFirstName();
             String lN = photographer1.getLastName();
             LocalDate bD = photographer1.getBirthdate();
             String notes = photographer1.getNotes();
-            if (fN != null && fN.equals("Marius") && lN != null && lN.equals("Hochwald") && bD != null && bD.isEqual(date) && notes != null && notes.equals("some notes")) contains = true;
+            if (fN != null && fN.equals("Marius") && lN != null && lN.equals("Hochwald") && bD != null && bD.isEqual(date) && notes != null && notes.equals("some notes"))
+                contains = true;
         }
         Assert.assertTrue("Valid Photographer must be persistet", contains);
     }
@@ -70,7 +73,6 @@ public class TestPhotographerBL {
     public void isValid_validPhotographer_true() {
         Assert.assertTrue("Non empty last name and birth date before now must be valid", PhotographerBL.isValid(new Photographer("Leo", "Gruber", LocalDate.now().minusDays(1), "")));
     }
-
 
 
 }

@@ -26,6 +26,10 @@ public class EXIFViewModel implements ISubscriber {
         eventBus.register(this);
     }
 
+    public Picture getPicture() {
+        return picture;
+    }
+
     public StringProperty cameraProperty() {
         return cameraProperty;
     }

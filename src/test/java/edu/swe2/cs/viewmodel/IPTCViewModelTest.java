@@ -2,20 +2,23 @@ package edu.swe2.cs.viewmodel;
 
 import edu.swe2.cs.bl.PictureBL;
 import edu.swe2.cs.dal.DBManager;
+import edu.swe2.cs.eventbus.EventBusFactory;
 import edu.swe2.cs.model.Picture;
 import edu.swe2.cs.viewmodel.events.OnPictureSelectEvent;
+import javafx.scene.image.Image;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(DBManager.class)
+@PrepareForTest({DBManager.class})
 @PowerMockIgnore({
         "javax.management.*",
         "com.sun.org.apache.xerces.*",
@@ -29,7 +32,7 @@ public class IPTCViewModelTest {
     private DBManager dbManager;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         PowerMockito.mockStatic(DBManager.class);
         PowerMockito.when(DBManager.getInstance()).thenReturn(dbManager);
         PowerMockito.when(dbManager.getConnection()).thenReturn(null);
@@ -39,7 +42,9 @@ public class IPTCViewModelTest {
     public void testSaveIptcData() {
         IPTCViewModel viewModel = new IPTCViewModel();
         Picture picture = PictureBL.getInstance().getAllPictures().get(0);
-        viewModel.handle(new OnPictureSelectEvent(picture));
+
+        EventBusFactory.createSharedEventBus().fire(new OnPictureSelectEvent(picture));
+
         viewModel.titleProperty().setValue("Some value");
         viewModel.cityProperty().setValue("Some city");
         viewModel.captionProperty().setValue("Some notes");
@@ -57,15 +62,16 @@ public class IPTCViewModelTest {
 
     @Test
     public void testSamePictureInExifAndIptcViewOnSelect() {
-        Picture picture = PictureBL.getInstance().getAllPictures().get(1);
+        Picture picture = PictureBL.getInstance().getAllPictures().get(0);
+        PictureBL.getInstance().savePictureWithExif(picture, picture.getExif());
+
         IPTCViewModel iptcViewModel = new IPTCViewModel();
         EXIFViewModel exifViewModel = new EXIFViewModel();
-        PictureViewModel viewModel = new PictureViewModel();
-        viewModel.handle(new OnPictureSelectEvent(picture));
 
-        Assert.assertEquals(picture.getId(), viewModel.getPicture().getId());
-        Assert.assertEquals(picture.getExif().getCamera(), exifViewModel.cameraProperty().getValue());
-        Assert.assertEquals(picture.getIptc().getTitle(), iptcViewModel.titleProperty().getValue());
+        EventBusFactory.createSharedEventBus().fire(new OnPictureSelectEvent(picture));
+
+        Assert.assertEquals(picture.getId(), exifViewModel.getPicture().getId());
+        Assert.assertEquals(picture.getId(), iptcViewModel.getPicture().getId());
     }
 
 }

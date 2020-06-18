@@ -15,6 +15,7 @@ public class Picture {
         this.id = id;
         this.fileName = fileName;
         this.exif = exif;
+        this.exif_id = exif.getId();
     }
 
     public Picture() {

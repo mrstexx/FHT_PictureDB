@@ -60,11 +60,17 @@ public class DALMock implements IDAL {
     private void initializeIptcs() {
         iptcs = new ArrayList<>();
         Iptc iptc1 = new Iptc();
+        iptc1.setID(1);
         iptc1.addTags("test,photo");
         Iptc iptc2 = new Iptc();
+        iptc2.setID(2);
         iptc2.addTags("test");
         pictures.get(0).setIptc(iptc1);
+        pictures.get(0).setIptc_id(1);
         pictures.get(1).setIptc(iptc2);
+        pictures.get(1).setIptc_id(2);
+        iptcs.add(iptc1);
+        iptcs.add(iptc2);
     }
 
     @Override
@@ -138,9 +144,10 @@ public class DALMock implements IDAL {
     @Override
     public int addPicture(Picture picture) throws DataAccessException {
         if (pictures == null) throw new DataAccessException("Access failed");
-        picture.setId(picturesId.incrementAndGet());
+        int id = picturesId.incrementAndGet();
+        picture.setId(id);
         pictures.add(picture);
-        return 0;
+        return id;
     }
 
     @Override
@@ -239,6 +246,6 @@ public class DALMock implements IDAL {
 
     @Override
     public void setConnection(Connection connection) {
-
+        // empty body
     }
 }

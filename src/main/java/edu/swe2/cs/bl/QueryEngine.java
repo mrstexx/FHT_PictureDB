@@ -224,10 +224,10 @@ public class QueryEngine {
             String firstName = photographer.getFirstName();
             String lastName = photographer.getLastName();
             if (firstName != null) {
-                matchFN = Arrays.stream((firstName).split(" ")).anyMatch(searchText::equals);
+                matchFN = Arrays.stream((firstName).split(" ")).anyMatch(searchText::equalsIgnoreCase);
             }
             if (lastName != null) {
-                matchLN = Arrays.stream((lastName).split(" ")).anyMatch(searchText::equals);
+                matchLN = Arrays.stream((lastName).split(" ")).anyMatch(searchText::equalsIgnoreCase);
             }
         }
         return matchFN || matchLN;
@@ -240,10 +240,10 @@ public class QueryEngine {
             String camera = exif.getCamera();
             String lens = exif.getLens();
             if (camera != null) {
-                matchC = Arrays.stream((camera).split(" ")).anyMatch(searchText::equals);
+                matchC = Arrays.stream((camera).split(" ")).anyMatch(searchText::equalsIgnoreCase);
             }
             if (lens != null) {
-                matchL = Arrays.stream((lens).split(" ")).anyMatch(searchText::equals);
+                matchL = Arrays.stream((lens).split(" ")).anyMatch(searchText::equalsIgnoreCase);
             }
         }
         return matchC || matchL;
@@ -260,16 +260,16 @@ public class QueryEngine {
             String caption = iptc.getCaption();
             String tags = iptc.getTags();
             if (city != null) {
-                matchC = Arrays.stream((city).split(" ")).anyMatch(searchText::equals);
+                matchC = Arrays.stream((city).split(" ")).anyMatch(searchText::equalsIgnoreCase);
             }
             if (title != null) {
-                matchT = Arrays.stream((title).split(" ")).anyMatch(searchText::equals);
+                matchT = Arrays.stream((title).split(" ")).anyMatch(searchText::equalsIgnoreCase);
             }
             if (caption != null) {
-                matchCA = Arrays.stream((caption).split(" ")).anyMatch(searchText::equals);
+                matchCA = Arrays.stream((caption).split(" ")).anyMatch(searchText::equalsIgnoreCase);
             }
             if (tags != null) {
-                matchTags = Arrays.stream((tags).split(",")).anyMatch(searchText::equals);
+                matchTags = !Collections.disjoint(new HashSet<>(Arrays.asList(tags.split(","))), Arrays.asList(searchText.split(",")));
             }
         }
         return matchC || matchT || matchCA || matchTags;

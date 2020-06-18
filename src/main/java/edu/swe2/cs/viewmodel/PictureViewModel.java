@@ -28,6 +28,7 @@ public class PictureViewModel implements ISubscriber {
 
     public void setPicture(Picture picture) {
         this.picture = picture;
+        PictureBL.getInstance().setCurrentPicture(picture);
     }
 
     public Picture getPicture() {
@@ -53,8 +54,7 @@ public class PictureViewModel implements ISubscriber {
 
     @Override
     public void handle(IEvent<?> event) {
-        picture = (Picture) event.getData();
-        PictureBL.getInstance().setCurrentPicture(picture);
+        setPicture((Picture) event.getData());
         currentPicture.setValue(new Image(getPicturePath()));
     }
 

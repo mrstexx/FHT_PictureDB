@@ -31,6 +31,10 @@ public class IPTCViewModel implements ISubscriber {
         eventBus.register(this);
     }
 
+    public Picture getPicture() {
+        return picture;
+    }
+
     public StringProperty titleProperty() {
         return titleProperty;
     }
