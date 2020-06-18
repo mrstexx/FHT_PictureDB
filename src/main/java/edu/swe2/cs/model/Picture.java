@@ -11,6 +11,10 @@ public class Picture {
     private int exif_id;
     private int iptc_id;
 
+    /**
+     * Constructs a new Picture with the specified id, file name and exif
+     *
+     */
     public Picture(int id, String fileName, Exif exif) {
         this.id = id;
         this.fileName = fileName;
@@ -18,6 +22,10 @@ public class Picture {
         this.exif_id = exif.getId();
     }
 
+    /**
+     * Constructs a new Picture
+     *
+     */
     public Picture() {
     }
 

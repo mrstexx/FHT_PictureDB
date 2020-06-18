@@ -9,12 +9,20 @@ public class Exif {
     private String lens;
     private Date captureDate;
 
+    /**
+     * Constructs a new Exif with the specified camera, lens and capture date
+     *
+     */
     public Exif(String camera, String lens, Date captureDate) {
         this.camera = camera;
         this.lens = lens;
         this.captureDate = captureDate;
     }
 
+    /**
+     * Constructs a new Exif with the specified id, camera, lens and capture date
+     *
+     */
     public Exif(int id, String camera, String lens, Date captureDate) {
         this.id = id;
         this.camera = camera;

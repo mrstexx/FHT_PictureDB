@@ -10,6 +10,10 @@ public class Photographer {
     private LocalDate birthdate;
     private String notes;
 
+    /**
+     * Constructs a new Photographer with the specified first name, last name, birth date and notes
+     *
+     */
     public Photographer(String firstName, String lastName, LocalDate birthdate, String notes) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -17,6 +21,10 @@ public class Photographer {
         this.notes = notes;
     }
 
+    /**
+     * Constructs a new Photographer with the specified id and last name
+     *
+     */
     public Photographer(int id, String lastName) {
         this.id = id;
         this.lastName = lastName;

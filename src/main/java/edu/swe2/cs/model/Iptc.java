@@ -12,9 +12,17 @@ public class Iptc {
     private String city;
     private Set<String> tags = new LinkedHashSet<>();
 
+    /**
+     * Constructs a new Iptc
+     *
+     */
     public Iptc() {
     }
 
+    /**
+     * Constructs a new Iptc with the specified id
+     *
+     */
     public Iptc(int id) {
         this.id = id;
     }
@@ -51,10 +59,20 @@ public class Iptc {
         this.city = city;
     }
 
+    /**
+     * Adds the specified tag to the tags of this iptc instance
+     *
+     * @param tagName The tag to be added
+     */
     public void addTag(String tagName) {
         this.tags.add(tagName);
     }
 
+    /**
+     * Adds the specified tags to the tags of this iptc instance
+     *
+     * @param tags The tags to be added
+     */
     public void addTags(String tags) {
         this.tags.addAll(Arrays.asList(tags.split(",")));
     }
@@ -63,6 +81,11 @@ public class Iptc {
         return this.tags;
     }
 
+    /**
+     * Returns all tags as string separated by a ","
+     *
+     * @return All tags with a "," as separator
+     */
     public String getTags() {
         return String.join(",", this.tags);
     }
