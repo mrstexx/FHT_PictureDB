@@ -21,7 +21,9 @@ public class PhotographerViewModel {
     private StringProperty notes;
     private IEventBus eventBus = EventBusFactory.createSharedEventBus();
 
-
+    /**
+     * Constructs a new PhotographerViewModel
+     */
     public PhotographerViewModel() {
         firstName = new SimpleStringProperty("");
         lastName = new SimpleStringProperty("");
@@ -29,6 +31,11 @@ public class PhotographerViewModel {
         notes = new SimpleStringProperty("");
     }
 
+    /**
+     * Sets the photographer and updates corresponding properties
+     *
+     * @param photographer Photographer to be set
+     */
     public void setPhotographer(Photographer photographer) {
         this.photographer = photographer;
         if (photographer != null) {
@@ -36,7 +43,7 @@ public class PhotographerViewModel {
         }
     }
 
-    public void updateFields() {
+    private void updateFields() {
         firstName.setValue(photographer.getFirstName());
         lastName.setValue(photographer.getLastName());
         birthDate.setValue(photographer.getBirthdate());
@@ -59,14 +66,29 @@ public class PhotographerViewModel {
         return notes;
     }
 
+    /**
+     * Used to validate the photographer entity
+     *
+     * @return True if this photographer contains a non-empty last name and his birth date is either null or before today's date
+     */
     public boolean isValid() {
         return (isValidDate(birthDate.getValue()) && isLastName());
     }
 
+    /**
+     * Used to validate photographer's last name
+     *
+     * @return True if this photographer contains a non-empty last name
+     */
     public boolean isLastName() {
         return (lastName.getValue() != null && !lastName.getValue().trim().isEmpty());
     }
 
+    /**
+     * Used to validate photographer's birth date
+     *
+     * @return True if birth date is either null or before today's date
+     */
     public boolean isValidDate(LocalDate date) {
         return (date == null || date.isBefore(LocalDate.now()));
     }
@@ -75,10 +97,18 @@ public class PhotographerViewModel {
         return this.photographer;
     }
 
+    /**
+     * Returns a new Photographer instance with set properties
+     *
+     * @return Photographer instance with set properties
+     */
     public Photographer getNewPhotographer() {
         return new Photographer(getFirstName().getValue(), getLastName().getValue(), getBirthDate().getValue(), getNotes().getValue());
     }
 
+    /**
+     * Updates the photographer with set properties
+     */
     public void updatePhotographer() {
         photographer.setFirstName(getFirstName().getValue());
         photographer.setLastName(getLastName().getValue());
@@ -86,10 +116,16 @@ public class PhotographerViewModel {
         photographer.setNotes(getNotes().getValue());
     }
 
+    /**
+     * Fires a new OnPhotographerDeleteEvent with set photographer as param
+     */
     public void OnPhotographerDelete() {
         eventBus.fire(new OnPhotographerDeleteEvent(photographer));
     }
 
+    /**
+     * Fires a new OnPhotographerUpdateEvent with set photographer as param
+     */
     public void OnPhotographerUpdate() {
         eventBus.fire(new OnPhotographerUpdateEvent(getPhotographer()));
     }

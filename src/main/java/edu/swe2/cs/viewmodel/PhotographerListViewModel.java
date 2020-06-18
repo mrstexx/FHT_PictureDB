@@ -14,6 +14,10 @@ public class PhotographerListViewModel {
     List<Photographer> photographers;
     private IEventBus eventBus = EventBusFactory.createSharedEventBus();
 
+    /**
+     * Constructs a new PhotographerListViewModel. Sets photographers to a list of all stored photographers.
+     *
+     */
     public PhotographerListViewModel() {
         photographers = PhotographerBL.getAllPhotographers();
     }
@@ -22,6 +26,11 @@ public class PhotographerListViewModel {
         return photographers;
     }
 
+    /**
+     * Fires a new OnPhotographerSelectEvent with given photographer as parameter
+     *
+     * @param photographer Photographer to be passed as param to new OnPhotographerSelectEvent
+     */
     public void onPhotographerSelect(Photographer photographer) {
         eventBus.fire(new OnPhotographerSelectEvent(photographer));
     }
@@ -30,6 +39,9 @@ public class PhotographerListViewModel {
         photographers.remove((Photographer) photographer);
     }
 
+    /**
+     * @return True if photographers is empty, else False
+     */
     public boolean isEmpty() {
         if (photographers.isEmpty()) {
             return true;
@@ -37,10 +49,19 @@ public class PhotographerListViewModel {
         return false;
     }
 
+    /**
+     * Fires a new OnEmptyPhotographerListEvent
+     *
+     */
     public void OnIsEmpty() {
         eventBus.fire(new OnEmptyPhotographerListEvent());
     }
 
+    /**
+     * Updates a given photographer in the photographers list
+     *
+     * @param photographer Photographer to be updated
+     */
     public void updatePhotographer(Photographer photographer) {
         for (Photographer elem : photographers) {
             if (elem.getId() == photographer.getId()) {
