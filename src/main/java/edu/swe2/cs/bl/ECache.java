@@ -11,6 +11,12 @@ public enum ECache {
         this.className = className;
     }
 
+
+    /**
+     * Get classname
+     *
+     * @return Class name associated with enum
+     * */
     public String getClassName() {
         return className;
     }

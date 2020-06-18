@@ -22,6 +22,12 @@ public class FileCache {
         update();
     }
 
+
+    /**
+     * Get an instance of file cache
+     *
+     * @return Singleton class instance
+     */
     public synchronized static FileCache getInstance() {
         if (instance == null) {
             instance = new FileCache();
@@ -29,6 +35,12 @@ public class FileCache {
         return instance;
     }
 
+
+    /**
+     * Synchronize file cache with database
+     *
+     * @return Value associated with specified key
+     */
     public void update() {
         try {
             IDAL dal = DALFactory.getDAL();
@@ -48,7 +60,7 @@ public class FileCache {
         }
     }
 
-    public void clearRemovedFiles(List<String> fileNames) {
+    private void clearRemovedFiles(List<String> fileNames) {
         if (fileCache != null) {
             fileCache.removeIf(fileName -> !fileNames.contains(fileName));
         }
@@ -64,12 +76,23 @@ public class FileCache {
         }
     }
 
+    /**
+     * Add file name to file to cache
+     *
+     * @param fileName Filename to be cached
+     */
     public void addFile(String fileName) {
         if (fileCache != null) {
             fileCache.add(fileName);
         }
     }
 
+    /**
+     * Check if file cache contains specified file name
+     *
+     * @param fileName Filename to be checked
+     * @return True if this cache contains specified file name
+     */
     public boolean containsFile(String fileName) {
         if (fileCache != null) {
             return fileCache.contains(fileName);
@@ -77,6 +100,11 @@ public class FileCache {
         return false;
     }
 
+    /**
+     * Get size of this file cache
+     *
+     * @return Number of files contained by this cache
+     */
     public int getSize() {
         return this.fileCache.size();
     }

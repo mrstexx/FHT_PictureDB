@@ -23,6 +23,11 @@ public class QueryEngine {
     private IDAL dal;
     private static QueryEngine instance = null;
 
+    /**
+     * Get an instance of QueryEngine
+     *
+     * @return Singleton class instance
+     */
     public synchronized static QueryEngine getInstance() {
         if (instance == null) {
             instance = new QueryEngine();
@@ -86,6 +91,12 @@ public class QueryEngine {
         }
     }
 
+    /**
+     * Get managed cache instance for a given Enum ECache
+     *
+     * @param eCache Enum to identify a specific cache
+     * @return Cache instance corresponding to given enum
+     */
     public Cache getCache(ECache eCache) {
         if (caches != null && caches.containsKey(eCache)) {
             return caches.get(eCache);
@@ -93,16 +104,33 @@ public class QueryEngine {
         return null;
     }
 
+    /**
+     * Used to store a photographer
+     *
+     * @param photographer Photographer to be stored
+     * @throws DataAccessException if photographer can not be added
+     */
     public void savePhotographer(Photographer photographer) throws DataAccessException {
         int id = dal.addPhotographer(photographer);
         photographer.setId(id);
         getCache(ECache.PHOTOGRAPHERS).addData(photographer.getId(), photographer);
     }
 
+    /**
+     * Get a list of all stored Photographers
+     *
+     * @return List containing all photographers
+     */
     public List<Photographer> getAllPhotographers() {
         return getCache(ECache.PHOTOGRAPHERS).getALLData();
     }
 
+    /**
+     * Used to remove a photographer entity
+     *
+     * @param photographer Photographer to be removed
+     * @throws DataAccessException if photographer can not be removed
+     */
     public void removePhotographer(Photographer photographer) throws DataAccessException {
         dal.deletePhotographer(photographer);
         Cache pictureCache = getCache(ECache.PICTURES);
@@ -118,11 +146,24 @@ public class QueryEngine {
         getCache(ECache.PHOTOGRAPHERS).deleteData(photographer.getId());
     }
 
+    /**
+     * Used to update a photographer entity
+     *
+     * @param photographer Photographer to be updated
+     * @throws DataAccessException if photographer can not be updated
+     */
     public void updatePhotographer(Photographer photographer) throws DataAccessException {
         dal.updatePhotographer(photographer);
         getCache(ECache.PHOTOGRAPHERS).updateData(photographer.getId(), photographer);
     }
 
+    /**
+     * Used for storing a picture and related exif information
+     *
+     * @param picture Picture to be saved
+     * @param exif Exif to be saved
+     * @throws DataAccessException if picture and exif can not be added
+     */
     public void savePictureWithExif(Picture picture, Exif exif) throws DataAccessException {
         int id = dal.addPicture(picture);
         picture.setId(id);
@@ -130,6 +171,13 @@ public class QueryEngine {
         addExif(exif, picture.getId());
     }
 
+    /**
+     * Used for updating iptc information for a given picture
+     *
+     * @param iptc Iptc data to be stored
+     * @param picture Picture that should contain the given iptc information
+     * @throws DataAccessException if iptc can not be updated
+     */
     public void updateIPTC(Iptc iptc, Picture picture) throws DataAccessException {
         int id = dal.updateIptc(iptc, picture.getFileName());
         Cache iptcCache = getCache(ECache.IPTCS);
@@ -143,16 +191,36 @@ public class QueryEngine {
         }
     }
 
+    /**
+     * Get a list of all stored Pictures
+     *
+     * @return List containing all pictures
+     */
     public List<Picture> getAllPictures() {
         return getCache(ECache.PICTURES).getALLData();
     }
 
+    /**
+     * Used for assigning a photographer to a given picture
+     *
+     * @param picture Picture which should be assigned a new photographer
+     * @param oldPhotographer Current photographer assigned to the given picture
+     * @param photographer Photographer to be assigned to the picture
+     * @throws DataAccessException if photographer failed to be assigned to given picture
+     */
     public void assignPicture(Picture picture, Photographer oldPhotographer, Photographer photographer) throws DataAccessException {
         dal.assignPicture(picture, photographer);
         picture.setPhotographer_id(photographer.getId());
         getCache(ECache.PICTURES).updateData(picture.getId(), picture);
     }
 
+    /**
+     * Used for adding exif information for a given picture
+     *
+     * @param exif Exif data to be stored
+     * @param pictureID Picture id corresponding to the picture that should contain the given exif information
+     * @throws DataAccessException if exif failed to be stored
+     */
     public void addExif(Exif exif, int pictureID) throws DataAccessException {
         int id = dal.addExif(exif, pictureID);
         exif.setId(id);
@@ -163,26 +231,56 @@ public class QueryEngine {
         pictureCache.updateData(pictureID, picture);
     }
 
+    /**
+     * Get assigned photographer for a given picture
+     *
+     * @param picture Picture to which the assigned photographer should be returned
+     * @return Photographer that is currently assigned to given picture
+     */
     public Photographer getPhotographerToPicture(Picture picture) {
         // picture in listviewmodel could have changed since starting the application --> get cached picture
         Picture cachedPicture = (Picture) getCache(ECache.PICTURES).getData(picture.getId());
         return (Photographer) getCache(ECache.PHOTOGRAPHERS).getData(cachedPicture.getPhotographer_id());
     }
 
+    /**
+     * Get assigned exif information for a given picture
+     *
+     * @param picture Picture to which the related exif information should be returned
+     * @return Exif that is currently assigned to given picture
+     */
     public Exif getExifToPicture(Picture picture) {
         Picture cachedPicture = (Picture) getCache(ECache.PICTURES).getData(picture.getId());
         return (Exif) getCache(ECache.EXIFS).getData(cachedPicture.getExif_id());
     }
 
+    /**
+     * Get assigned iptc information for a given picture
+     *
+     * @param picture Picture to which the assigned iptc information should be returned
+     * @return Iptc that is currently assigned to given picture
+     */
     public Iptc getIptcToPicture(Picture picture) {
         Picture cachedPicture = (Picture) getCache(ECache.PICTURES).getData(picture.getId());
         return (Iptc) getCache(ECache.IPTCS).getData(cachedPicture.getIptc_id());
     }
 
+    /**
+     * Get cached picture to a given picture
+     *
+     * @param picture Picture to which the cached picture should be returned
+     * @return The cached picture
+     */
     public Picture getCachedPicture(Picture picture) {
         return (Picture) getCache(ECache.PICTURES).getData(picture.getId());
     }
 
+    /**
+     * Get a list of pictures that match a given search text
+     *
+     * @param searchText Search text to specify the matching for pictures
+     * @return List of pictures that match the given search text
+     */
     public List<Picture> getPicturesToSearch(String searchText) {
         List<Picture> pictures = new ArrayList<>();
         List<Picture> allPictures = getCache(ECache.PICTURES).getALLData();
