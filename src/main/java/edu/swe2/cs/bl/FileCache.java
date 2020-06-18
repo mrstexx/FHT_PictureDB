@@ -38,8 +38,6 @@ public class FileCache {
 
     /**
      * Synchronize file cache with database
-     *
-     * @return Value associated with specified key
      */
     public void update() {
         try {
