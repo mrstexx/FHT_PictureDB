@@ -22,12 +22,23 @@ public class DALPostgres implements IDAL {
     private final static Logger LOGGER = LogManager.getLogger(DALPostgres.class.getName());
     private Connection connection;
 
+    /**
+     * Set connection for this dal instance to use
+     *
+     * @param connection Connection to be used by this dal instance
+     */
     public void setConnection(Connection connection) {
         if (this.connection == null) {
             this.connection = connection;
         }
     }
 
+    /**
+     * Get a list of all stored pictures
+     *
+     * @return List containing all pictures
+     * @throws DataAccessException if dal fails to load stored pictures
+     */
     @Override
     public List<Picture> getPictures() throws DataAccessException {
         try {
@@ -45,6 +56,12 @@ public class DALPostgres implements IDAL {
         }
     }
 
+    /**
+     * Get a list of all stored photographers
+     *
+     * @return List containing all photographers
+     * @throws DataAccessException if dal fails to load stored photographers
+     */
     @Override
     public List<Photographer> getPhotographers() throws DataAccessException {
         try {
@@ -63,6 +80,12 @@ public class DALPostgres implements IDAL {
         }
     }
 
+    /**
+     * Get a list of all stored exifs
+     *
+     * @return List containing all exifs
+     * @throws DataAccessException if dal fails to load stored exifs
+     */
     @Override
     public List<Exif> getExifs() throws DataAccessException {
         try {
@@ -81,6 +104,12 @@ public class DALPostgres implements IDAL {
         }
     }
 
+    /**
+     * Get a list of all stored iptcs
+     *
+     * @return List containing all iptcs
+     * @throws DataAccessException if dal fails to load stored iptcs
+     */
     @Override
     public List<Iptc> getIptcs() throws DataAccessException {
         try {
@@ -99,6 +128,13 @@ public class DALPostgres implements IDAL {
         }
     }
 
+    /**
+     * Get stored picture corresponding to given id
+     *
+     * @param id Id of picture to be returned
+     * @return Picture containing the given id
+     * @throws DataAccessException if dal fails to load stored picture
+     */
     @Override
     public Picture getPicture(int id) throws DataAccessException {
         try {
@@ -143,6 +179,13 @@ public class DALPostgres implements IDAL {
         }
     }
 
+    /**
+     * Get stored photographer corresponding to given id
+     *
+     * @param id Id of photographer to be returned
+     * @return Photographer containing the given id
+     * @throws DataAccessException if dal fails to load stored photographer
+     */
     @Override
     public Photographer getPhotographer(int id) throws DataAccessException {
         try {
@@ -177,6 +220,13 @@ public class DALPostgres implements IDAL {
         }
     }
 
+    /**
+     * Get stored exif corresponding to given id
+     *
+     * @param id Id of exif to be returned
+     * @return Exif containing the given id
+     * @throws DataAccessException if dal fails to load stored exif
+     */
     @Override
     public Exif getExif(int id) throws DataAccessException {
         try {
@@ -200,6 +250,13 @@ public class DALPostgres implements IDAL {
         }
     }
 
+    /**
+     * Get stored iptc corresponding to given id
+     *
+     * @param id Id of iptc to be returned
+     * @return Iptc containing the given id
+     * @throws DataAccessException if dal fails to load stored iptc
+     */
     @Override
     public Iptc getIptc(int id) throws DataAccessException {
         try {
@@ -237,6 +294,12 @@ public class DALPostgres implements IDAL {
         }
     }
 
+    /**
+     * Get list of filenames of stored pictures
+     *
+     * @return List containing file names of all stored pictures
+     * @throws DataAccessException if dal fails to load file names of stored pictures
+     */
     @Override
     public List<String> getFileNames() throws DataAccessException {
         try {
@@ -254,6 +317,13 @@ public class DALPostgres implements IDAL {
         }
     }
 
+    /**
+     * Store a given picture in the database
+     *
+     * @param picture Picture to be stored in the database
+     * @return The id of the newly stored pictured
+     * @throws DataAccessException if dal fails to store given picture
+     */
     @Override
     public int addPicture(Picture picture) throws DataAccessException {
         try {
@@ -280,6 +350,14 @@ public class DALPostgres implements IDAL {
         }
     }
 
+    /**
+     * Store a given exif in the database
+     *
+     * @param exif Exif to be stored in the database
+     * @param pictureID Id of the picture that should contain given exif information
+     * @return The id of the newly stored exif
+     * @throws DataAccessException if dal fails to store given exif
+     */
     @Override
     public int addExif(Exif exif, int pictureID) throws DataAccessException {
         try {
@@ -303,6 +381,13 @@ public class DALPostgres implements IDAL {
         }
     }
 
+    /**
+     * Used for updating iptc information for a given file name corresponding to a picture
+     *
+     * @param iptc Iptc data to be stored
+     * @param fileName Filename of the picture that should contain the given iptc information
+     * @throws DataAccessException if dal fails to update given iptc
+     */
     @Override
     public int updateIptc(Iptc iptc, String fileName) throws DataAccessException {
         try {
@@ -341,6 +426,13 @@ public class DALPostgres implements IDAL {
         }
     }
 
+    /**
+     * Used to store a photographer in the database
+     *
+     * @param photographer Photographer to be stored
+     * @return Id of the newly stored photographer
+     * @throws DataAccessException if dal fails to add photographer
+     */
     @Override
     public int addPhotographer(Photographer photographer) throws DataAccessException {
         try {
@@ -364,6 +456,12 @@ public class DALPostgres implements IDAL {
         }
     }
 
+    /**
+     * Used to delete a photographer from the database
+     *
+     * @param photographer Photographer to be deleted
+     * @throws DataAccessException if dal fails to delete photographer
+     */
     @Override
     public void deletePhotographer(Photographer photographer) throws DataAccessException {
         try {
@@ -383,6 +481,12 @@ public class DALPostgres implements IDAL {
         }
     }
 
+    /**
+     * Used to update a photographer in the database
+     *
+     * @param photographer Photographer to be updated
+     * @throws DataAccessException if dal fails to update photographer
+     */
     @Override
     public void updatePhotographer(Photographer photographer) throws DataAccessException {
         try {
@@ -405,6 +509,13 @@ public class DALPostgres implements IDAL {
         }
     }
 
+    /**
+     * Used for assigning a photographer to a given picture
+     *
+     * @param picture Picture which should be assigned a new photographer
+     * @param photographer Photographer to be assigned to the picture
+     * @throws DataAccessException if dal fails to assign photographer failed to given picture
+     */
     @Override
     public void assignPicture(Picture picture, Photographer photographer) throws DataAccessException {
         //TODO: Save

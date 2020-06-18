@@ -33,6 +33,11 @@ public class DBManager {
         initializeBaseTables();
     }
 
+    /**
+     * Get an instance of DBManager
+     *
+     * @return Singleton class instance
+     */
     public static DBManager getInstance() {
         if (dbManager == null) {
             dbManager = new DBManager();
@@ -40,6 +45,11 @@ public class DBManager {
         return dbManager;
     }
 
+    /**
+     * Get connection instance for database access
+     *
+     * @return connection instance for database access
+     */
     public Connection getConnection() {
         if (connection == null) {
             try {
@@ -55,6 +65,10 @@ public class DBManager {
         return connection;
     }
 
+    /**
+     * Close connection managed by this DBManager
+     *
+     */
     public static void closeConnection() {
         try {
             connection.close();
@@ -64,6 +78,11 @@ public class DBManager {
         }
     }
 
+    /**
+     * Execute a given SQL statement
+     *
+     * @param sqlStatement SQL Statement to be executed
+     */
     public void execUpdate(String sqlStatement) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(sqlStatement);
         preparedStatement.executeUpdate();

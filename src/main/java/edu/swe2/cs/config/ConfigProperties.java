@@ -1,5 +1,6 @@
 package edu.swe2.cs.config;
 
+import edu.swe2.cs.dal.DataAccessException;
 import edu.swe2.cs.util.SystemProperties;
 import edu.swe2.cs.util.URLBuilder;
 import org.apache.logging.log4j.LogManager;
@@ -36,6 +37,12 @@ public class ConfigProperties {
         }
     }
 
+    /**
+     * Get property corresponding to a given key
+     *
+     * @param key Key with which the specified value is associated
+     * @return Property which is mapped to the given key
+     */
     public static String getProperty(String key) {
         checkConfigProperties();
         if (properties != null) {

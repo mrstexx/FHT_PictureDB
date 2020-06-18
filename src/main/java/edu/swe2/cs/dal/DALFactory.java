@@ -10,6 +10,12 @@ public class DALFactory {
 
     private final static Logger LOGGER = LogManager.getLogger(DALFactory.class.getName());
 
+    /**
+     * Get dal instance of dal class which is specified by this application
+     *
+     * @return Instance of dal class which is specified by this application or null if class cannot be found
+     * @throws Exception if an Exception occurs
+     */
     public static IDAL getDAL() throws Exception {
         String dalClass = ConfigProperties.getProperty("DALClass");
         if (dalClass != null) {
