@@ -38,7 +38,7 @@ public class SearchBarViewModel {
     }
 
     public boolean isEmpty() {
-        return searchText.getValue().isEmpty();
+        return searchText.getValue() == null || searchText.getValue().isEmpty();
     }
 
 }
