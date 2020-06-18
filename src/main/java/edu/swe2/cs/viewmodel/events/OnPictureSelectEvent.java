@@ -3,16 +3,16 @@ package edu.swe2.cs.viewmodel.events;
 import edu.swe2.cs.eventbus.IEvent;
 import edu.swe2.cs.model.Picture;
 
-public class OnPictureSelectEvent implements IEvent {
+public class OnPictureSelectEvent implements IEvent<Picture> {
 
-    private Picture picture;
+    private final Picture picture;
 
     public OnPictureSelectEvent(Picture picture) {
         this.picture = picture;
     }
 
     @Override
-    public Object getData() {
+    public Picture getData() {
         return picture;
     }
 }

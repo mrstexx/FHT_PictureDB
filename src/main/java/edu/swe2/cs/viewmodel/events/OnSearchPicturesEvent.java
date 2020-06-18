@@ -5,16 +5,16 @@ import edu.swe2.cs.model.Picture;
 
 import java.util.List;
 
-public class OnSearchPicturesEvent implements IEvent {
+public class OnSearchPicturesEvent implements IEvent<List<Picture>> {
 
-    private List<Picture> pictures;
+    private final List<Picture> pictures;
 
     public OnSearchPicturesEvent(List<Picture> pictures){
         this.pictures = pictures;
     }
 
     @Override
-    public Object getData() {
+    public List<Picture> getData() {
         return this.pictures;
     }
 }

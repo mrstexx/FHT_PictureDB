@@ -3,7 +3,7 @@ package edu.swe2.cs.eventbus;
 public enum EventBusHolder {
     SHARED_BUS(new SharedEventBus());
 
-    private IEventBus eventBus;
+    private final IEventBus eventBus;
 
     EventBusHolder(IEventBus eventBus) {
         this.eventBus = eventBus;

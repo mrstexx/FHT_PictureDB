@@ -10,6 +10,9 @@ public class ImageReport implements IReport {
         this.picture = picture;
     }
 
+    /**
+     * @return Picture of report
+     */
     public Picture getPicture() {
         return picture;
     }

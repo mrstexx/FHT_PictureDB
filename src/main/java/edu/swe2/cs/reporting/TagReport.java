@@ -18,6 +18,10 @@ public class TagReport implements IReport {
         this.pictures = pictures;
     }
 
+    /**
+     * @return Map (key=tagname, value=number of tag usage) of tags data.
+     * It checks for all pictures all tags and creates map structure.
+     */
     public Map<String, Integer> getTagsData() {
         Map<String, Integer> tagsData = new HashMap<>();
         for (Picture picture : pictures) {

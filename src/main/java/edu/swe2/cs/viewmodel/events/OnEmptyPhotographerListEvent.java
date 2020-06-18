@@ -2,9 +2,9 @@ package edu.swe2.cs.viewmodel.events;
 
 import edu.swe2.cs.eventbus.IEvent;
 
-public class OnEmptyPhotographerListEvent implements IEvent {
+public class OnEmptyPhotographerListEvent implements IEvent<Boolean> {
     @Override
-    public Object getData() {
+    public Boolean getData() {
         return true;
     }
 }

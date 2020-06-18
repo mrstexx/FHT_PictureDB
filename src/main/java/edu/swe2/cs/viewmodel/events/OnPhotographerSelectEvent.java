@@ -3,9 +3,9 @@ package edu.swe2.cs.viewmodel.events;
 import edu.swe2.cs.eventbus.IEvent;
 import edu.swe2.cs.model.Photographer;
 
-public class OnPhotographerSelectEvent implements IEvent {
+public class OnPhotographerSelectEvent implements IEvent<Photographer> {
 
-    private Photographer photographer;
+    private final Photographer photographer;
 
     public OnPhotographerSelectEvent(Photographer photographer) {
         this.photographer = photographer;
@@ -13,7 +13,7 @@ public class OnPhotographerSelectEvent implements IEvent {
 
 
     @Override
-    public Object getData() {
+    public Photographer getData() {
         return photographer;
     }
 }

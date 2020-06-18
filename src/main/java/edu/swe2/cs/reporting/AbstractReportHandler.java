@@ -24,6 +24,12 @@ public abstract class AbstractReportHandler {
         this.targetPath = targetPath;
     }
 
+    /**
+     * Create report for defined report type
+     *
+     * @param report Report to be created
+     * @return True if report was successfully created, otherwise false.
+     */
     public boolean createPdfReport(IReport report) {
         this.report = report;
         LOG.info("Creating report for {}", report.getFileName());
@@ -45,8 +51,29 @@ public abstract class AbstractReportHandler {
         document.addCreator("picture-db.io");
     }
 
+    /**
+     * Generate report. After document content has been added to the document it HAS to be closed.
+     *
+     * <code>
+     * Document document = getDocument();
+     * addTitle(document);
+     * addImage(document);
+     * addTableWithTags(document);
+     * closeDocument(document);
+     * </code>
+     *
+     * @throws DocumentException An error occurred while generating report
+     * @throws IOException       If file name cannot be found for the export
+     */
     protected abstract void generateReport() throws DocumentException, IOException;
 
+    /**
+     * Create base document structure including meta data.
+     *
+     * @return Created document which is ready to be modified.
+     * @throws IOException       If file name cannot be found for the export
+     * @throws DocumentException An error occurred while creating document
+     */
     protected Document getDocument() throws IOException, DocumentException {
         Document pdfDoc = new Document();
         PdfWriter.getInstance(pdfDoc, new FileOutputStream(getFileName()));
@@ -58,6 +85,9 @@ public abstract class AbstractReportHandler {
         return pdfDoc;
     }
 
+    /**
+     * @param pdfDoc Document to be closed. NOTE: It must be called after document has been generated.
+     */
     protected void closeDocument(Document pdfDoc) {
         pdfDoc.close();
     }
@@ -66,10 +96,19 @@ public abstract class AbstractReportHandler {
         return this.targetPath + SystemProperties.FILE_SEPARATOR + this.report.getFileName() + PDF_EXTENSION;
     }
 
+    /**
+     * @return report to be created
+     */
     protected IReport getReport() {
         return report;
     }
 
+    /**
+     * Add empty line to document paragraph
+     *
+     * @param paragraph Paragraph to be added lines
+     * @param number    Number of empty lines to add to paragraph
+     */
     protected static void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));
