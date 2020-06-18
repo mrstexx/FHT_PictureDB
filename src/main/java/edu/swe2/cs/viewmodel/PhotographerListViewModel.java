@@ -16,7 +16,6 @@ public class PhotographerListViewModel {
 
     /**
      * Constructs a new PhotographerListViewModel. Sets photographers to a list of all stored photographers.
-     *
      */
     public PhotographerListViewModel() {
         photographers = PhotographerBL.getAllPhotographers();
@@ -43,15 +42,11 @@ public class PhotographerListViewModel {
      * @return True if photographers is empty, else False
      */
     public boolean isEmpty() {
-        if (photographers.isEmpty()) {
-            return true;
-        }
-        return false;
+        return photographers.isEmpty();
     }
 
     /**
      * Fires a new OnEmptyPhotographerListEvent
-     *
      */
     public void OnIsEmpty() {
         eventBus.fire(new OnEmptyPhotographerListEvent());

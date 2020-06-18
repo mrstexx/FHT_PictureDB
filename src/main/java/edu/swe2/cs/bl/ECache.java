@@ -6,8 +6,9 @@ public enum ECache {
     EXIFS("Exif"),
     IPTCS("Iptc");
 
-    private String className;
-    ECache(String className){
+    private final String className;
+
+    ECache(String className) {
         this.className = className;
     }
 
@@ -16,7 +17,7 @@ public enum ECache {
      * Get classname
      *
      * @return Class name associated with enum
-     * */
+     */
     public String getClassName() {
         return className;
     }

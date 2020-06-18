@@ -25,7 +25,7 @@ public class PhotographerBL {
                 queryEngine.savePhotographer(photographer);
             }
         } catch (DataAccessException e) {
-            LOG.error(e);
+            LOG.error("Unable to save photographer with the name '" + photographer.getFirstName() + "'", e);
         }
     }
 
@@ -36,7 +36,13 @@ public class PhotographerBL {
      * @return True if this photographer contains a non-empty last name and his birth date is either null or before today's date
      */
     public static boolean isValid(Photographer photographer) {
-        return ((photographer.getLastName() != null && !photographer.getLastName().trim().isEmpty() && photographer.getBirthdate() == null || (photographer.getLastName() != null && !photographer.getLastName().trim().isEmpty() && photographer.getBirthdate() != null && photographer.getBirthdate().isBefore(LocalDate.now()))));
+        return ((photographer.getLastName() != null &&
+                !photographer.getLastName().trim().isEmpty() &&
+                photographer.getBirthdate() == null ||
+                (photographer.getLastName() != null &&
+                        !photographer.getLastName().trim().isEmpty() &&
+                        photographer.getBirthdate() != null &&
+                        photographer.getBirthdate().isBefore(LocalDate.now()))));
     }
 
     /**
@@ -57,7 +63,7 @@ public class PhotographerBL {
         try {
             queryEngine.removePhotographer(photographer);
         } catch (DataAccessException e) {
-            LOG.error(e);
+            LOG.error("Unable to remove photographer with the name '" + photographer.getFirstName() + "'", e);
         }
     }
 
@@ -72,7 +78,7 @@ public class PhotographerBL {
                 queryEngine.updatePhotographer(photographer);
             }
         } catch (DataAccessException e) {
-            LOG.error(e);
+            LOG.error("Unable to update photographer data with the name '" + photographer.getFirstName() + "'", e);
         }
     }
 }

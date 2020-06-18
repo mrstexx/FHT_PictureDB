@@ -43,11 +43,13 @@ public class QueryEngine {
             dal.setConnection(DBManager.getInstance().getConnection());
             initializeCaches();
         } catch (Exception e) {
-            LOG.error("Error occurred while initializing QueryEngine.", e);
+            LOG.error("Error occurred while initializing QueryEngine.");
+            LOG.error(e.getLocalizedMessage());
         }
     }
 
     private void initializeCaches() throws DataAccessException {
+        LOG.info("Initializing query engine cache data...");
         setPictureCache();
         setPhotographerCache();
         setExifCache();
@@ -111,9 +113,11 @@ public class QueryEngine {
      * @throws DataAccessException if photographer can not be added
      */
     public void savePhotographer(Photographer photographer) throws DataAccessException {
+        LOG.info("Saving new photographer with the name '{}'...", photographer.getFirstName());
         int id = dal.addPhotographer(photographer);
         photographer.setId(id);
         getCache(ECache.PHOTOGRAPHERS).addData(photographer.getId(), photographer);
+        LOG.info("Saving new photographer DONE!");
     }
 
     /**
@@ -122,6 +126,7 @@ public class QueryEngine {
      * @return List containing all photographers
      */
     public List<Photographer> getAllPhotographers() {
+        LOG.info("Fetching all photographer data...");
         return getCache(ECache.PHOTOGRAPHERS).getALLData();
     }
 
@@ -132,6 +137,7 @@ public class QueryEngine {
      * @throws DataAccessException if photographer can not be removed
      */
     public void removePhotographer(Photographer photographer) throws DataAccessException {
+        LOG.info("Removing photographer with the name '{}'...", photographer.getFirstName());
         dal.deletePhotographer(photographer);
         Cache pictureCache = getCache(ECache.PICTURES);
         List<Picture> pictureList = pictureCache.getALLData();
@@ -144,6 +150,7 @@ public class QueryEngine {
             });
         }
         getCache(ECache.PHOTOGRAPHERS).deleteData(photographer.getId());
+        LOG.info("Removing photographer data DONE!");
     }
 
     /**
@@ -153,32 +160,37 @@ public class QueryEngine {
      * @throws DataAccessException if photographer can not be updated
      */
     public void updatePhotographer(Photographer photographer) throws DataAccessException {
+        LOG.info("Updating photographer data with the name '{}'...", photographer.getFirstName());
         dal.updatePhotographer(photographer);
         getCache(ECache.PHOTOGRAPHERS).updateData(photographer.getId(), photographer);
+        LOG.info("Updating photographer data DONE!");
     }
 
     /**
      * Used for storing a picture and related exif information
      *
      * @param picture Picture to be saved
-     * @param exif Exif to be saved
+     * @param exif    Exif to be saved
      * @throws DataAccessException if picture and exif can not be added
      */
     public void savePictureWithExif(Picture picture, Exif exif) throws DataAccessException {
+        LOG.info("Saving picture data for '{}' with EXIF...", picture.getFileName());
         int id = dal.addPicture(picture);
         picture.setId(id);
         getCache(ECache.PICTURES).addData(picture.getId(), picture);
         addExif(exif, picture.getId());
+        LOG.info("Saving picture data with exif DONE!");
     }
 
     /**
      * Used for updating iptc information for a given picture
      *
-     * @param iptc Iptc data to be stored
+     * @param iptc    Iptc data to be stored
      * @param picture Picture that should contain the given iptc information
      * @throws DataAccessException if iptc can not be updated
      */
     public void updateIPTC(Iptc iptc, Picture picture) throws DataAccessException {
+        LOG.info("Updating IPTC data for picture '{}' ...", picture.getFileName());
         int id = dal.updateIptc(iptc, picture.getFileName());
         Cache iptcCache = getCache(ECache.IPTCS);
         if (id == -1) {
@@ -189,6 +201,7 @@ public class QueryEngine {
             picture.setIptc_id(id);
             getCache(ECache.PICTURES).updateData(picture.getId(), picture);
         }
+        LOG.info("Updating IPTC data for picture DONE!");
     }
 
     /**
@@ -197,27 +210,30 @@ public class QueryEngine {
      * @return List containing all pictures
      */
     public List<Picture> getAllPictures() {
+        LOG.info("Fetching all pictures data...");
         return getCache(ECache.PICTURES).getALLData();
     }
 
     /**
      * Used for assigning a photographer to a given picture
      *
-     * @param picture Picture which should be assigned a new photographer
+     * @param picture         Picture which should be assigned a new photographer
      * @param oldPhotographer Current photographer assigned to the given picture
-     * @param photographer Photographer to be assigned to the picture
+     * @param photographer    Photographer to be assigned to the picture
      * @throws DataAccessException if photographer failed to be assigned to given picture
      */
     public void assignPicture(Picture picture, Photographer oldPhotographer, Photographer photographer) throws DataAccessException {
+        LOG.info("Assigning photographer '{}' with picture '{}' ...", photographer.getFirstName(), picture.getFileName());
         dal.assignPicture(picture, photographer);
         picture.setPhotographer_id(photographer.getId());
         getCache(ECache.PICTURES).updateData(picture.getId(), picture);
+        LOG.info("Assingning photographer to picture DONE!");
     }
 
     /**
      * Used for adding exif information for a given picture
      *
-     * @param exif Exif data to be stored
+     * @param exif      Exif data to be stored
      * @param pictureID Picture id corresponding to the picture that should contain the given exif information
      * @throws DataAccessException if exif failed to be stored
      */
@@ -282,6 +298,7 @@ public class QueryEngine {
      * @return List of pictures that match the given search text
      */
     public List<Picture> getPicturesToSearch(String searchText) {
+        LOG.info("Searching for the picture with search text '{}'...", searchText);
         List<Picture> pictures = new ArrayList<>();
         List<Picture> allPictures = getCache(ECache.PICTURES).getALLData();
         if (allPictures != null) {

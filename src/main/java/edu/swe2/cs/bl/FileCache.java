@@ -2,18 +2,18 @@ package edu.swe2.cs.bl;
 
 import edu.swe2.cs.dal.DALFactory;
 import edu.swe2.cs.dal.DBManager;
-import edu.swe2.cs.dal.DataAccessException;
 import edu.swe2.cs.dal.IDAL;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 //TODO: Old Cache --> Match this cache to new caching
 // represents all files stored in db
 
 public class FileCache {
+
+    private static final Logger LOG = LogManager.getLogger(FileCache.class);
 
     private List<String> fileCache;
     private static FileCache instance = null;
@@ -41,6 +41,7 @@ public class FileCache {
      */
     public void update() {
         try {
+            LOG.info("Updating file cache...Synchronize with the database data...");
             IDAL dal = DALFactory.getDAL();
             assert dal != null;
             dal.setConnection(DBManager.getInstance().getConnection());
@@ -54,7 +55,7 @@ public class FileCache {
                 addNewFiles(fileNames);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Error occurred while updating file cache.", e);
         }
     }
 
@@ -81,6 +82,7 @@ public class FileCache {
      */
     public void addFile(String fileName) {
         if (fileCache != null) {
+            LOG.info("Adding new file to cache data");
             fileCache.add(fileName);
         }
     }

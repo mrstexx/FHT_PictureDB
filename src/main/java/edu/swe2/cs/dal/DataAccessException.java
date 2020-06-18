@@ -4,7 +4,6 @@ public class DataAccessException extends Exception {
 
     /**
      * Constructs a new DataAccessException with the specified detail message and cause
-     *
      */
     public DataAccessException(String errorMessage, Throwable cause) {
         super(errorMessage, cause);
@@ -12,9 +11,10 @@ public class DataAccessException extends Exception {
 
     /**
      * Constructs a new DataAccessException with the specified detail message
-     *
      */
-    public DataAccessException(String errorMessage) { super(errorMessage); }
+    public DataAccessException(String errorMessage) {
+        super(errorMessage);
+    }
 
     /**
      * Returns the cause of this throwable or null if the cause is nonexistent or unknown

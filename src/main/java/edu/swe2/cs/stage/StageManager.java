@@ -33,7 +33,7 @@ public class StageManager {
      * Add a stage to be managed by this StageManager
      *
      * @param eStage Enum identifying the stage
-     * @param stage Stage to be mapped to given eStage
+     * @param stage  Stage to be mapped to given eStage
      */
     public void addStage(EStage eStage, Stage stage) {
         stages.put(eStage, stage);
@@ -50,7 +50,7 @@ public class StageManager {
         if (stage != null) {
             return stage;
         }
-        LOG.error("Requesting a stage that does not exist");
+        LOG.warn("Requesting a stage that does not exist");
         return null;
     }
 

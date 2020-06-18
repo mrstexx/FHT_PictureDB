@@ -58,6 +58,7 @@ public class PictureBL {
      */
     // files that are in db but get deleted from directory will stay in db
     public int sync() {
+        LOG.info("Synchronizing the file directory with persistence layer...");
         if (dirPath == null && fileCache == null) {
             fileCache = FileCache.getInstance();
         }
@@ -76,6 +77,7 @@ public class PictureBL {
                 savePictureWithExif(picture, exif);
             }
         }
+        LOG.info("Synchronizing DONE!");
         // return number of added images
         return (fileCache.getSize() - sizeBefore);
     }
@@ -98,7 +100,7 @@ public class PictureBL {
      * Used for storing a picture and related exif information
      *
      * @param picture Picture to be saved
-     * @param exif Exif to be saved
+     * @param exif    Exif to be saved
      */
     public void savePictureWithExif(Picture picture, Exif exif) { // WITH EXIF
         try {
@@ -106,7 +108,7 @@ public class PictureBL {
                 queryEngine.savePictureWithExif(picture, exif);
             }
         } catch (DataAccessException e) {
-            LOG.error(e);
+            LOG.error("Unable to save picture with EXIF, with filename = '" + picture.getFileName() + "'", e);
         }
     }
 
@@ -114,14 +116,12 @@ public class PictureBL {
      * Used for updating iptc information for a given picture
      *
      * @param iptcData Iptc data to be stored
-     * @param picture Picture that should contain the given iptc information
+     * @param picture  Picture that should contain the given iptc information
      */
     public void updateIptc(Iptc iptcData, Picture picture) {
         try {
             if (isValidIptc(iptcData)) {
                 queryEngine.updateIPTC(iptcData, picture);
-                LOG.debug("IPTC data with {}-ID update successfully executed", iptcData.getId());
-                LOG.info("IPTC data on picture {} successfully updated", picture.getFileName());
             }
         } catch (DataAccessException e) {
             LOG.error("Error occurred while saving IPTC data for picture {}, {}", picture.getFileName(), e);
@@ -163,15 +163,15 @@ public class PictureBL {
     /**
      * Used for assigning a photographer to a given picture
      *
-     * @param picture Picture which should be assigned a new photographer
+     * @param picture         Picture which should be assigned a new photographer
      * @param oldPhotographer Current photographer assigned to the given picture
-     * @param photographer Photographer to be assigned to the picture
+     * @param photographer    Photographer to be assigned to the picture
      */
     public void assignPicture(Picture picture, Photographer oldPhotographer, Photographer photographer) {
         try {
             queryEngine.assignPicture(picture, oldPhotographer, photographer);
         } catch (DataAccessException e) {
-            LOG.error(e);
+            LOG.error("Unable to assing photographer to picture", e);
         }
     }
 
@@ -222,8 +222,11 @@ public class PictureBL {
      * @return List of pictures that match the given search text
      */
     public List<Picture> getPicturesToSearch(String searchText) {
-        if (searchText != null && !searchText.isEmpty()) return queryEngine.getPicturesToSearch(searchText);
-        else return null;
+        if (searchText != null && !searchText.isEmpty()) {
+            return queryEngine.getPicturesToSearch(searchText);
+        } else {
+            return null;
+        }
     }
 
     /**

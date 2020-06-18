@@ -32,12 +32,14 @@ public abstract class AbstractReportHandler {
      */
     public boolean createPdfReport(IReport report) {
         this.report = report;
-        LOG.info("Creating report for {}", report.getFileName());
+        LOG.info("Creating PDF report for '{}' ...", report.getFileName());
         try {
             generateReport();
         } catch (DocumentException | IOException e) {
             LOG.error("An error occurred while generating report, {0}", e);
             return false;
+        } finally {
+            LOG.info("Creating PDF report successfully DONE!");
         }
         return true;
     }

@@ -57,9 +57,9 @@ public class DBManager {
                 connection = DriverManager.getConnection(url, user, password);
                 LOGGER.info("Establishing db connection..");
             } catch (SQLException e) {
-                LOGGER.warn("Unable to establish a connection to Database");
+                LOGGER.error("Unable to establish a connection to Database");
             } catch (ClassNotFoundException e) {
-                LOGGER.warn("Failed to load driver class " + driver);
+                LOGGER.error("Failed to load driver class " + driver);
             }
         }
         return connection;

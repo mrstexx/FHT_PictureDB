@@ -19,7 +19,6 @@ public class AssignPictureViewModel {
 
     /**
      * Constructs a new AssignPictureViewModel
-     *
      */
     public AssignPictureViewModel() {
         photographers = FXCollections.observableList(PhotographerBL.getAllPhotographers());
@@ -28,7 +27,6 @@ public class AssignPictureViewModel {
     /**
      * Sets the photographer assigned to the picture to the current photographer.
      * If not null then sets it also to the oldPhotographer and updates the currentPhotographerString.
-     *
      */
     public void setFirstPhotographer() {
         if (picture != null) {
@@ -47,7 +45,7 @@ public class AssignPictureViewModel {
      * @param picture The picture to be set in the view model
      */
     public void setPicture(Picture picture) {
-        this.picture =  PictureBL.getInstance().getPicture(picture);
+        this.picture = PictureBL.getInstance().getPicture(picture);
         setFirstPhotographer();
     }
 
@@ -82,8 +80,7 @@ public class AssignPictureViewModel {
     public boolean isCurrentPhotographer(Photographer photographer) {
         if (picture != null) {
             Photographer currentPhotographer = PictureBL.getInstance().getPhotographerToPicture(picture);
-            if (currentPhotographer != null && currentPhotographer.getId() == photographer.getId())
-                return true;
+            return currentPhotographer != null && currentPhotographer.getId() == photographer.getId();
         }
         return false;
     }

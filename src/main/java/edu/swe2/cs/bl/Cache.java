@@ -28,7 +28,7 @@ public class Cache<T, S> {
     /**
      * Add data to cache
      *
-     * @param key Key with which the specified value is associated
+     * @param key   Key with which the specified value is associated
      * @param value Value to be associated with the specified key
      */
     public void addData(T key, S value) {
@@ -40,7 +40,7 @@ public class Cache<T, S> {
     /**
      * Update data in cache
      *
-     * @param key Key with which the specified value is associated
+     * @param key   Key with which the specified value is associated
      * @param value Value to be associated with the specified key
      */
     public void updateData(T key, S value) {
